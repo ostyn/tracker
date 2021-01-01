@@ -1,71 +1,43 @@
-import { autoinject, bindable } from "aurelia-framework";
-import { MoodService } from "resources/services/moodService";
-import { ActivityService } from "resources/services/activityService";
-import { EntryService } from "resources/services/entryService";
-import { EventAggregator } from "aurelia-event-aggregator";
-
-@autoinject
+import { PLATFORM } from "aurelia-pal";
+import firebase from "firebase";
+import { Redirect } from "aurelia-router";
 export class App {
-  entries;
-  subscribers = [];
-  moods;
-  activities;
-  @bindable currentMonth;
-  @bindable currentYear;
+  router;
+  configureRouter(config, router) {
+    config.title = "regretless.life";
+    config.addPipelineStep("authorize", CheckAuth);
+    config.map([
+      {
+        route: ["", "home"],
+        moduleId: PLATFORM.moduleName("./resources/routes/legacy.html"),
+        nav: false,
+        title: "home",
+        name: "home",
+      },
+      {
+        route: "drafts",
+        moduleId: PLATFORM.moduleName("./resources/elements/mood/mood-edit"),
+        nav: false,
+        title: "drafts",
+        name: "drafts",
+        auth: true,
+      },
+    ]);
 
-  activity;
-  mood;
-  constructor(
-    private moodService: MoodService,
-    private activityService: ActivityService,
-    private entryService: EntryService,
-    private ea: EventAggregator
-  ) {
-    let date = new Date();
-    this.currentMonth = date.getMonth() + 1;
-    this.currentYear = date.getFullYear();
+    this.router = router;
   }
-  currentMonthChanged() {
-    this.getEntries();
-  }
-  currentYearChanged() {
-    this.getEntries();
-  }
-  getEntries = () => {
-    this.entryService
-      .getEntries(
-        Number.parseInt(this.currentYear),
-        Number.parseInt(this.currentMonth)
-      )
-      .then((entries) => (this.entries = entries));
-  };
-
-  getMoods = () => {
-    this.moods = this.moodService.getMoods();
-  };
-
-  getActivities = () => {
-    this.activities = this.activityService.getActivities();
-  };
-
-  attached() {
-    this.subscribers.push(this.ea.subscribe("entriesUpdated", this.getEntries));
-    this.subscribers.push(this.ea.subscribe("moodsUpdated", this.getMoods));
-    this.subscribers.push(
-      this.ea.subscribe("activitiesUpdated", this.getActivities)
-    );
-    this.getMoods();
-    this.getActivities();
-    this.getEntries();
-  }
-
-  detached() {
-    this.subscribers.forEach((sub) => this.subscribers.pop().dispose());
-  }
-  setCurrentMood(mood) {
-    this.mood = mood;
-  }
-  setCurrentActivity(activity) {
-    this.activity = activity;
+}
+class CheckAuth {
+  run(navigationInstruction, next) {
+    return new Promise((resolve, reject) => {
+      firebase.auth().onAuthStateChanged((user) => {
+        let currentRoute = navigationInstruction.config;
+        let loginRequired = currentRoute.auth && currentRoute.auth === true;
+        if (!user && loginRequired) {
+          return resolve(next.cancel(new Redirect("")));
+        }
+        return resolve(next());
+      });
+    });
   }
 }

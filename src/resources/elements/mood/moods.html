@@ -1,0 +1,13 @@
+<template>
+  <require from="./mood-edit"></require>
+  <h3 class="cursor" click.trigger="showMoods = !showMoods">Edit Moods</h3>
+  <div if.bind="showMoods">
+    <span
+      click.trigger="setCurrentMood(mood)"
+      repeat.for="mood of moods"
+      class="mood"
+      >${mood.emoji}</span
+    >
+    <mood-edit mood.two-way="mood"></mood-edit>
+  </div>
+</template>

@@ -1,0 +1,11 @@
+<template>
+  <require from="./entry"></require>
+  <h3 class="cursor" click.trigger="showEntries = !showEntries">
+    View Entries
+  </h3>
+  <div if.bind="showEntries">
+    <input value.bind="currentMonth" />
+    <input value.bind="currentYear" />
+    <entry repeat.for="e of entries" entry.bind="e"></entry>
+  </div>
+</template>

@@ -1,18 +1,20 @@
 <template>
   <h4>how are you feeling?</h4>
-  <label
-    class.bind="m.id === entry.mood ? 'activeMood' : 'inactiveMood'"
-    repeat.for="m of moods"
-  >
-    ${m.emoji}
-    <input
-      show.bind="false"
-      type="radio"
-      name="moodSelector"
-      model.bind="m.id"
-      checked.bind="entry.mood"
-    />
-  </label>
+  <div class="moods">
+    <label
+      class.bind="m.id === entry.mood ? 'activeMood' : 'inactiveMood'"
+      repeat.for="m of moods"
+    >
+      ${m.emoji}
+      <input
+        show.bind="false"
+        type="radio"
+        name="moodSelector"
+        model.bind="m.id"
+        checked.bind="entry.mood"
+      />
+    </label>
+  </div>
   <h4>what did you do?</h4>
   <div
     repeat.for="activity of nonArchivedActivities"
