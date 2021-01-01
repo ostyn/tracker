@@ -1,6 +1,15 @@
 <template>
-  <require from="./menu"></require>
+  <require from="./nav-bar"></require>
   <require from="./app.css"></require>
-  <menu></menu>
+  <require from="resources/elements/login/login"></require>
+  <nav-bar></nav-bar>
+  <login></login>
+  <button
+    class="newButton"
+    if.bind="router.currentInstruction.fragment!='/submit'"
+    click.trigger="router.navigateToRoute('submit')"
+  >
+    ➕
+  </button>
   <router-view class="content"></router-view>
 </template>

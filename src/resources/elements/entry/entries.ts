@@ -1,3 +1,4 @@
+import { Router } from "aurelia-router";
 import { autoinject, bindable } from "aurelia-framework";
 import { EntryService } from "resources/services/entryService";
 import { EventAggregator } from "aurelia-event-aggregator";
@@ -8,7 +9,11 @@ export class Entries {
   @bindable currentMonth;
   @bindable currentYear;
   @bindable showEntries = true;
-  constructor(private entryService: EntryService, private ea: EventAggregator) {
+  constructor(
+    private entryService: EntryService,
+    private ea: EventAggregator,
+    private router: Router
+  ) {
     let date = new Date();
     this.currentMonth = date.getMonth() + 1;
     this.currentYear = date.getFullYear();

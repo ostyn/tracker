@@ -1,18 +1,26 @@
 import { PLATFORM } from "aurelia-pal";
 import firebase from "firebase";
-import { Redirect } from "aurelia-router";
+import { Redirect, Router } from "aurelia-router";
 export class App {
   router;
-  configureRouter(config, router) {
-    config.title = "regretless.life";
+  configureRouter(config, router: Router) {
+    config.title = "tracker";
     config.addPipelineStep("authorize", CheckAuth);
     config.map([
       {
-        route: ["", "home"],
-        moduleId: PLATFORM.moduleName("./resources/routes/legacy.html"),
+        route: "",
+        moduleId: PLATFORM.moduleName("./resources/elements/entry/entries"),
         nav: true,
-        title: "home",
-        name: "home",
+        title: "entries",
+        name: "entries",
+        auth: true,
+      },
+      {
+        route: ["submit"],
+        moduleId: PLATFORM.moduleName("./resources/routes/legacy.html"),
+        nav: false,
+        title: "submit",
+        name: "submit",
       },
       {
         route: "moods",
@@ -30,14 +38,6 @@ export class App {
         nav: true,
         title: "activities",
         name: "activities",
-        auth: true,
-      },
-      {
-        route: "entries",
-        moduleId: PLATFORM.moduleName("./resources/elements/entry/entries"),
-        nav: true,
-        title: "entries",
-        name: "entries",
         auth: true,
       },
     ]);

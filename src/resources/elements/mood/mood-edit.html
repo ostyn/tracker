@@ -38,9 +38,27 @@
     <input type="text" value.bind="workingCopy.name" placeholder="name" />
     <input type="text" value.bind="workingCopy.emoji" placeholder="emoji" />
     <div>
-      <button type="button" click.trigger="submitMood()">save</button>
-      <button type="button" click.trigger="cancelEdit()">cancel</button>
-      <button type="button" click.trigger="deleteMood()">delete</button>
+      <button
+        disabled.bind="!workingCopy.rating || !workingCopy.name || !workingCopy.emoji"
+        type="button"
+        click.trigger="submitMood()"
+      >
+        save
+      </button>
+      <button
+        type="button"
+        disabled.bind="!workingCopy.id"
+        click.trigger="cancelEdit()"
+      >
+        cancel
+      </button>
+      <button
+        type="button"
+        disabled.bind="!workingCopy.id"
+        click.trigger="deleteMood()"
+      >
+        delete
+      </button>
     </div>
   </form>
 </template>

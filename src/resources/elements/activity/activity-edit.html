@@ -6,9 +6,27 @@
       >Archived<input type="checkbox" checked.bind="workingCopy.isArchived"
     /></label>
     <div>
-      <button type="button" click.trigger="submitActivity()">save</button>
-      <button type="button" click.trigger="cancelEdit()">cancel</button>
-      <button type="button" click.trigger="deleteActivity()">delete</button>
+      <button
+        type="button"
+        disabled.bind="!workingCopy.name || !workingCopy.emoji"
+        click.trigger="submitActivity()"
+      >
+        save
+      </button>
+      <button
+        type="button"
+        disabled.bind="!workingCopy.id"
+        click.trigger="cancelEdit()"
+      >
+        cancel
+      </button>
+      <button
+        type="button"
+        disabled.bind="!workingCopy.id"
+        click.trigger="deleteActivity()"
+      >
+        delete
+      </button>
     </div>
   </form>
 </template>
