@@ -6,6 +6,7 @@
   <div if.bind="showEntries">
     <input value.bind="currentMonth" />
     <input value.bind="currentYear" />
+    <button click.trigger="selectDate()">go</button>
     <entry repeat.for="e of entries" entry.bind="e"></entry>
   </div>
 </template>
