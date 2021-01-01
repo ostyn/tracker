@@ -7,6 +7,7 @@ export class Entries {
   subscribers = [];
   @bindable currentMonth;
   @bindable currentYear;
+  @bindable showEntries = true;
   constructor(private entryService: EntryService, private ea: EventAggregator) {
     let date = new Date();
     this.currentMonth = date.getMonth() + 1;

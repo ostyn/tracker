@@ -15,11 +15,29 @@ export class App {
         name: "home",
       },
       {
-        route: "drafts",
-        moduleId: PLATFORM.moduleName("./resources/elements/mood/mood-edit"),
+        route: "moods",
+        moduleId: PLATFORM.moduleName("./resources/elements/mood/moods"),
         nav: false,
-        title: "drafts",
-        name: "drafts",
+        title: "moods",
+        name: "moods",
+        auth: true,
+      },
+      {
+        route: "activities",
+        moduleId: PLATFORM.moduleName(
+          "./resources/elements/activity/activities"
+        ),
+        nav: false,
+        title: "activities",
+        name: "activities",
+        auth: true,
+      },
+      {
+        route: "entries",
+        moduleId: PLATFORM.moduleName("./resources/elements/entry/entries"),
+        nav: false,
+        title: "entries",
+        name: "entries",
         auth: true,
       },
     ]);

@@ -1,8 +1,9 @@
-import { autoinject } from "aurelia-framework";
+import { bindable, autoinject } from "aurelia-framework";
 import { ActivityService } from "resources/services/activityService";
 import { EventAggregator } from "aurelia-event-aggregator";
 @autoinject
 export class Activities {
+  @bindable showActivities = true;
   subscribers = [];
   activities;
   activity;
