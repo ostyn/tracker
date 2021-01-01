@@ -1,5 +1,5 @@
-import { MoodService } from "./moodService";
 import { autoinject, bindable } from "aurelia-framework";
+import { MoodService } from "resources/services/moodService";
 @autoinject
 export class MoodEdit {
   @bindable mood;

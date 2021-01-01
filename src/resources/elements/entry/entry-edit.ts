@@ -1,7 +1,7 @@
-import { ActivityService } from "./activityService";
-import { MoodService } from "./moodService";
+import { ActivityService } from "resources/services/activityService";
+import { MoodService } from "resources/services/moodService";
 import { autoinject, bindable } from "aurelia-framework";
-import { EntryService } from "./entryService";
+import { EntryService } from "resources/services/entryService";
 import { EventAggregator } from "aurelia-event-aggregator";
 
 @autoinject

@@ -1,4 +1,4 @@
-import { ActivityService } from "./activityService";
+import { ActivityService } from "resources/services/activityService";
 import { autoinject, bindable } from "aurelia-framework";
 @autoinject
 export class ActivityEdit {

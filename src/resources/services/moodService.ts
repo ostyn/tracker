@@ -1,5 +1,5 @@
 import { autoinject } from "aurelia-framework";
-import { MoodDao } from "./dao/MoodDao";
+import { MoodDao } from "resources/dao/MoodDao";
 import { EventAggregator } from "aurelia-event-aggregator";
 
 @autoinject

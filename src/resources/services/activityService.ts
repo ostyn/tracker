@@ -1,5 +1,5 @@
 import { autoinject } from "aurelia-framework";
-import { ActivityDao } from "./dao/ActivityDao";
+import { ActivityDao } from "resources/dao/ActivityDao";
 import { EventAggregator } from "aurelia-event-aggregator";
 
 @autoinject

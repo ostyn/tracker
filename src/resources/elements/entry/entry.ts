@@ -1,9 +1,9 @@
-import { ActivityService } from "./activityService";
 import { autoinject, bindable, computedFrom } from "aurelia-framework";
-import { MoodService } from "./moodService";
-import { EntryService } from "./entryService";
+import { MoodService } from "resources/services/moodService";
 import { EventAggregator } from "aurelia-event-aggregator";
-import { FormatLib } from "./util/FormatLib";
+import { ActivityService } from "resources/services/activityService";
+import { EntryService } from "resources/services/entryService";
+import { FormatLib } from "resources/util/FormatLib";
 @autoinject
 export class Entry {
   @bindable entry;
