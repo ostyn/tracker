@@ -62,3 +62,37 @@
   height: 200px;
   padding: 10px;
 }
+
+.menuItem {
+  font-weight: 300;
+  font-size: 20px;
+  display: inline-block;
+  margin-left: 20px;
+  margin-right: 20px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.menuItem>a:link, .menuItem>a:visited {
+  text-decoration: none;
+  color: black;
+}
+
+.menuItem>a:active, .menuItem>a:hover {
+  text-decoration: none;
+  color: gray;
+}
+
+.menuContainer {
+  display: flex;
+  border-top: 1px solid #9a9a9a;
+  border-bottom: 1px solid #9a9a9a;
+  clear: both;
+}
+
+.menu {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  margin-right: auto;
+}

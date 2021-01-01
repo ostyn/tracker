@@ -10,14 +10,14 @@ export class App {
       {
         route: ["", "home"],
         moduleId: PLATFORM.moduleName("./resources/routes/legacy.html"),
-        nav: false,
+        nav: true,
         title: "home",
         name: "home",
       },
       {
         route: "moods",
         moduleId: PLATFORM.moduleName("./resources/elements/mood/moods"),
-        nav: false,
+        nav: true,
         title: "moods",
         name: "moods",
         auth: true,
@@ -27,7 +27,7 @@ export class App {
         moduleId: PLATFORM.moduleName(
           "./resources/elements/activity/activities"
         ),
-        nav: false,
+        nav: true,
         title: "activities",
         name: "activities",
         auth: true,
@@ -35,7 +35,7 @@ export class App {
       {
         route: "entries",
         moduleId: PLATFORM.moduleName("./resources/elements/entry/entries"),
-        nav: false,
+        nav: true,
         title: "entries",
         name: "entries",
         auth: true,
