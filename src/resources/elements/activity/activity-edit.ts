@@ -12,6 +12,7 @@ export class ActivityEdit {
 
   submitActivity() {
     this.workingCopy.isArchived = this.workingCopy.isArchived == true;
+    this.workingCopy.type = this.workingCopy.type || "number";
     this.activityService.saveActivity(this.workingCopy);
     this.resetActiveActivity();
   }
