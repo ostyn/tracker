@@ -13,24 +13,16 @@
         <h4>Activities</h4>
         <div if.bind="activities.length">
           <div
-            repeat.for="[id, count] of entry.activities"
+            repeat.for="[id, detail] of entry.activities"
             class="activityContainer"
           >
             <div class="activityEmoji">${findActivity(id).emoji}</div>
             <div class="activityName">
               ${findActivity(id).name}
-              <span class="badge" if.bind="count>1">${count}</span>
+              <span class="badge" if.bind="detail>1">${detail}</span>
             </div>
-          </div>
-          <div repeat.for="activity of activities" class="activityContainer">
-            <div if.bind="entry.activities[activity.id]">
-              <div class="activityEmoji">${activity.emoji}</div>
-              <div class="activityName">
-                ${activity.name}
-                <span class="badge" if.bind="entry.activities[activity.id]>1"
-                  >${entry.activities[activity.id]}</span
-                >
-              </div>
+            <div if.bind="findActivity(id).type ==='text'">
+              <div repeat.for="textItem of detail">${textItem}</div>
             </div>
           </div>
         </div>

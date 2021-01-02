@@ -19,7 +19,7 @@
   <div
     repeat.for="activity of nonArchivedActivities"
     class="activityContainer cursor"
-    click.trigger="addActivity(activity.id)"
+    click.trigger="addActivity(activity)"
   >
     <div class="activityEmoji">${activity.emoji}</div>
     <div class="activityName">${activity.name}</div>
@@ -30,14 +30,22 @@
   </div>
   <div if.bind="activities.length > 0">
     <div
-      repeat.for="[id, count] of entry.activities"
+      repeat.for="[id, detail] of entry.activities"
       class="activityContainer cursor"
       click.trigger="removeActivity(id)"
     >
       <div class="activityEmoji">${findActivity(id).emoji}</div>
       <div class="activityName">
         ${findActivity(id).name}
-        <span class="badge" if.bind="count>1">${count}</span>
+        <span class="badge" if.bind="detail>1">${detail}</span>
+      </div>
+      <div if.bind="findActivity(id).type ==='text'">
+        <div
+          click.trigger="removeTextItem(id, $index)"
+          repeat.for="textItem of detail"
+        >
+          ${textItem}
+        </div>
       </div>
     </div>
   </div>

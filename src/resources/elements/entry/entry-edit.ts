@@ -42,15 +42,38 @@ export class EntryEdit {
     this.activities = this.activityService.getActivities();
   };
 
-  addActivity(id) {
-    if (this.entry.activities.has(id))
-      this.entry.activities.set(id, this.entry.activities.get(id) + 1);
-    else this.entry.activities.set(id, 1);
+  addActivity(activity) {
+    if (activity.type === "number" || activity.type === undefined) {
+      if (this.entry.activities.has(activity.id))
+        this.entry.activities.set(
+          activity.id,
+          this.entry.activities.get(activity.id) + 1
+        );
+      else this.entry.activities.set(activity.id, 1);
+    } else if (activity.type === "text") {
+      let text = prompt("Enter text");
+      if (text) {
+        this.entry.activities.set(
+          activity.id,
+          [text].concat(this.entry.activities.get(activity.id) || [])
+        );
+        console.log(this.entry.activities.get(activity.id));
+      }
+    }
+  }
+  removeTextItem(id, textItemIndex) {
+    if (this.entry.activities.get(id).length === 1)
+      this.entry.activities.delete(id);
+    else {
+      this.entry.activities.get(id).splice(textItemIndex, 1);
+    }
   }
   removeActivity(id) {
-    if (this.entry.activities.get(id) > 1)
-      this.entry.activities.set(id, this.entry.activities.get(id) - 1);
-    else this.entry.activities.delete(id);
+    if (this.findActivity(id).type !== "text") {
+      if (this.entry.activities.get(id) > 1)
+        this.entry.activities.set(id, this.entry.activities.get(id) - 1);
+      else this.entry.activities.delete(id);
+    }
   }
   submitEntry() {
     let parts = this.entry.date.split("-");

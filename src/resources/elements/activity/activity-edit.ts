@@ -33,6 +33,7 @@ export class ActivityEdit {
       id: undefined,
       isArchived: undefined,
       name: undefined,
+      type: undefined,
     };
   }
 }
