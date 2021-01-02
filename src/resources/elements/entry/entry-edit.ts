@@ -1,3 +1,4 @@
+import { Router } from "aurelia-router";
 import { ActivityService } from "resources/services/activityService";
 import { MoodService } from "resources/services/moodService";
 import { autoinject, bindable } from "aurelia-framework";
@@ -17,7 +18,8 @@ export class EntryEdit {
     private activityService: ActivityService,
     private moodService: MoodService,
     private entryService: EntryService,
-    private ea: EventAggregator
+    private ea: EventAggregator,
+    private router: Router
   ) {
     this.getActivities();
     this.getMoods();
@@ -84,7 +86,10 @@ export class EntryEdit {
       day: Number.parseInt(parts[2]),
     };
     this.entryService.addEntry(splitTimestampEntry);
-    this.entry = this.newEntry();
+    this.router.navigateToRoute("entries", {
+      year: Number.parseInt(parts[0]),
+      month: Number.parseInt(parts[1]),
+    });
   }
   findActivity(id) {
     return this.activities.find((activity) => activity.id === id);

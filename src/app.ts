@@ -17,7 +17,7 @@ export class App {
       },
       {
         route: ["submit"],
-        moduleId: PLATFORM.moduleName("./resources/routes/legacy.html"),
+        moduleId: PLATFORM.moduleName("./resources/routes/entry-submit.html"),
         nav: false,
         title: "submit",
         name: "submit",
