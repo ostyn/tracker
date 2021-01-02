@@ -20,8 +20,11 @@
             <div class="activityName">
               ${findActivity(id).name}
               <span class="badge" if.bind="detail>1">${detail}</span>
+              <span class="badge" if.bind="detail.length>1"
+                >${detail.length}</span
+              >
             </div>
-            <div if.bind="findActivity(id).type ==='text'">
+            <div if.bind="findActivity(id).type ==='text' && detail.length>0">
               <div repeat.for="textItem of detail">${textItem}</div>
             </div>
           </div>
