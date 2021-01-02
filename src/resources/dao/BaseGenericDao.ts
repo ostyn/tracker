@@ -28,7 +28,7 @@ export class BaseGenericDao {
       return this.sortItems(items);
     });
   }
-  saveItem(passedEntry) {
+  saveItem(passedEntry): Promise<any> {
     let id = passedEntry.id;
     passedEntry = this.beforeSaveFixup(passedEntry);
     delete passedEntry.id;

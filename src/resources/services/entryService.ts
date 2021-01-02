@@ -9,8 +9,8 @@ export class EntryService {
   notifyListeners() {
     this.ea.publish("entriesUpdated");
   }
-  addEntry(entry) {
-    this.entryDao.saveItem(entry).then((id) => {
+  addEntry(entry): Promise<any> {
+    return this.entryDao.saveItem(entry).then((id) => {
       this.notifyListeners();
     });
   }
