@@ -3,7 +3,7 @@
   <h4>how are you feeling?</h4>
   <div class="moods">
     <label
-      class.bind="m.id === entry.mood ? 'activeMood' : 'inactiveMood'"
+      class.bind="m.id === workingCopy.mood ? 'activeMood' : 'inactiveMood'"
       repeat.for="m of moods"
     >
       ${m.emoji}
@@ -12,7 +12,7 @@
         type="radio"
         name="moodSelector"
         model.bind="m.id"
-        checked.bind="entry.mood"
+        checked.bind="workingCopy.mood"
       />
     </label>
   </div>
@@ -24,22 +24,22 @@
     class="cursor"
   ></activity>
   <div>
-    <textarea class="entryNoteEdit" value.bind="entry.note"></textarea>
-    <div>${entry.note.length}/280</div>
+    <textarea class="entryNoteEdit" value.bind="workingCopy.note"></textarea>
+    <div>${workingCopy.note.length}/280</div>
   </div>
 
   <activity
-    repeat.for="[id, detail] of entry.activities"
+    repeat.for="[id, detail] of workingCopy.activities"
     class="cursor"
     click.trigger="removeActivity(id)"
     id.bind="id"
     detail.bind="detail"
   ></activity>
   <h4>when was this?</h4>
-  <input type="date" value.bind="entry.date" max.bind="date" name="" id="" />
+  <input type="date" value.bind="workingCopy.date" max.bind="date" name="" />
   <br />
   <button
-    disabled.bind="entry.mood === undefined"
+    disabled.bind="workingCopy.mood === undefined"
     click.trigger="submitEntry()"
   >
     submit

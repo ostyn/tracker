@@ -8,6 +8,7 @@ import { EventAggregator } from "aurelia-event-aggregator";
 @autoinject
 export class EntryEdit {
   @bindable entry;
+  workingCopy;
   activities = [];
   subscribers = [];
   moods: any;
@@ -26,6 +27,10 @@ export class EntryEdit {
     this.entry = this.newEntry();
   }
 
+  entryChanged() {
+    this.workingCopy = Object.assign({}, this.entry);
+    this.workingCopy.activities = new Map(this.entry.activities);
+  }
   attached() {
     this.subscribers.push(this.ea.subscribe("moodsUpdated", this.getMoods));
     this.subscribers.push(
@@ -46,50 +51,53 @@ export class EntryEdit {
 
   addActivity(activity) {
     if (activity.type === "number" || activity.type === undefined) {
-      if (this.entry.activities.has(activity.id))
-        this.entry.activities.set(
+      if (this.workingCopy.activities.has(activity.id))
+        this.workingCopy.activities.set(
           activity.id,
-          this.entry.activities.get(activity.id) + 1
+          this.workingCopy.activities.get(activity.id) + 1
         );
-      else this.entry.activities.set(activity.id, 1);
+      else this.workingCopy.activities.set(activity.id, 1);
     } else if (activity.type === "text") {
       let text = prompt("Enter text");
       if (text) {
-        this.entry.activities.set(
+        this.workingCopy.activities.set(
           activity.id,
-          [text].concat(this.entry.activities.get(activity.id) || [])
+          [text].concat(this.workingCopy.activities.get(activity.id) || [])
         );
-        console.log(this.entry.activities.get(activity.id));
+        console.log(this.workingCopy.activities.get(activity.id));
       }
     }
   }
   removeTextItem(id, textItemIndex) {
-    if (this.entry.activities.get(id).length === 1)
-      this.entry.activities.delete(id);
+    if (this.workingCopy.activities.get(id).length === 1)
+      this.workingCopy.activities.delete(id);
     else {
-      this.entry.activities.get(id).splice(textItemIndex, 1);
+      this.workingCopy.activities.get(id).splice(textItemIndex, 1);
     }
   }
   removeActivity(id) {
     if (this.findActivity(id).type !== "text") {
-      if (this.entry.activities.get(id) > 1)
-        this.entry.activities.set(id, this.entry.activities.get(id) - 1);
-      else this.entry.activities.delete(id);
-    } else {
-      if (this.entry.activities.get(id).length > 1)
-        this.entry.activities.set(
+      if (this.workingCopy.activities.get(id) > 1)
+        this.workingCopy.activities.set(
           id,
-          this.entry.activities
-            .get(id)
-            .slice(0, this.entry.activities.get(id).length - 1)
+          this.workingCopy.activities.get(id) - 1
         );
-      else this.entry.activities.delete(id);
+      else this.workingCopy.activities.delete(id);
+    } else {
+      if (this.workingCopy.activities.get(id).length > 1)
+        this.workingCopy.activities.set(
+          id,
+          this.workingCopy.activities
+            .get(id)
+            .slice(0, this.workingCopy.activities.get(id).length - 1)
+        );
+      else this.workingCopy.activities.delete(id);
     }
   }
   submitEntry() {
-    let parts = this.entry.date.split("-");
+    let parts = this.workingCopy.date.split("-");
     let splitTimestampEntry = {
-      ...this.entry,
+      ...this.workingCopy,
       year: Number.parseInt(parts[0]),
       month: Number.parseInt(parts[1]),
       day: Number.parseInt(parts[2]),
