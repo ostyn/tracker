@@ -1,4 +1,6 @@
 <template>
+  <require from="resources/elements/activity/activity"></require>
+  <button click.trigger="act()">act</button>
   <div class="entry">
     <div if.bind="!editMode">
       <h3>${formatLib.selectorDateToJsDate(entry.date)}</h3>
@@ -11,24 +13,11 @@
       </div>
       <div>
         <h4>Activities</h4>
-        <div if.bind="activities.length">
-          <div
-            repeat.for="[id, detail] of entry.activities"
-            class="activityContainer"
-          >
-            <div class="activityEmoji">${findActivity(id).emoji}</div>
-            <div class="activityName">
-              ${findActivity(id).name}
-              <span class="badge" if.bind="detail>1">${detail}</span>
-              <span class="badge" if.bind="detail.length>1"
-                >${detail.length}</span
-              >
-            </div>
-            <div if.bind="findActivity(id).type ==='text' && detail.length>0">
-              <div repeat.for="textItem of detail">${textItem}</div>
-            </div>
-          </div>
-        </div>
+        <activity
+          repeat.for="[id, detail] of entry.activities"
+          id.bind="id"
+          detail.bind="detail"
+        ></activity>
       </div>
       <div if.bind="entry.note != ''">
         <h4>Note</h4>

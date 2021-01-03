@@ -1,17 +1,16 @@
 <template>
   <require from="./activity-edit"></require>
+  <require from="./activity"></require>
   <h3 class="cursor" click.trigger="showActivities = !showActivities">
     Edit Activities
   </h3>
   <div if.bind="showActivities">
-    <div
+    <activity
       repeat.for="activity of activities"
-      class="activityContainer cursor"
       click.trigger="setCurrentActivity(activity)"
-    >
-      <div class="activityEmoji">${activity.emoji}</div>
-      <div class="activityName">${activity.name}</div>
-    </div>
+      class="cursor"
+      id.bind="activity.id"
+    ></activity>
     <activity-edit activity.two-way="activity"></activity-edit>
   </div>
 </template>

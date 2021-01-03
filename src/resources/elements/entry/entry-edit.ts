@@ -75,6 +75,15 @@ export class EntryEdit {
       if (this.entry.activities.get(id) > 1)
         this.entry.activities.set(id, this.entry.activities.get(id) - 1);
       else this.entry.activities.delete(id);
+    } else {
+      if (this.entry.activities.get(id).length > 1)
+        this.entry.activities.set(
+          id,
+          this.entry.activities
+            .get(id)
+            .slice(0, this.entry.activities.get(id).length - 1)
+        );
+      else this.entry.activities.delete(id);
     }
   }
   submitEntry() {

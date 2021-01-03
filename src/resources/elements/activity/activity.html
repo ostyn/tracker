@@ -1,0 +1,11 @@
+<template class="activity">
+  <div class="activityEmoji">${findActivity.emoji}</div>
+  <div class="activityName">
+    ${findActivity.name}
+    <span class="badge" if.bind="detail>1">${detail}</span>
+    <span class="badge" if.bind="detail.length>1">${detail.length}</span>
+  </div>
+  <div if.bind="findActivity.type ==='text' && detail.length>0">
+    <div repeat.for="textItem of detail">${textItem}</div>
+  </div>
+</template>

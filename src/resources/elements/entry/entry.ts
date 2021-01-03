@@ -1,18 +1,15 @@
 import { autoinject, bindable, computedFrom } from "aurelia-framework";
 import { MoodService } from "resources/services/moodService";
 import { EventAggregator } from "aurelia-event-aggregator";
-import { ActivityService } from "resources/services/activityService";
 import { EntryService } from "resources/services/entryService";
 import { FormatLib } from "resources/util/FormatLib";
 @autoinject
 export class Entry {
   @bindable entry;
-  activities = [];
   subscribers = [];
   moods;
   currentMood;
   constructor(
-    private activityService: ActivityService,
     private moodService: MoodService,
     private entryService: EntryService,
     private ea: EventAggregator,
@@ -21,11 +18,7 @@ export class Entry {
 
   attached() {
     this.subscribers.push(this.ea.subscribe("moodsUpdated", this.getMoods));
-    this.subscribers.push(
-      this.ea.subscribe("activitiesUpdated", this.getActivities)
-    );
     this.getMoods();
-    this.getActivities();
   }
 
   detached() {
@@ -36,10 +29,6 @@ export class Entry {
     return this.entry.created.getTime() !== this.entry.updated.getTime();
   }
 
-  getActivities = () => {
-    this.activities = this.activityService.getActivities();
-  };
-
   getMoods = () => {
     this.moods = this.moodService.getMoods();
     if (this.moods && this.moods.length)
@@ -48,14 +37,5 @@ export class Entry {
 
   deleteEntry(id) {
     this.entryService.deleteEntry(id);
-  }
-
-  buildActivityString(id, count) {
-    if (this.activities.length == 0) return;
-    let activity = this.activities.find((activity) => activity.id === id);
-    return `${activity.name}x${count}`;
-  }
-  findActivity(id) {
-    return this.activities.find((activity) => activity.id === id);
   }
 }
