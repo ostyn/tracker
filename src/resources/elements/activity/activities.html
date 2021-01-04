@@ -12,5 +12,8 @@
       id.bind="activity.id"
     ></activity>
     <activity-edit activity.two-way="activity"></activity-edit>
+    <div repeat.for="entry of relatedEntries">
+      ${entry.date}=${entry.activities.get(activity.id)}
+    </div>
   </div>
 </template>

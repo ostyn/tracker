@@ -4,7 +4,6 @@ export class MoodDao extends BaseGenericDao {
     super("moods");
   }
   sortItems(items) {
-    [].sort;
     return items.sort((a, b) => a.rating - b.rating);
   }
 }

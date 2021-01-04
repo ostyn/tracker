@@ -24,6 +24,21 @@ export class EntryDao extends BaseGenericDao {
     query = query.orderBy("created", "desc");
     return this.getItemsFromQuery(query);
   }
+  getEntriesWithSpecificActivity(id) {
+    return this.getItemsFromQuery(
+      this.db.collection("entries").orderBy(`activities.${id}`, "asc")
+    ).then((items) => {
+      return items.sort((a, b) => {
+        if (a.date < b.date) {
+          return -1;
+        }
+        if (a.date > b.date) {
+          return 1;
+        }
+        return 0;
+      });
+    });
+  }
   beforeSaveFixup(item) {
     var clone = Object.assign({}, item);
     clone.activities = this.strMapToObj(item.activities);
