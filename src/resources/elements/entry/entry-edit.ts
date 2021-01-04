@@ -25,6 +25,7 @@ export class EntryEdit {
     this.getActivities();
     this.getMoods();
     this.entry = this.newEntry();
+    this.entryChanged();
   }
 
   entryChanged() {
