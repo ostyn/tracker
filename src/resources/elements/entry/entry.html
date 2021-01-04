@@ -1,6 +1,5 @@
 <template>
   <require from="resources/elements/activity/activity"></require>
-  <button click.trigger="act()">act</button>
   <div class="entry">
     <div if.bind="!editMode">
       <h3>${formatLib.selectorDateToJsDate(entry.date)}</h3>
