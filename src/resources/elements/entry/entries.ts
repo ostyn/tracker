@@ -2,6 +2,7 @@ import { activationStrategy, Router } from "aurelia-router";
 import { autoinject, bindable } from "aurelia-framework";
 import { EntryService } from "resources/services/entryService";
 import { EventAggregator } from "aurelia-event-aggregator";
+import { summary } from "date-streaks";
 @autoinject
 export class Entries {
   entries;
@@ -9,6 +10,13 @@ export class Entries {
   @bindable currentMonth;
   @bindable currentYear;
   @bindable showEntries = true;
+  summary: {
+    currentStreak: number;
+    longestStreak: number;
+    streaks: number[];
+    todayInStreak: boolean;
+    withinCurrentStreak: boolean;
+  };
   constructor(
     private entryService: EntryService,
     private ea: EventAggregator,
@@ -20,7 +28,14 @@ export class Entries {
         Number.parseInt(this.currentYear),
         Number.parseInt(this.currentMonth)
       )
-      .then((entries) => (this.entries = entries));
+      .then((entries) => {
+        this.entries = entries;
+        let dates: Date[] = [];
+        for (let entry of entries) {
+          dates.push(new Date(entry.year, entry.month, entry.day));
+        }
+        this.summary = summary({ dates });
+      });
   };
 
   determineActivationStrategy() {
