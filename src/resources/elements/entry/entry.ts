@@ -1,7 +1,7 @@
+import { Router } from "aurelia-router";
 import { autoinject, bindable, computedFrom } from "aurelia-framework";
 import { MoodService } from "resources/services/moodService";
 import { EventAggregator } from "aurelia-event-aggregator";
-import { EntryService } from "resources/services/entryService";
 import { FormatLib } from "resources/util/FormatLib";
 @autoinject
 export class Entry {
@@ -11,7 +11,7 @@ export class Entry {
   currentMood;
   constructor(
     private moodService: MoodService,
-    private entryService: EntryService,
+    private router: Router,
     private ea: EventAggregator,
     public formatLib: FormatLib
   ) {}
@@ -34,8 +34,7 @@ export class Entry {
     if (this.moods && this.moods.length)
       this.currentMood = this.moods.find((mood) => mood.id === this.entry.mood);
   };
-
-  deleteEntry(id) {
-    this.entryService.deleteEntry(id);
+  editEntry() {
+    this.router.navigateToRoute("entry", { id: this.entry.id });
   }
 }

@@ -25,10 +25,12 @@ export class EntryEdit {
     this.getActivities();
     this.getMoods();
     this.entry = this.newEntry();
-    this.entryChanged();
   }
 
-  entryChanged() {
+  entryChanged(newEntry, oldEntry) {
+    if (newEntry === "") {
+      this.entry = oldEntry;
+    }
     this.workingCopy = Object.assign({}, this.entry);
     this.workingCopy.activities = new Map(this.entry.activities);
   }

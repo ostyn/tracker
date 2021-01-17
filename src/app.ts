@@ -6,6 +6,7 @@ export class App {
   configureRouter(config, router: Router) {
     config.title = "tracker";
     config.addPipelineStep("authorize", CheckAuth);
+    config.addPipelineStep("postcomplete", PostCompleteStep);
     config.map([
       {
         route: "",
@@ -16,11 +17,11 @@ export class App {
         auth: true,
       },
       {
-        route: ["submit"],
-        moduleId: PLATFORM.moduleName("./resources/routes/entry-submit.html"),
+        route: ["entry"],
+        moduleId: PLATFORM.moduleName("./resources/routes/entry-route"),
         nav: false,
-        title: "submit",
-        name: "submit",
+        title: "entry",
+        name: "entry",
       },
       {
         route: "moods",
@@ -57,5 +58,11 @@ class CheckAuth {
         return resolve(next());
       });
     });
+  }
+}
+class PostCompleteStep {
+  run(routingContext, next) {
+    window.scrollTo(0, 0);
+    return next();
   }
 }

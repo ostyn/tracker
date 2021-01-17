@@ -4,7 +4,6 @@ import { EventAggregator } from "aurelia-event-aggregator";
 
 @autoinject
 export class EntryService {
-  entries: any;
   constructor(private entryDao: EntryDao, private ea: EventAggregator) {}
   notifyListeners() {
     this.ea.publish("entriesUpdated");
@@ -24,7 +23,7 @@ export class EntryService {
   }
 
   getEntry(id) {
-    return this.entries.get(id);
+    return this.entryDao.getItem(id).then((entry) => entry);
   }
 
   deleteEntry(id) {

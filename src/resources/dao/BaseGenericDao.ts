@@ -9,6 +9,15 @@ export class BaseGenericDao {
   getCollectionName() {
     return this.name;
   }
+  getItem(id: string) {
+    return this.db
+      .collection(this.name)
+      .doc(id)
+      .get()
+      .then((snapshot) => {
+        return this.processFirestoreData(snapshot);
+      });
+  }
   getItems() {
     var ref = this.db.collection(this.name);
     return this.getItemsFromQuery(ref);
@@ -17,16 +26,19 @@ export class BaseGenericDao {
     return query.get().then((snapshot) => {
       let items = [];
       snapshot.forEach((doc) => {
-        const item = {
-          ...doc.data(),
-          id: doc.id,
-        };
-        item.created = item.created.toDate();
-        item.updated = item.updated.toDate();
-        items.push(this.afterLoadFixup(item));
+        items.push(this.processFirestoreData(doc));
       });
       return this.sortItems(items);
     });
+  }
+  private processFirestoreData(doc: any) {
+    const item = {
+      ...doc.data(),
+      id: doc.id,
+    };
+    item.created = item.created.toDate();
+    item.updated = item.updated.toDate();
+    return this.afterLoadFixup(item);
   }
   saveItem(passedEntry): Promise<any> {
     let id = passedEntry.id;

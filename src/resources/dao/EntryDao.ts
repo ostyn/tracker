@@ -6,6 +6,9 @@ export class EntryDao extends BaseGenericDao {
     super("entries");
     this.db = firebase.firestore();
   }
+  getItem(id) {
+    return super.getItem(id);
+  }
   getEntriesFromYearAndMonth(
     year = undefined,
     month = undefined,

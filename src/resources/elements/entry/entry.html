@@ -1,42 +1,34 @@
 <template>
   <require from="resources/elements/activity/activity"></require>
   <div class="entry">
-    <div if.bind="!editMode">
-      <h3>${formatLib.selectorDateToJsDate(entry.date)}</h3>
-      <div
-        class="activeMood"
-        alt-text.bind="currentMood.name"
-        title.bind="currentMood.name"
-      >
-        ${currentMood.emoji}
-      </div>
-      <div>
-        <h4>Activities</h4>
-        <activity
-          repeat.for="[id, detail] of entry.activities"
-          id.bind="id"
-          detail.bind="detail"
-        ></activity>
-      </div>
-      <div if.bind="entry.note != ''">
-        <h4>Note</h4>
-        <div class="entryNote">${entry.note}</div>
-      </div>
-      <button click.trigger="editMode=!editMode">edit</button>
-      <p class="small grey">
-        Entered on ${formatLib.secondsToDate(entry.created)} at
-        ${formatLib.secondsToTime(entry.created)}
-      </p>
-      <p if.bind="showUpdatedDate" class="small grey">
-        Updated on ${formatLib.secondsToDate(entry.updated)} at
-        ${formatLib.secondsToTime(entry.updated)}
-      </p>
+    <h3>${formatLib.selectorDateToJsDate(entry.date)}</h3>
+    <div
+      class="activeMood"
+      alt-text.bind="currentMood.name"
+      title.bind="currentMood.name"
+    >
+      ${currentMood.emoji}
     </div>
-    <div if.bind="editMode">
-      <require from="./entry-edit"></require>
-      <entry-edit entry.bind="entry"></entry-edit>
-      <button click.trigger="deleteEntry(entry.id)">delete</button>
-      <button click.trigger="editMode=!editMode">cancel</button>
+    <div>
+      <h4>Activities</h4>
+      <activity
+        repeat.for="[id, detail] of entry.activities"
+        id.bind="id"
+        detail.bind="detail"
+      ></activity>
     </div>
+    <div if.bind="entry.note != ''">
+      <h4>Note</h4>
+      <div class="entryNote">${entry.note}</div>
+    </div>
+    <button click.trigger="editEntry(entry.id)">edit</button>
+    <p class="small grey">
+      Entered on ${formatLib.secondsToDate(entry.created)} at
+      ${formatLib.secondsToTime(entry.created)}
+    </p>
+    <p if.bind="showUpdatedDate" class="small grey">
+      Updated on ${formatLib.secondsToDate(entry.updated)} at
+      ${formatLib.secondsToTime(entry.updated)}
+    </p>
   </div>
 </template>
