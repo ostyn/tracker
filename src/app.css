@@ -46,7 +46,6 @@ activity {
   border: black 1px dashed;
   margin: 20px;
   padding: 20px;
-  display: flex;
 }
 
 .entryNote {
@@ -106,4 +105,8 @@ activity {
   border-radius: 20px;
   border: 1px grey solid;
   padding: 10px;
+}
+
+.archived {
+  filter: grayscale(100%);
 }

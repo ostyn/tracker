@@ -136,4 +136,8 @@ export class EntryEdit {
     }
     return (padding + value).slice(-width);
   }
+  deleteEntry() {
+    this.entryService.deleteEntry(this.entry.id);
+    this.router.navigateToRoute("entries");
+  }
 }

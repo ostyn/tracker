@@ -8,7 +8,7 @@
     <activity
       repeat.for="activity of activities"
       click.trigger="setCurrentActivity(activity)"
-      class="cursor"
+      class.bind="(activity.isArchived) ? 'archived cursor' : 'cursor'"
       id.bind="activity.id"
     ></activity>
     <activity-edit activity.two-way="activity"></activity-edit>
