@@ -16,6 +16,9 @@
       />
     </label>
   </div>
+  <h4>when was this?</h4>
+  <input type="date" value.bind="workingCopy.date" max.bind="date" name="" />
+  <br />
   <h4>what did you do?</h4>
   <activity
     repeat.for="activity of nonArchivedActivities"
@@ -35,9 +38,6 @@
     id.bind="id"
     detail.bind="detail"
   ></activity>
-  <h4>when was this?</h4>
-  <input type="date" value.bind="workingCopy.date" max.bind="date" name="" />
-  <br />
   <button
     disabled.bind="workingCopy.mood === undefined"
     click.trigger="submitEntry()"
