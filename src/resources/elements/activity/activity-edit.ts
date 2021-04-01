@@ -1,13 +1,26 @@
+import { EntryDao } from "./../../dao/EntryDao";
 import { ActivityService } from "resources/services/activityService";
 import { autoinject, bindable } from "aurelia-framework";
+import { IActivity } from "./activity.interface";
 @autoinject
 export class ActivityEdit {
-  @bindable activity;
-  workingCopy;
-  constructor(private activityService: ActivityService) {}
+  @bindable activity: IActivity;
+  workingCopy: IActivity;
+  relatedEntries: any;
+  constructor(
+    private activityService: ActivityService,
+    private entryDao: EntryDao
+  ) {}
   activityChanged() {
     if (this.activity === undefined) this.resetActiveActivity();
-    else this.workingCopy = Object.assign({}, this.activity);
+    else {
+      this.workingCopy = Object.assign({}, this.activity);
+      this.entryDao
+        .getEntriesWithSpecificActivity(this.activity.id)
+        .then((entries) => {
+          this.relatedEntries = entries;
+        });
+    }
   }
 
   submitActivity() {
@@ -29,12 +42,7 @@ export class ActivityEdit {
   }
 
   resetActiveActivity() {
-    this.activity = {
-      emoji: undefined,
-      id: undefined,
-      isArchived: undefined,
-      name: undefined,
-      type: undefined,
-    };
+    this.activity = this.workingCopy = undefined;
+    this.relatedEntries = [];
   }
 }

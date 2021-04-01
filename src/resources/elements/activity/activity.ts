@@ -1,3 +1,4 @@
+import { IActivity } from "./activity.interface";
 import { EventAggregator } from "aurelia-event-aggregator";
 import { computedFrom, autoinject, bindable } from "aurelia-framework";
 import { ActivityService } from "resources/services/activityService";
@@ -5,7 +6,7 @@ import { ActivityService } from "resources/services/activityService";
 export class Activity {
   @bindable id;
   @bindable detail;
-  activities: any = [];
+  activities: IActivity[] = [];
   subscribers: any = [];
   constructor(
     private activityService: ActivityService,
@@ -28,6 +29,8 @@ export class Activity {
   };
   @computedFrom("activities.length", "id")
   get findActivity() {
-    return this.activities.find((activity) => activity.id === this.id);
+    return this.activities.find(
+      (activity: IActivity) => activity.id === this.id
+    );
   }
 }

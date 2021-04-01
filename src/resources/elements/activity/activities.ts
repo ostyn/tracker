@@ -2,13 +2,13 @@ import { EntryDao } from "resources/dao/EntryDao";
 import { bindable, autoinject } from "aurelia-framework";
 import { ActivityService } from "resources/services/activityService";
 import { EventAggregator } from "aurelia-event-aggregator";
+import { IActivity } from "./activity.interface";
 @autoinject
 export class Activities {
   @bindable showActivities = true;
   subscribers = [];
-  activities;
-  activity;
-  relatedEntries: any;
+  activities: IActivity[];
+  activity: IActivity;
   constructor(
     private activityService: ActivityService,
     private ea: EventAggregator,
@@ -29,12 +29,7 @@ export class Activities {
   detached() {
     this.subscribers.forEach((sub) => this.subscribers.pop().dispose());
   }
-  setCurrentActivity(activity) {
+  setCurrentActivity(activity: IActivity) {
     this.activity = activity;
-    this.entryDao
-      .getEntriesWithSpecificActivity(activity.id)
-      .then((entries) => {
-        this.relatedEntries = entries;
-      });
   }
 }

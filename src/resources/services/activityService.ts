@@ -1,10 +1,11 @@
 import { autoinject } from "aurelia-framework";
 import { ActivityDao } from "resources/dao/ActivityDao";
 import { EventAggregator } from "aurelia-event-aggregator";
+import { IActivity } from "resources/elements/activity/activity.interface";
 
 @autoinject
 export class ActivityService {
-  activitiesCache = [];
+  activitiesCache: IActivity[] = [];
   constructor(private activityDao: ActivityDao, private ea: EventAggregator) {
     this.updateCacheThenNotify();
   }
@@ -24,11 +25,13 @@ export class ActivityService {
     });
   }
 
-  fetchActivities() {
-    return this.activityDao.getItems().then((activities) => activities);
+  fetchActivities(): Promise<IActivity[]> {
+    return this.activityDao
+      .getItems()
+      .then((activities: IActivity) => activities);
   }
 
-  getActivities() {
+  getActivities(): IActivity[] {
     return this.activitiesCache;
   }
 
