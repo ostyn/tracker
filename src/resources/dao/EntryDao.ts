@@ -14,7 +14,7 @@ export class EntryDao extends BaseGenericDao {
     month = undefined,
     day = undefined
   ) {
-    let query = this.db.collection("entries");
+    let query: any = this.db.collection("entries");
     if (year !== undefined && year !== "" && !Number.isNaN(year))
       query = query.where("year", "==", year);
     else query = query.orderBy("year", "desc");

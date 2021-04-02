@@ -1,7 +1,7 @@
 import firebase from "firebase";
 export class BaseGenericDao {
   name: any;
-  db: any;
+  db: firebase.firestore.Firestore;
   constructor(name) {
     this.name = name;
     this.db = firebase.firestore();

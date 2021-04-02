@@ -1,3 +1,4 @@
+import { ActivityDao } from "resources/dao/ActivityDao";
 import { EntryDao } from "./../../dao/EntryDao";
 import { ActivityService } from "resources/services/activityService";
 import { autoinject, bindable } from "aurelia-framework";
@@ -7,11 +8,19 @@ export class ActivityEdit {
   @bindable activity: IActivity;
   workingCopy: IActivity;
   relatedEntries: any;
+  categories: Set<string>;
   constructor(
     private activityService: ActivityService,
-    private entryDao: EntryDao
+    private entryDao: EntryDao,
+    private activityDao: ActivityDao
   ) {}
+  categoryComparer = (categoryA, categoryB) => {
+    return categoryA === categoryB;
+  };
   activityChanged() {
+    this.activityDao.getAllCategories().then((categories) => {
+      this.categories = categories;
+    });
     if (this.activity === undefined) this.resetActiveActivity();
     else {
       this.workingCopy = Object.assign({}, this.activity);
@@ -26,6 +35,11 @@ export class ActivityEdit {
   submitActivity() {
     this.workingCopy.isArchived = this.workingCopy.isArchived == true;
     this.workingCopy.type = this.workingCopy.type || "number";
+    if (
+      this.workingCopy.category === undefined ||
+      this.workingCopy.category === ""
+    )
+      delete this.workingCopy.category;
     this.activityService.saveActivity(this.workingCopy);
     this.resetActiveActivity();
   }

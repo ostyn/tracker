@@ -2,6 +2,15 @@
   <form>
     <input type="text" value.bind="workingCopy.name" placeholder="name" />
     <input type="text" value.bind="workingCopy.emoji" placeholder="emoji" />
+    <select value.bind="workingCopy.category" matcher.bind="categoryComparer">
+      <option value="">Select a category</option>
+      <option repeat.for="category of categories">${category}</option>
+    </select>
+    <input
+      type="text"
+      value.bind="workingCopy.category"
+      placeholder="category"
+    />
     <label
       >Archived<input type="checkbox" checked.bind="workingCopy.isArchived"
     /></label>
