@@ -1,0 +1,10 @@
+<template>
+  WAMPA!
+  <require from="resources/elements/activity/activity"></require>
+  <activity
+    repeat.for="activity of activities"
+    click.trigger="onActivityClick({event: $event, activity: activity})"
+    id.bind="activity.id"
+    class="cursor"
+  ></activity>
+</template>

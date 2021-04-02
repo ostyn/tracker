@@ -1,4 +1,5 @@
 <template>
+  <require from="./activity-grid"></require>
   <require from="resources/elements/activity/activity"></require>
   <h4>how are you feeling?</h4>
   <div class="moods">
@@ -20,12 +21,10 @@
   <input type="date" value.bind="workingCopy.date" max.bind="date" name="" />
   <br />
   <h4>what did you do?</h4>
-  <activity
-    repeat.for="activity of nonArchivedActivities"
-    click.trigger="addActivity(activity)"
-    id.bind="activity.id"
-    class="cursor"
-  ></activity>
+  <activity-grid
+    activities.bind="nonArchivedActivities"
+    on-activity-click.call="addActivity(activity)"
+  ></activity-grid>
   <div>
     <textarea class="entryNoteEdit" value.bind="workingCopy.note"></textarea>
     <div>${workingCopy.note.length}/280</div>

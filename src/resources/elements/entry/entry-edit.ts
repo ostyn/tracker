@@ -1,3 +1,4 @@
+import { IActivity } from "resources/elements/activity/activity.interface";
 import { Router } from "aurelia-router";
 import { ActivityService } from "resources/services/activityService";
 import { MoodService } from "resources/services/moodService";
@@ -12,9 +13,7 @@ export class EntryEdit {
   activities = [];
   subscribers = [];
   moods: any;
-  get nonArchivedActivities() {
-    return this.activities.filter((activity) => !activity.isArchived);
-  }
+  nonArchivedActivities: IActivity[];
   constructor(
     private activityService: ActivityService,
     private moodService: MoodService,
@@ -26,7 +25,6 @@ export class EntryEdit {
     this.getMoods();
     this.entry = this.newEntry();
   }
-
   entryChanged(newEntry, oldEntry) {
     if (newEntry === "") {
       this.entry = oldEntry;
@@ -50,6 +48,9 @@ export class EntryEdit {
   };
   getActivities = () => {
     this.activities = this.activityService.getActivities();
+    this.nonArchivedActivities = this.activities.filter(
+      (activity) => !activity.isArchived
+    );
   };
 
   addActivity(activity) {
