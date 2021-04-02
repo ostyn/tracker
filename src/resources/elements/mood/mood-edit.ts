@@ -22,7 +22,11 @@ export class MoodEdit {
   }
 
   deleteMood() {
-    if (this.workingCopy && this.workingCopy.id !== undefined) {
+    if (
+      confirm("Sure you want to delete?") &&
+      this.workingCopy &&
+      this.workingCopy.id !== undefined
+    ) {
       this.moodService.deleteMood(this.workingCopy.id);
       this.resetActiveMood();
     }

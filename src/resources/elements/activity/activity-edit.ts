@@ -35,7 +35,11 @@ export class ActivityEdit {
   }
 
   deleteActivity() {
-    if (this.workingCopy && this.workingCopy.id !== undefined) {
+    if (
+      confirm("Sure you want to delete?") &&
+      this.workingCopy &&
+      this.workingCopy.id !== undefined
+    ) {
       this.activityService.deleteActivity(this.workingCopy.id);
       this.resetActiveActivity();
     }
