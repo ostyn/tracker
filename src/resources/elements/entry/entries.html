@@ -1,12 +1,10 @@
 <template>
   <require from="./entry"></require>
-  <h3 class="cursor" click.trigger="showEntries = !showEntries">
-    View Entries
-  </h3>
+  <h3 class="cursor">View Entries</h3>
   <div if.bind="summary.withinCurrentStreak">
     You're on a streak of ${summary.currentStreak}!
   </div>
-  <div if.bind="showEntries">
+  <div>
     <input value.bind="currentMonth" />
     <input value.bind="currentYear" />
     <button click.trigger="selectDate()">go</button>

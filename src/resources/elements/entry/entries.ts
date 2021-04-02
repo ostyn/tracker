@@ -9,7 +9,6 @@ export class Entries {
   subscribers = [];
   @bindable currentMonth;
   @bindable currentYear;
-  @bindable showEntries = true;
   summary: {
     currentStreak: number;
     longestStreak: number;

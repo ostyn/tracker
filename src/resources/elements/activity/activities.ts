@@ -5,7 +5,6 @@ import { EventAggregator } from "aurelia-event-aggregator";
 import { IActivity } from "./activity.interface";
 @autoinject
 export class Activities {
-  @bindable showActivities = true;
   subscribers = [];
   activities: IActivity[];
   activity: IActivity;

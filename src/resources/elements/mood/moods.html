@@ -1,7 +1,7 @@
 <template>
   <require from="./mood-edit"></require>
-  <h3 class="cursor" click.trigger="showMoods = !showMoods">Edit Moods</h3>
-  <div if.bind="showMoods">
+  <h3 class="cursor">Edit Moods</h3>
+  <div>
     <span
       click.trigger="setCurrentMood(mood)"
       repeat.for="mood of moods"

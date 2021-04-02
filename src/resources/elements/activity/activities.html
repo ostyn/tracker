@@ -1,10 +1,8 @@
 <template>
   <require from="./activity-edit"></require>
   <require from="./activity"></require>
-  <h3 class="cursor" click.trigger="showActivities = !showActivities">
-    Edit Activities
-  </h3>
-  <div if.bind="showActivities">
+  <h3 class="cursor">Edit Activities</h3>
+  <div>
     <activity
       repeat.for="activity of activities"
       click.trigger="setCurrentActivity(activity)"
