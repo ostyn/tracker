@@ -6,7 +6,7 @@ import { IActivity } from "./activity.interface";
 @autoinject
 export class Activities {
   subscribers = [];
-  activities: IActivity[];
+  activities: IActivity[] = [];
   activity: IActivity;
   constructor(
     private activityService: ActivityService,

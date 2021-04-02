@@ -1,10 +1,26 @@
 <template>
-  WAMPA!
   <require from="resources/elements/activity/activity"></require>
-  <activity
-    repeat.for="activity of activities"
-    click.trigger="onActivityClick({event: $event, activity: activity})"
-    id.bind="activity.id"
-    class="cursor"
-  ></activity>
+  <span repeat.for="[header, activityList] of categoryToActivityList">
+    <b>${header}</b>
+    <activity
+      repeat.for="activity of activityList"
+      click.trigger="onActivityClick({event: $event, activity: activity})"
+      id.bind="activity.id"
+      class.bind="(activity.isArchived) ? 'archived cursor' : 'cursor'"
+    ></activity>
+  </span>
+  <span>
+    <b>other</b>
+    <activity
+      repeat.for="activity of uncategorized"
+      click.trigger="onActivityClick({event: $event, activity: activity})"
+      id.bind="activity.id"
+      class.bind="(activity.isArchived) ? 'archived cursor' : 'cursor'"
+    ></activity>
+  </span>
+  <div>
+    <button click.trigger="toggleShowArchived()">
+      ${filterArchived? "show": "hide"} archived
+    </button>
+  </div>
 </template>

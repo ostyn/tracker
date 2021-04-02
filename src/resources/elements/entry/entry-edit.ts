@@ -13,7 +13,6 @@ export class EntryEdit {
   activities = [];
   subscribers = [];
   moods: any;
-  nonArchivedActivities: IActivity[];
   constructor(
     private activityService: ActivityService,
     private moodService: MoodService,
@@ -48,9 +47,6 @@ export class EntryEdit {
   };
   getActivities = () => {
     this.activities = this.activityService.getActivities();
-    this.nonArchivedActivities = this.activities.filter(
-      (activity) => !activity.isArchived
-    );
   };
 
   addActivity(activity) {

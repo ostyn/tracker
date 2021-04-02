@@ -1,14 +1,13 @@
 <template>
   <require from="./activity-edit"></require>
-  <require from="./activity"></require>
+  <require from="../entry/activity-grid"></require>
   <h3 class="cursor">Edit Activities</h3>
   <div>
-    <activity
-      repeat.for="activity of activities"
-      click.trigger="setCurrentActivity(activity)"
-      class.bind="(activity.isArchived) ? 'archived cursor' : 'cursor'"
-      id.bind="activity.id"
-    ></activity>
+    <activity-grid
+      activities.bind="activities"
+      on-activity-click.call="setCurrentActivity(activity)"
+      filter-archived="false"
+    ></activity-grid>
     <activity-edit activity.two-way="activity"></activity-edit>
   </div>
 </template>
