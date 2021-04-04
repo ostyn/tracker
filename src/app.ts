@@ -2,8 +2,7 @@ import { autoinject } from "aurelia-framework";
 import { MoodService } from "./resources/services/moodService";
 import { ActivityService } from "resources/services/activityService";
 import { PLATFORM } from "aurelia-pal";
-import firebase from "firebase";
-import { Redirect, Router } from "aurelia-router";
+import { Router } from "aurelia-router";
 @autoinject
 export class App {
   constructor(
@@ -17,7 +16,6 @@ export class App {
   }
   configureRouter(config, router: Router) {
     config.title = "tracker";
-    config.addPipelineStep("authorize", CheckAuth);
     config.addPipelineStep("postcomplete", PostCompleteStep);
     config.map([
       {
@@ -56,20 +54,6 @@ export class App {
     ]);
 
     this.router = router;
-  }
-}
-class CheckAuth {
-  run(navigationInstruction, next) {
-    return new Promise((resolve, reject) => {
-      firebase.auth().onAuthStateChanged((user) => {
-        let currentRoute = navigationInstruction.config;
-        let loginRequired = currentRoute.auth && currentRoute.auth === true;
-        if (!user && loginRequired) {
-          return resolve(next.cancel(new Redirect("")));
-        }
-        return resolve(next());
-      });
-    });
   }
 }
 class PostCompleteStep {
