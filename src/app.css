@@ -110,3 +110,9 @@ activity {
 .archived {
   filter: grayscale(100%);
 }
+
+.activity-category {
+  border: black 1px dashed;
+  padding: 10px;
+  margin: 5px;
+}

@@ -4,6 +4,9 @@ import { EventAggregator } from "aurelia-event-aggregator";
 
 @autoinject
 export class MoodService {
+  public init() {
+    return this.updateCacheThenNotify();
+  }
   moodsCache = [];
   constructor(private moodDao: MoodDao, private ea: EventAggregator) {
     this.updateCacheThenNotify();

@@ -1,8 +1,20 @@
+import { autoinject } from "aurelia-framework";
+import { MoodService } from "./resources/services/moodService";
+import { ActivityService } from "resources/services/activityService";
 import { PLATFORM } from "aurelia-pal";
 import firebase from "firebase";
 import { Redirect, Router } from "aurelia-router";
+@autoinject
 export class App {
+  constructor(
+    private activityService: ActivityService,
+    private moodService: MoodService
+  ) {}
   router;
+  created() {
+    this.activityService.init();
+    this.moodService.init();
+  }
   configureRouter(config, router: Router) {
     config.title = "tracker";
     config.addPipelineStep("authorize", CheckAuth);

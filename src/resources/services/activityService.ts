@@ -5,10 +5,11 @@ import { IActivity } from "resources/elements/activity/activity.interface";
 
 @autoinject
 export class ActivityService {
-  activitiesCache: IActivity[] = [];
-  constructor(private activityDao: ActivityDao, private ea: EventAggregator) {
-    this.updateCacheThenNotify();
+  public init() {
+    return this.updateCacheThenNotify();
   }
+  activitiesCache: IActivity[] = [];
+  constructor(private activityDao: ActivityDao, private ea: EventAggregator) {}
   notifyListeners() {
     this.ea.publish("activitiesUpdated");
   }

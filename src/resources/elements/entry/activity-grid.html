@@ -1,26 +1,34 @@
 <template>
   <require from="resources/elements/activity/activity"></require>
-  <span repeat.for="[header, activityList] of categoryToActivityList">
-    <b>${header}</b>
+  <div
+    class="activity-category"
+    repeat.for="[header, activityList] of categoryToActivityList"
+  >
+    <div>${header}</div>
     <activity
       repeat.for="activity of activityList"
       click.trigger="onActivityClick({event: $event, activity: activity})"
       id.bind="activity.id"
       class.bind="(activity.isArchived) ? 'archived cursor' : 'cursor'"
     ></activity>
-  </span>
-  <span>
-    <b>other</b>
+  </div>
+  <div class="activity-category" if.bind="uncategorized.length > 0">
     <activity
       repeat.for="activity of uncategorized"
       click.trigger="onActivityClick({event: $event, activity: activity})"
       id.bind="activity.id"
       class.bind="(activity.isArchived) ? 'archived cursor' : 'cursor'"
     ></activity>
-  </span>
+  </div>
   <div>
     <button click.trigger="toggleShowArchived()">
       ${filterArchived? "show": "hide"} archived
+    </button>
+    <button click.trigger="toggleSort()">
+      ${sortActivities? "unsort": "sort"}
+    </button>
+    <button click.trigger="toggleGroup()">
+      ${groupActivities? "ungroup": "group"}
     </button>
   </div>
 </template>

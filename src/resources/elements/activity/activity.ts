@@ -14,10 +14,10 @@ export class Activity {
   ) {}
 
   attached() {
+    this.getActivities();
     this.subscribers.push(
       this.ea.subscribe("activitiesUpdated", this.getActivities)
     );
-    this.getActivities();
   }
 
   detached() {
