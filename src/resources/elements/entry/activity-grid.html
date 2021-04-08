@@ -1,5 +1,16 @@
 <template>
   <require from="resources/elements/activity/activity"></require>
+  <div>
+    <button click.trigger="toggleShowArchived()">
+      ${filterArchived? "show": "hide"} archived
+    </button>
+    <button click.trigger="toggleSort()">
+      ${sortActivities? "unsort": "sort"}
+    </button>
+    <button click.trigger="toggleGroup()">
+      ${groupActivities? "ungroup": "group"}
+    </button>
+  </div>
   <div
     class="activity-category"
     repeat.for="[header, activityList] of categoryToActivityList"
@@ -19,16 +30,5 @@
       id.bind="activity.id"
       class.bind="(activity.isArchived) ? 'archived cursor' : 'cursor'"
     ></activity>
-  </div>
-  <div>
-    <button click.trigger="toggleShowArchived()">
-      ${filterArchived? "show": "hide"} archived
-    </button>
-    <button click.trigger="toggleSort()">
-      ${sortActivities? "unsort": "sort"}
-    </button>
-    <button click.trigger="toggleGroup()">
-      ${groupActivities? "ungroup": "group"}
-    </button>
   </div>
 </template>
