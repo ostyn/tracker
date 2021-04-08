@@ -30,9 +30,7 @@ export class Entry {
   }
 
   getMoods = () => {
-    this.moods = this.moodService.getMoods();
-    if (this.moods && this.moods.length)
-      this.currentMood = this.moods.find((mood) => mood.id === this.entry.mood);
+    this.currentMood = this.moodService.getMood(this.entry.mood);
   };
   editEntry() {
     this.router.navigateToRoute("entry", { id: this.entry.id });

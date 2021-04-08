@@ -1,27 +1,29 @@
-import { IActivity } from "resources/elements/activity/activity.interface";
 import { Router } from "aurelia-router";
 import { ActivityService } from "resources/services/activityService";
 import { MoodService } from "resources/services/moodService";
 import { autoinject, bindable } from "aurelia-framework";
 import { EntryService } from "resources/services/entryService";
 import { EventAggregator } from "aurelia-event-aggregator";
+import { DialogService } from "aurelia-dialog";
+import { MoodDialog } from "./mood-prompt";
+import { IEntry } from "./entry.interface";
+import { TextDialog } from "./text-prompt";
 
 @autoinject
 export class EntryEdit {
-  @bindable entry;
-  workingCopy;
+  @bindable entry: IEntry;
+  workingCopy: IEntry;
   activities = [];
   subscribers = [];
-  moods: any;
   constructor(
     private activityService: ActivityService,
     private moodService: MoodService,
     private entryService: EntryService,
     private ea: EventAggregator,
-    private router: Router
+    private router: Router,
+    private dialogService: DialogService
   ) {
     this.getActivities();
-    this.getMoods();
     this.entry = this.newEntry();
   }
   entryChanged(newEntry, oldEntry) {
@@ -32,7 +34,6 @@ export class EntryEdit {
     this.workingCopy.activities = new Map(this.entry.activities);
   }
   attached() {
-    this.subscribers.push(this.ea.subscribe("moodsUpdated", this.getMoods));
     this.subscribers.push(
       this.ea.subscribe("activitiesUpdated", this.getActivities)
     );
@@ -42,12 +43,38 @@ export class EntryEdit {
     this.subscribers.forEach((sub) => this.subscribers.pop().dispose());
   }
 
-  getMoods = () => {
-    this.moods = this.moodService.getMoods();
+  getMood = (id) => {
+    return this.moodService.getMood(id);
   };
   getActivities = () => {
     this.activities = this.activityService.getActivities();
   };
+  openMoodPrompt() {
+    this.dialogService
+      .open({
+        viewModel: MoodDialog,
+        model: this.workingCopy.mood,
+        lock: false,
+      })
+      .whenClosed((response) => {
+        if (!response.wasCancelled) {
+          this.workingCopy.mood = response.output;
+        }
+      });
+  }
+  openTextPrompt() {
+    this.dialogService
+      .open({
+        viewModel: TextDialog,
+        model: this.workingCopy.note,
+        lock: false,
+      })
+      .whenClosed((response) => {
+        if (!response.wasCancelled) {
+          this.workingCopy.note = response.output;
+        }
+      });
+  }
 
   addActivity(activity) {
     if (activity.type === "number" || activity.type === undefined) {
@@ -112,11 +139,11 @@ export class EntryEdit {
   findActivity(id) {
     return this.activities.find((activity) => activity.id === id);
   }
-  newEntry() {
+  newEntry(): IEntry {
     var date = new Date();
     return {
       activities: new Map(),
-      mood: undefined,
+      mood: "0",
       note: "",
       date:
         date.getFullYear() +

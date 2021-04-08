@@ -1,8 +1,9 @@
+import { IMood } from "./mood.interface";
 import { autoinject, bindable } from "aurelia-framework";
 import { MoodService } from "resources/services/moodService";
 @autoinject
 export class MoodEdit {
-  @bindable mood;
+  @bindable mood: IMood;
   workingCopy;
   constructor(private moodService: MoodService) {}
 
@@ -38,6 +39,7 @@ export class MoodEdit {
       emoji: undefined,
       id: undefined,
       rating: undefined,
+      created: undefined,
     };
   }
 }

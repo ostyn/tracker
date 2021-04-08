@@ -1,47 +1,35 @@
 <template>
   <require from="./activity-grid"></require>
   <require from="resources/elements/activity/activity"></require>
-  <h4>how are you feeling?</h4>
-  <div class="moods">
-    <label
-      class.bind="m.id === workingCopy.mood ? 'activeMood' : 'inactiveMood'"
-      repeat.for="m of moods"
-    >
-      ${m.emoji}
-      <input
-        show.bind="false"
-        type="radio"
-        name="moodSelector"
-        model.bind="m.id"
-        checked.bind="workingCopy.mood"
-      />
-    </label>
-  </div>
-  <h4>when was this?</h4>
-  <input type="date" value.bind="workingCopy.date" max.bind="date" name="" />
-  <br />
-  <h4>what did you do?</h4>
   <activity-grid
     activities.bind="activities"
     on-activity-click.call="addActivity(activity)"
   ></activity-grid>
-  <div>
-    <textarea class="entryNoteEdit" value.bind="workingCopy.note"></textarea>
-    <div>${workingCopy.note.length}/280</div>
-  </div>
 
-  <activity
-    repeat.for="[id, detail] of workingCopy.activities"
-    class="cursor"
-    click.trigger="removeActivity(id)"
-    id.bind="id"
-    detail.bind="detail"
-  ></activity>
-  <button
-    disabled.bind="workingCopy.mood === undefined"
-    click.trigger="submitEntry()"
-  >
-    submit
-  </button>
-  <button if.bind="entry.id" click.trigger="deleteEntry()">delete</button>
+  <div class="edit-footer">
+    <div>
+      <activity
+        repeat.for="[id, detail] of workingCopy.activities"
+        class="cursor"
+        click.trigger="removeActivity(id)"
+        id.bind="id"
+        detail.bind="detail"
+      ></activity>
+    </div>
+    <div class="note-edit" click.trigger="openTextPrompt()">
+      <span class="edit-icon">📝</span>${workingCopy.note || "enter note
+      here..." }
+    </div>
+    <span class="activeMood" click.trigger="openMoodPrompt()">
+      ${getMood(workingCopy.mood).emoji}
+    </span>
+    <input type="date" value.bind="workingCopy.date" max.bind="date" name="" />
+    <button
+      disabled.bind="workingCopy.mood === undefined"
+      click.trigger="submitEntry()"
+    >
+      submit
+    </button>
+    <button if.bind="entry.id" click.trigger="deleteEntry()">delete</button>
+  </div>
 </template>

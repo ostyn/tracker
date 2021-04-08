@@ -1,9 +1,18 @@
+import { IMood } from "./../elements/mood/mood.interface";
 import { autoinject } from "aurelia-framework";
 import { MoodDao } from "resources/dao/MoodDao";
 import { EventAggregator } from "aurelia-event-aggregator";
 
 @autoinject
 export class MoodService {
+  presetMoods: IMood[] = [
+    {
+      emoji: "🚧",
+      id: "0",
+      rating: 3,
+      name: "TBD",
+    },
+  ];
   public init() {
     return this.updateCacheThenNotify();
   }
@@ -29,10 +38,23 @@ export class MoodService {
   }
 
   fetchMoods() {
-    return this.moodDao.getItems().then((moods) => moods);
+    return this.moodDao.getItems().then((moods: IMood[]) => {
+      moods.push();
+      return moods;
+    });
   }
 
-  getMoods() {
+  getMood(id) {
+    return (
+      this.moodsCache.find((mood) => mood.id === id) ||
+      this.presetMoods.find((mood) => mood.id === id)
+    );
+  }
+
+  getAllMoods(): IMood[] {
+    return [].concat(this.moodsCache, this.presetMoods);
+  }
+  getAllUserCreatedMoods() {
     return this.moodsCache;
   }
 

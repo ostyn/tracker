@@ -1,0 +1,11 @@
+<template>
+  <ux-dialog>
+    <ux-dialog-body>
+      <textarea value.bind="text"></textarea>
+    </ux-dialog-body>
+    <ux-dialog-footer>
+      <button click.trigger="controller.cancel()">Cancel</button>
+      <button click.trigger="controller.ok(text)">Ok</button>
+    </ux-dialog-footer>
+  </ux-dialog>
+</template>

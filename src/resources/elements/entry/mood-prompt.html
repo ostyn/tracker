@@ -1,0 +1,20 @@
+<template>
+  <ux-dialog>
+    <ux-dialog-body>
+      <label
+        class.bind="m.id === currentMoodId ? 'activeMood' : 'inactiveMood'"
+        repeat.for="m of moods"
+      >
+        ${m.emoji}
+        <input
+          show.bind="false"
+          type="radio"
+          name="moodSelector"
+          model.bind="m.id"
+          checked.bind="currentMoodId"
+          change.trigger="controller.ok(currentMoodId)"
+        />
+      </label>
+    </ux-dialog-body>
+  </ux-dialog>
+</template>

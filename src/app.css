@@ -57,12 +57,6 @@ activity {
   cursor: pointer;
 }
 
-.entryNoteEdit {
-  width: 75%;
-  height: 200px;
-  padding: 10px;
-}
-
 .menuItem {
   font-weight: 300;
   font-size: 20px;
@@ -115,4 +109,52 @@ activity {
   border: black 1px dashed;
   padding: 10px;
   margin: 5px;
+}
+
+.edit-footer {
+  position: sticky;
+  bottom: 0;
+  padding: 5px;
+  background-color: whitesmoke;
+  text-align: center;
+}
+
+ux-dialog-overlay.active {
+  background-color: black;
+  opacity: .8;
+}
+
+ux-dialog {
+  background-color: rgba(0, 0, 0, 0);
+  box-shadow: none;
+  border: none;
+}
+
+ux-dialog>ux-dialog-footer {
+  border: none;
+}
+
+ux-dialog textarea {
+  width: 100%;
+  height: 200px;
+  background: rgba(0, 0, 0, .3);
+  color: lightgray;
+  padding: 10px;
+}
+
+.edit-icon {
+  right: 5px;
+  top: 5px;
+  font-style: normal;
+  filter: grayscale(100%);
+  position: absolute;
+}
+
+.note-edit {
+  border: black 1px dashed;
+  padding: 8px;
+  margin: 8px;
+  font-style: italic;
+  padding-right: 28px;
+  position: relative;
 }

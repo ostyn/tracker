@@ -9,7 +9,7 @@ export class Moods {
   constructor(private moodService: MoodService, private ea: EventAggregator) {}
 
   getMoods = () => {
-    this.moods = this.moodService.getMoods();
+    this.moods = this.moodService.getAllUserCreatedMoods();
   };
 
   attached() {
