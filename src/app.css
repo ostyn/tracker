@@ -157,4 +157,5 @@ ux-dialog textarea {
   font-style: italic;
   padding-right: 28px;
   position: relative;
+  white-space: pre-wrap;
 }
