@@ -7,7 +7,7 @@
   ></activity-grid>
 
   <div class="edit-footer">
-    <div>
+    <div class="activity-container">
       <activity
         repeat.for="[id, detail] of workingCopy.activities"
         class="cursor"
@@ -17,8 +17,8 @@
       ></activity>
     </div>
     <div class="note-edit" click.trigger="openTextPrompt()">
-      <span class="edit-icon">📝</span>${workingCopy.note || "enter note
-      here..." }
+      <span class="edit-icon">📝</span>
+      <span class="note">${workingCopy.note || "enter note here..." }</span>
     </div>
     <span class="activeMood" click.trigger="openMoodPrompt()">
       ${getMood(workingCopy.mood).emoji}

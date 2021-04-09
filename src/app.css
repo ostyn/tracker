@@ -154,8 +154,18 @@ ux-dialog textarea {
   border: black 1px dashed;
   padding: 8px;
   margin: 8px;
-  font-style: italic;
   padding-right: 28px;
   position: relative;
+}
+
+.note {
+  padding: 8px;
+  margin: 8px;
+  font-style: italic;
   white-space: pre-wrap;
+}
+
+.activity-container {
+  overflow-x: scroll;
+  white-space: nowrap;
 }
