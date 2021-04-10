@@ -1,3 +1,4 @@
+import { IEntry } from "./../elements/entry/entry.interface";
 import { BaseGenericDao } from "./BaseGenericDao";
 import firebase from "firebase";
 export class EntryDao extends BaseGenericDao {
@@ -27,7 +28,7 @@ export class EntryDao extends BaseGenericDao {
     query = query.orderBy("created", "desc");
     return this.getItemsFromQuery(query);
   }
-  getEntriesWithSpecificActivity(id) {
+  getEntriesWithSpecificActivity(id): Promise<IEntry[]> {
     return this.getItemsFromQuery(
       this.db.collection("entries").orderBy(`activities.${id}`, "asc")
     ).then((items) => {

@@ -15,7 +15,7 @@
     class="activity-category"
     repeat.for="[header, activityList] of categoryToActivityList"
   >
-    <div>${header}</div>
+    <div class="category-header">${header}</div>
     <activity
       repeat.for="activity of activityList"
       click.trigger="onActivityClick({event: $event, activity: activity})"

@@ -4,6 +4,7 @@ import { PLATFORM } from "aurelia-pal";
 export function configure(aurelia: Aurelia): void {
   PLATFORM.moduleName("./resources/elements/entry/text-prompt");
   PLATFORM.moduleName("./resources/elements/entry/mood-prompt");
+  PLATFORM.moduleName("./resources/elements/activity/activity-info");
   aurelia.use
     .standardConfiguration()
     .feature(PLATFORM.moduleName("resources/index"))

@@ -9,6 +9,7 @@ export class ActivityService {
     return this.updateCacheThenNotify();
   }
   activitiesCache: IActivity[] = [];
+  activitiesMap: Map<string, IActivity>;
   constructor(private activityDao: ActivityDao, private ea: EventAggregator) {}
   notifyListeners() {
     this.ea.publish("activitiesUpdated");
@@ -22,6 +23,11 @@ export class ActivityService {
   updateCacheThenNotify() {
     this.fetchActivities().then((activities) => {
       this.activitiesCache = activities;
+      this.activitiesMap = new Map();
+      this.activitiesCache.forEach((activity) => {
+        this.activitiesMap.set(activity.id, activity);
+      });
+
       this.notifyListeners();
     });
   }
@@ -34,6 +40,9 @@ export class ActivityService {
 
   getActivities(): IActivity[] {
     return this.activitiesCache;
+  }
+  getActivity(id): IActivity {
+    return this.activitiesMap.get(id);
   }
 
   deleteActivity(id) {

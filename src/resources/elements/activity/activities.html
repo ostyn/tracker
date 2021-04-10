@@ -3,11 +3,11 @@
   <require from="../entry/activity-grid"></require>
   <h3 class="cursor">Edit Activities</h3>
   <div>
+    <activity-edit activity.two-way="activity"></activity-edit>
     <activity-grid
       activities.bind="activities"
       on-activity-click.call="setCurrentActivity(activity)"
       filter-archived="false"
     ></activity-grid>
-    <activity-edit activity.two-way="activity"></activity-edit>
   </div>
 </template>

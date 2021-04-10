@@ -1,5 +1,6 @@
+import { ActivityInfo } from "./activity-info";
+import { DialogService } from "aurelia-dialog";
 import { ActivityDao } from "resources/dao/ActivityDao";
-import { EntryDao } from "./../../dao/EntryDao";
 import { ActivityService } from "resources/services/activityService";
 import { autoinject, bindable } from "aurelia-framework";
 import { IActivity } from "./activity.interface";
@@ -11,8 +12,8 @@ export class ActivityEdit {
   categories: Set<string>;
   constructor(
     private activityService: ActivityService,
-    private entryDao: EntryDao,
-    private activityDao: ActivityDao
+    private activityDao: ActivityDao,
+    private dialogService: DialogService
   ) {}
   categoryComparer = (categoryA, categoryB) => {
     return categoryA === categoryB;
@@ -24,12 +25,15 @@ export class ActivityEdit {
     if (this.activity === undefined) this.resetActiveActivity();
     else {
       this.workingCopy = Object.assign({}, this.activity);
-      this.entryDao
-        .getEntriesWithSpecificActivity(this.activity.id)
-        .then((entries) => {
-          this.relatedEntries = entries;
-        });
     }
+  }
+
+  openHistory(activityId) {
+    this.dialogService.open({
+      viewModel: ActivityInfo,
+      model: activityId,
+      lock: false,
+    });
   }
 
   submitActivity() {

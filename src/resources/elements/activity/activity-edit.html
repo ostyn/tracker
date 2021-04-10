@@ -42,7 +42,5 @@
       </button>
     </div>
   </form>
-  <div repeat.for="entry of relatedEntries">
-    ${entry.date}=${entry.activities.get(activity.id)}
-  </div>
+  <button click.trigger="openHistory(activity.id)">history</button>
 </template>
