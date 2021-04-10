@@ -1,5 +1,4 @@
-import { EntryDao } from "resources/dao/EntryDao";
-import { bindable, autoinject } from "aurelia-framework";
+import { autoinject } from "aurelia-framework";
 import { ActivityService } from "resources/services/activityService";
 import { EventAggregator } from "aurelia-event-aggregator";
 import { IActivity } from "./activity.interface";
@@ -10,8 +9,7 @@ export class Activities {
   activity: IActivity;
   constructor(
     private activityService: ActivityService,
-    private ea: EventAggregator,
-    private entryDao: EntryDao
+    private ea: EventAggregator
   ) {}
 
   getActivities = () => {

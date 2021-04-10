@@ -15,6 +15,7 @@
         repeat.for="[id, detail] of entry.activities"
         id.bind="id"
         detail.bind="detail"
+        click.trigger="showActivityInfo(id)"
       ></activity>
     </div>
     <div if.bind="entry.note != ''">

@@ -1,8 +1,10 @@
+import { DialogService } from "aurelia-dialog";
 import { Router } from "aurelia-router";
 import { autoinject, bindable, computedFrom } from "aurelia-framework";
 import { MoodService } from "resources/services/moodService";
 import { EventAggregator } from "aurelia-event-aggregator";
 import { FormatLib } from "resources/util/FormatLib";
+import { ActivityInfo } from "../activity/activity-info";
 @autoinject
 export class Entry {
   @bindable entry;
@@ -13,7 +15,8 @@ export class Entry {
     private moodService: MoodService,
     private router: Router,
     private ea: EventAggregator,
-    public formatLib: FormatLib
+    public formatLib: FormatLib,
+    private dialogService: DialogService
   ) {}
 
   attached() {
@@ -34,5 +37,12 @@ export class Entry {
   };
   editEntry() {
     this.router.navigateToRoute("entry", { id: this.entry.id });
+  }
+  showActivityInfo(id) {
+    this.dialogService.open({
+      viewModel: ActivityInfo,
+      model: id,
+      lock: false,
+    });
   }
 }
