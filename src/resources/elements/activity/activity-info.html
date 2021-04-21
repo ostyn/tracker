@@ -1,12 +1,13 @@
 <template>
   <require from="resources/elements/activity/activity"></require>
-
+  <require from="./calendar-wrapper"></require>
   <ux-dialog>
     <ux-dialog-body>
       <activity id.bind="activityId"></activity>
-      <div repeat.for="entry of relatedEntries">
-        ${entry.date}=${entry.activities.get(activityId)}
-      </div>
+      <calendar-wrapper
+        if.bind="!loading"
+        dates.bind="relatedEntryMap"
+      ></calendar-wrapper>
     </ux-dialog-body>
     <ux-dialog-footer>
       <button click.trigger="controller.cancel()">Close</button>

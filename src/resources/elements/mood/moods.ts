@@ -1,4 +1,4 @@
-import { bindable, autoinject } from "aurelia-framework";
+import { autoinject } from "aurelia-framework";
 import { MoodService } from "resources/services/moodService";
 import { EventAggregator } from "aurelia-event-aggregator";
 @autoinject

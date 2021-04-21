@@ -4,9 +4,9 @@ import { DialogController } from "aurelia-dialog";
 import { IEntry } from "../entry/entry.interface";
 @autoinject
 export class ActivityInfo {
-  relatedEntries: IEntry[];
+  relatedEntryMap: Map<string, IEntry> = new Map();
   activityId: string;
-
+  loading = true;
   constructor(
     public controller: DialogController,
     private entryDao: EntryDao
@@ -14,7 +14,10 @@ export class ActivityInfo {
   activate(activityId) {
     this.activityId = activityId;
     this.entryDao.getEntriesWithSpecificActivity(activityId).then((entries) => {
-      this.relatedEntries = entries;
+      for (let entry of entries) {
+        this.relatedEntryMap.set(entry.date, entry);
+      }
+      this.loading = false;
     });
   }
 }
