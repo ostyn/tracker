@@ -1,4 +1,7 @@
 export interface IEntry {
+  day?: number;
+  updated?: Date;
+  created?: Date;
   id?: string;
   date: string;
   mood: string;

@@ -1,3 +1,4 @@
+import { IEntry } from "./entry.interface";
 import { DialogService } from "aurelia-dialog";
 import { Router } from "aurelia-router";
 import { autoinject, bindable, computedFrom } from "aurelia-framework";
@@ -7,7 +8,8 @@ import { FormatLib } from "resources/util/FormatLib";
 import { ActivityInfo } from "../activity/activity-info";
 @autoinject
 export class Entry {
-  @bindable entry;
+  @bindable entry: IEntry;
+  @bindable scrollToSelf: boolean;
   subscribers = [];
   moods;
   currentMood;
@@ -16,12 +18,18 @@ export class Entry {
     private router: Router,
     private ea: EventAggregator,
     public formatLib: FormatLib,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private element: Element
   ) {}
 
   attached() {
     this.subscribers.push(this.ea.subscribe("moodsUpdated", this.getMoods));
     this.getMoods();
+    if (this.scrollToSelf)
+      this.element.scrollIntoView({
+        block: "end",
+        inline: "end",
+      });
   }
 
   detached() {

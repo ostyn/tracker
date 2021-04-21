@@ -1,3 +1,4 @@
+import { IEntry } from "./entry.interface";
 import { activationStrategy, Router } from "aurelia-router";
 import { autoinject, bindable } from "aurelia-framework";
 import { EntryService } from "resources/services/entryService";
@@ -9,6 +10,7 @@ export class Entries {
   subscribers = [];
   @bindable currentMonth;
   @bindable currentYear;
+  currentDay: number;
   summary: {
     currentStreak: number;
     longestStreak: number;
@@ -21,6 +23,9 @@ export class Entries {
     private ea: EventAggregator,
     private router: Router
   ) {}
+  shouldScrollToSelf(entry: IEntry) {
+    return entry.day === this.currentDay;
+  }
   getEntries = () => {
     this.entryService
       .getEntries(
@@ -49,6 +54,7 @@ export class Entries {
   activate(params, routeConfig, navigationInstruction) {
     if (params.month) this.currentMonth = params.month;
     if (params.year) this.currentYear = params.year;
+    if (params.day) this.currentDay = Number.parseInt(params.day);
     if (!params.month && !params.year) {
       let date = new Date();
       this.currentMonth = date.getMonth() + 1;
