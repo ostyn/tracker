@@ -138,6 +138,8 @@ ux-dialog textarea {
   margin: 8px;
   padding-right: 28px;
   position: relative;
+  max-height: 100px;
+  overflow: scroll;
 }
 
 .category-header {
