@@ -8,6 +8,13 @@
         if.bind="!loading"
         dates.bind="relatedEntryMap"
       ></calendar-wrapper>
+      <div class="related-entry-list">
+        <ul>
+          <li repeat.for="[key, value] of relatedEntryMap">
+            ${key} - ${value.activities.get(activityId)}
+          </li>
+        </ul>
+      </div>
     </ux-dialog-body>
     <ux-dialog-footer>
       <button click.trigger="controller.cancel()">Close</button>

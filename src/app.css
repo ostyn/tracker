@@ -170,3 +170,8 @@ ux-dialog textarea {
   display: block;
   background: #3d8eb9;
 }
+
+.related-entry-list {
+  height: 100px;
+  overflow: scroll;
+}

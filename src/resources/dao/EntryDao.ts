@@ -34,10 +34,10 @@ export class EntryDao extends BaseGenericDao {
     ).then((items) => {
       return items.sort((a, b) => {
         if (a.date < b.date) {
-          return -1;
+          return 1;
         }
         if (a.date > b.date) {
-          return 1;
+          return -1;
         }
         return 0;
       });
