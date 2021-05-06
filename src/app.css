@@ -175,3 +175,11 @@ ux-dialog textarea {
   height: 100px;
   overflow: scroll;
 }
+
+.month-picker .flatpickr-innerContainer {
+  display: none;
+}
+
+.month-picker .flatpickr-calendar {
+  width: 100%;
+}

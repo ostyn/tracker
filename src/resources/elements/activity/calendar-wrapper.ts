@@ -1,18 +1,34 @@
 import { Router } from "aurelia-router";
 import { IEntry } from "./../entry/entry.interface";
 import { autoinject, bindable } from "aurelia-framework";
-import flatpickr from "flatpickr";
 import { DateTime } from "luxon";
-import "flatpickr/dist/themes/light.css";
 import { DialogController } from "aurelia-dialog";
+import flatpickr from "flatpickr";
+import "flatpickr/dist/themes/light.css";
+
 @autoinject
 export class CalendarWrapper {
   @bindable public dates: Map<string, IEntry> = new Map();
+  @bindable public inline: boolean | string = true;
+  @bindable public year: number;
+  @bindable public month: number;
+  @bindable public onMonthChange;
+  @bindable public onDateSelect;
+
   private calendar: Element;
+  onMonthYearChange(selectedDates, dateStr, instance) {
+    this.month = instance.currentMonth + 1;
+    this.year = instance.currentYear;
+    if (this.onMonthChange)
+      this.onMonthChange({ year: this.year, month: this.month });
+  }
   constructor(private router: Router, public controller: DialogController) {}
   attached() {
+    this.inline = this.inline === true || this.inline === "true";
     flatpickr(this.calendar, {
-      inline: true,
+      inline: this.inline,
+      defaultDate:
+        this.month && this.year ? `${this.year}-${this.month}` : new Date(),
       monthSelectorType: "static",
       onDayCreate: ((dObj, dStr, fp, dayElem) => {
         const dt = DateTime.fromJSDate(dayElem.dateObj);
@@ -20,15 +36,11 @@ export class CalendarWrapper {
         const entry: IEntry = this.dates.get(key);
         if (entry) dayElem.innerHTML += `<span class='event'></span>`;
       }).bind(this),
-      onChange: (a, b, c, d) => {
-        let date: Date = a[0];
-        this.router.navigateToRoute("entries", {
-          year: date.getFullYear(),
-          month: date.getMonth() + 1,
-          day: date.getDate(),
-        });
-        this.controller.cancel();
-      },
+      onMonthChange: this.onMonthYearChange.bind(this),
+      onYearChange: this.onMonthYearChange.bind(this),
+      onChange: ((selectedDates, dateStr, instance) => {
+        if (this.onDateSelect) this.onDateSelect({ date: selectedDates[0] });
+      }).bind(this),
     });
   }
 }

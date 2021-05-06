@@ -1,3 +1,4 @@
+import { Router } from "aurelia-router";
 import { EntryDao } from "./../../dao/EntryDao";
 import { autoinject } from "aurelia-framework";
 import { DialogController } from "aurelia-dialog";
@@ -9,7 +10,8 @@ export class ActivityInfo {
   loading = true;
   constructor(
     public controller: DialogController,
-    private entryDao: EntryDao
+    private entryDao: EntryDao,
+    private router: Router
   ) {}
   activate(activityId) {
     this.activityId = activityId;
@@ -19,5 +21,13 @@ export class ActivityInfo {
       }
       this.loading = false;
     });
+  }
+  onDateSelect(date) {
+    this.router.navigateToRoute("entries", {
+      year: date.getFullYear(),
+      month: date.getMonth() + 1,
+      day: date.getDate(),
+    });
+    this.controller.cancel();
   }
 }

@@ -3,7 +3,7 @@ import { bindable } from "aurelia-framework";
 export class ActivityGrid {
   @bindable activities: IActivity[] = [];
   @bindable onActivityClick;
-  @bindable filterArchived: any = true;
+  @bindable filterArchived: boolean | string = true;
   categoryToActivityList = new Map();
   uncategorized: IActivity[] = [];
   sortActivities: boolean = true;

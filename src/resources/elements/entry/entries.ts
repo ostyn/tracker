@@ -45,11 +45,10 @@ export class Entries {
   determineActivationStrategy() {
     return activationStrategy.replace;
   }
-  selectDate() {
-    const params: any = {};
-    if (this.currentMonth) params.month = this.currentMonth;
-    if (this.currentYear) params.year = this.currentYear;
-    this.router.navigateToRoute("entries", params);
+  onMonthChange(month, year) {
+    this.currentMonth = month;
+    this.currentYear = year;
+    this.router.navigateToRoute("entries", { month, year });
   }
   activate(params, routeConfig, navigationInstruction) {
     if (params.month) this.currentMonth = params.month;
