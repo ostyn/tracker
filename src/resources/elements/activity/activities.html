@@ -1,12 +1,12 @@
 <template>
   <require from="./activity-edit"></require>
   <require from="../entry/activity-grid"></require>
-  <div>
+  <div class="page">
     <activity-grid
       activities.bind="activities"
       on-activity-click.call="setCurrentActivity(activity)"
       filter-archived="false"
     ></activity-grid>
-    <activity-edit activity.two-way="activity"></activity-edit>
   </div>
+  <footer><activity-edit activity.two-way="activity"></activity-edit></footer>
 </template>

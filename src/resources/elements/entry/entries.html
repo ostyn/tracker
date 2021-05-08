@@ -1,16 +1,16 @@
 <template>
   <require from="../activity/calendar-wrapper"></require>
   <require from="./entry"></require>
-  <div>
-    <calendar-wrapper
-      class="month-picker"
-      month.bind="currentMonth"
-      year.bind="currentYear"
-      on-month-change.call="onMonthChange(month, year)"
-    ></calendar-wrapper>
-    <p if.bind="summary.withinCurrentStreak">
+  <calendar-wrapper
+    class="month-picker"
+    month.bind="currentMonth"
+    year.bind="currentYear"
+    on-month-change.call="onMonthChange(month, year)"
+  ></calendar-wrapper>
+  <div class="page">
+    <span if.bind="summary.withinCurrentStreak">
       You're on a streak of ${summary.currentStreak}!
-    </p>
+    </span>
     <entry
       repeat.for="e of entries"
       scroll-to-self.bind="shouldScrollToSelf(e)"
