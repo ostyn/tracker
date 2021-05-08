@@ -21,10 +21,9 @@
       />
     </span>
     <div>
-      <button
-        disabled.bind="!workingCopy.id"
-        click.trigger="openInfo(activity.id)"
-      >
+      <button type="button" click.trigger="newActivity()">new</button>
+
+      <button if.bind="workingCopy.id" click.trigger="openInfo(activity.id)">
         info
       </button>
 
@@ -37,14 +36,7 @@
       </button>
       <button
         type="button"
-        disabled.bind="!workingCopy.id"
-        click.trigger="cancelEdit()"
-      >
-        cancel
-      </button>
-      <button
-        type="button"
-        disabled.bind="!workingCopy.id"
+        if.bind="workingCopy.id"
         click.trigger="deleteActivity()"
       >
         delete

@@ -48,7 +48,7 @@ export class ActivityEdit {
     this.resetActiveActivity();
   }
 
-  cancelEdit() {
+  newActivity() {
     this.resetActiveActivity();
   }
 

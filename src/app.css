@@ -99,6 +99,7 @@ activity {
   border-radius: 20px;
   border: 1px grey solid;
   padding: 10px;
+  min-width: auto;
 }
 
 .archived {
@@ -111,6 +112,8 @@ activity {
   padding: 5px;
   background-color: whitesmoke;
   text-align: center;
+  padding-top: 10px;
+  border-top: 1px black dashed;
 }
 
 ux-dialog-overlay.active {
@@ -203,4 +206,9 @@ button {
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
+  position: fixed;
+  bottom: 0;
+  background-color: whitesmoke;
+  padding-top: 10px;
+  border-top: 1px black dashed;
 }
