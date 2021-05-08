@@ -18,14 +18,21 @@ export class ActivityEdit {
   categoryComparer = (categoryA, categoryB) => {
     return categoryA === categoryB;
   };
+  attached() {
+    this.loadCategories();
+  }
   activityChanged() {
-    this.activityDao.getAllCategories().then((categories) => {
-      this.categories = categories;
-    });
+    this.loadCategories();
     if (this.activity === undefined) this.resetActiveActivity();
     else {
       this.workingCopy = Object.assign({}, this.activity);
     }
+  }
+
+  private loadCategories() {
+    this.activityDao.getAllCategories().then((categories) => {
+      this.categories = categories;
+    });
   }
 
   openInfo(activityId) {
