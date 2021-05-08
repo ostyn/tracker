@@ -28,7 +28,7 @@ export class ActivityEdit {
     }
   }
 
-  openHistory(activityId) {
+  openInfo(activityId) {
     this.dialogService.open({
       viewModel: ActivityInfo,
       model: activityId,

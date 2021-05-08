@@ -183,3 +183,24 @@ ux-dialog textarea {
 .month-picker .flatpickr-calendar {
   width: 100%;
 }
+
+input:not([type=checkbox]), label {
+  padding: 5px;
+  margin: 5px;
+  width: 100px;
+}
+
+select, button {
+  padding: 5px;
+  margin: 5px;
+}
+
+button {
+  min-width: 80px;
+}
+
+.edit-activity-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
