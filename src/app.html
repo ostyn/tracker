@@ -4,12 +4,5 @@
   <require from="resources/elements/login/login"></require>
   <nav-bar></nav-bar>
   <login></login>
-  <button
-    class="newButton"
-    if.bind="router.currentInstruction.fragment!='/entry'"
-    click.trigger="router.navigateToRoute('entry')"
-  >
-    ➕
-  </button>
   <router-view class="content"></router-view>
 </template>

@@ -27,13 +27,6 @@ export class App {
         auth: true,
       },
       {
-        route: ["entry"],
-        moduleId: PLATFORM.moduleName("./resources/routes/entry-route"),
-        nav: false,
-        title: "entry",
-        name: "entry",
-      },
-      {
         route: "moods",
         moduleId: PLATFORM.moduleName("./resources/elements/mood/moods"),
         nav: true,
@@ -50,6 +43,13 @@ export class App {
         title: "activities",
         name: "activities",
         auth: true,
+      },
+      {
+        route: ["entry"],
+        moduleId: PLATFORM.moduleName("./resources/routes/entry-route"),
+        nav: true,
+        title: "📝",
+        name: "entry",
       },
     ]);
 

@@ -7,13 +7,6 @@
       >
         <a href.bind="row.href">${row.title}</a>
       </div>
-      <div repeat.for="item of extraMenuItemsConfig.items" class="menuItem">
-        <a
-          class="${router.currentInstruction.fragment===item.routeFragment ? 'active' : ''}"
-          route-href="route.bind:item.routeName; params.bind:item.params"
-          >${item.title}</a
-        >
-      </div>
     </div>
   </div>
 </template>
