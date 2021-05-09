@@ -1,0 +1,14 @@
+{
+  "name": "Daily Tracker",
+  "short_name": "Tracker",
+  "theme_color": "#4293d2",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "scope": "/",
+  "start_url": "/",
+  "icons": [{
+    "src": "img/homescreen.png",
+    "sizes": "48x48",
+    "type": "image/png"
+  }]
+}
