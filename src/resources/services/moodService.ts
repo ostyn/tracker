@@ -32,9 +32,8 @@ export class MoodService {
   }
 
   saveMood(mood) {
-    return this.moodDao.saveItem(mood).then((id) => {
-      this.updateCacheThenNotify();
-    });
+    this.moodDao.saveItem(mood);
+    this.updateCacheThenNotify();
   }
 
   fetchMoods() {

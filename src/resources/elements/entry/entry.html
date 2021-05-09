@@ -23,7 +23,7 @@
       <div class="entryNote">${entry.note}</div>
     </div>
     <button click.trigger="editEntry(entry.id)">edit</button>
-    <p class="small grey">
+    <p if.bind="showCreatedDate" class="small grey">
       Entered on ${formatLib.secondsToDate(entry.created)} at
       ${formatLib.secondsToTime(entry.created)}
     </p>

@@ -36,8 +36,8 @@ export class BaseGenericDao {
       ...doc.data(),
       id: doc.id,
     };
-    item.created = item.created.toDate();
-    item.updated = item.updated.toDate();
+    if (item.created) item.created = item.created.toDate();
+    if (item.updated) item.updated = item.updated.toDate();
     return this.afterLoadFixup(item);
   }
   saveItem(passedEntry): Promise<any> {

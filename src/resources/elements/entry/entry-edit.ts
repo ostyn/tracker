@@ -129,11 +129,10 @@ export class EntryEdit {
       month: Number.parseInt(parts[1]),
       day: Number.parseInt(parts[2]),
     };
-    this.entryService.addEntry(splitTimestampEntry).then(() => {
-      this.router.navigateToRoute("entries", {
-        year: Number.parseInt(parts[0]),
-        month: Number.parseInt(parts[1]),
-      });
+    this.entryService.addEntry(splitTimestampEntry);
+    this.router.navigateToRoute("entries", {
+      year: Number.parseInt(parts[0]),
+      month: Number.parseInt(parts[1]),
     });
   }
   findActivity(id) {

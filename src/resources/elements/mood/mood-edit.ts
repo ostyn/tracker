@@ -13,9 +13,8 @@ export class MoodEdit {
   }
 
   submitMood() {
-    this.moodService.saveMood(this.workingCopy).then(() => {
-      this.resetActiveMood();
-    });
+    this.moodService.saveMood(this.workingCopy);
+    this.resetActiveMood();
   }
 
   cancelEdit() {

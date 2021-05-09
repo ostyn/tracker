@@ -16,9 +16,8 @@ export class ActivityService {
     this.ea.publish("activitiesUpdated");
   }
   saveActivity(activity) {
-    return this.activityDao.saveItem(activity).then((id) => {
-      this.updateCacheThenNotify();
-    });
+    this.activityDao.saveItem(activity);
+    this.updateCacheThenNotify();
   }
 
   updateCacheThenNotify() {

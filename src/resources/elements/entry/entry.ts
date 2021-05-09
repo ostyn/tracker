@@ -37,7 +37,14 @@ export class Entry {
   }
   @computedFrom("entry.created", "entry.updated")
   get showUpdatedDate() {
-    return this.entry.created.getTime() !== this.entry.updated.getTime();
+    return (
+      this.entry.updated &&
+      this.entry.created.getTime() !== this.entry.updated.getTime()
+    );
+  }
+  @computedFrom("entry.created")
+  get showCreatedDate() {
+    return this.entry.created;
   }
 
   getMoods = () => {
