@@ -1,11 +1,9 @@
 import { IEntry } from "./../elements/entry/entry.interface";
 import { BaseGenericDao } from "./BaseGenericDao";
-import firebase from "firebase";
 export class EntryDao extends BaseGenericDao {
   path;
   constructor() {
     super("entries");
-    this.db = firebase.firestore();
   }
   getItem(id) {
     return super.getItem(id);
