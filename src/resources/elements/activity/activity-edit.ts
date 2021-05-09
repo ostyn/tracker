@@ -1,6 +1,6 @@
+import { EventAggregator } from "aurelia-event-aggregator";
 import { ActivityInfo } from "./activity-info";
 import { DialogService } from "aurelia-dialog";
-import { ActivityDao } from "resources/dao/ActivityDao";
 import { ActivityService } from "resources/services/activityService";
 import { autoinject, bindable } from "aurelia-framework";
 import { IActivity } from "./activity.interface";
@@ -10,29 +10,30 @@ export class ActivityEdit {
   workingCopy: IActivity;
   relatedEntries: any;
   categories: Set<string>;
+  subscribers = [];
   constructor(
     private activityService: ActivityService,
-    private activityDao: ActivityDao,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private ea: EventAggregator
   ) {}
+
+  getCategories = () => {
+    this.categories = this.activityService.getCategories();
+  };
   categoryComparer = (categoryA, categoryB) => {
     return categoryA === categoryB;
   };
   attached() {
-    this.loadCategories();
+    this.subscribers.push(
+      this.ea.subscribe("activitiesUpdated", this.getCategories)
+    );
+    this.getCategories();
   }
   activityChanged() {
-    this.loadCategories();
     if (this.activity === undefined) this.resetActiveActivity();
     else {
       this.workingCopy = Object.assign({}, this.activity);
     }
-  }
-
-  private loadCategories() {
-    this.activityDao.getAllCategories().then((categories) => {
-      this.categories = categories;
-    });
   }
 
   openInfo(activityId) {

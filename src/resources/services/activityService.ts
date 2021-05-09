@@ -10,6 +10,7 @@ export class ActivityService {
   }
   activitiesCache: IActivity[] = [];
   activitiesMap: Map<string, IActivity>;
+  categories: Set<string>;
   constructor(private activityDao: ActivityDao, private ea: EventAggregator) {}
   notifyListeners() {
     this.ea.publish("activitiesUpdated");
@@ -27,7 +28,10 @@ export class ActivityService {
       this.activitiesCache.forEach((activity) => {
         this.activitiesMap.set(activity.id, activity);
       });
-
+      this.categories = new Set();
+      this.activitiesCache.forEach((item: IActivity) => {
+        this.categories.add(item.category);
+      });
       this.notifyListeners();
     });
   }
@@ -40,6 +44,9 @@ export class ActivityService {
 
   getActivities(): IActivity[] {
     return this.activitiesCache;
+  }
+  getCategories(): Set<string> {
+    return this.categories;
   }
   getActivity(id): IActivity {
     return this.activitiesMap.get(id);

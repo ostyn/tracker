@@ -11,15 +11,4 @@ export class ActivityDao extends BaseGenericDao {
       a.created - b.created;
     });
   }
-  getAllCategories() {
-    return this.getItemsFromQuery(
-      this.db.collection("activities").orderBy(`category`, "desc")
-    ).then((items) => {
-      const categories = new Set();
-      items.forEach((item) => {
-        categories.add(item.category);
-      });
-      return categories;
-    });
-  }
 }
