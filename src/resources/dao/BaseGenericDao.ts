@@ -1,3 +1,4 @@
+import { FirestoreCounter } from "./FirestoreCounter";
 import firebase from "firebase";
 export class BaseGenericDao {
   name: any;
@@ -38,6 +39,7 @@ export class BaseGenericDao {
     };
     if (item.created) item.created = item.created.toDate();
     if (item.updated) item.updated = item.updated.toDate();
+    FirestoreCounter.count++;
     return this.afterLoadFixup(item);
   }
   saveItem(passedEntry): Promise<any> {
