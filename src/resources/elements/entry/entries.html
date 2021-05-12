@@ -7,7 +7,7 @@
     year.bind="currentYear"
     on-month-change.call="onMonthChange(month, year)"
   ></calendar-wrapper>
-  <div class="page">
+  <div class="p-5">
     <span if.bind="summary.withinCurrentStreak">
       You're on a streak of ${summary.currentStreak}!
     </span>

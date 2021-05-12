@@ -1,11 +1,28 @@
-<template class="activity">
-  <div class="activityEmoji">${findActivity.emoji}</div>
+<template class="inline-block text-center p-1">
+  <div class="text-3xl">${findActivity.emoji}</div>
   <div class="activityName">
     ${findActivity.name}
-    <span class="badge" if.bind="detail>1">${detail}</span>
-    <span class="badge" if.bind="detail.length>1">${detail.length}</span>
+    <span
+      class="
+        rounded-full
+        py-0
+        px-2
+        items-center
+        justify-center
+        border-black border-1
+        text-xs
+        inline-flex
+        bg-black
+        text-white
+      "
+      if.bind="detail.length || detail>1"
+      >${detail.length || detail}</span
+    >
   </div>
-  <div if.bind="findActivity.type ==='text' && detail.length>0">
+  <div
+    class="text-left"
+    if.bind="findActivity.type ==='text' && detail.length>0"
+  >
     <div repeat.for="textItem of detail">${textItem}</div>
   </div>
 </template>

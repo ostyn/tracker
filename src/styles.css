@@ -1,3 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+.month-picker .flatpickr-innerContainer {
+  display: none;
+}
+
+.month-picker .flatpickr-calendar {
+  width: 100%;
+}

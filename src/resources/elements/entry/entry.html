@@ -1,35 +1,33 @@
-<template>
+<template class="block border-dashed border border-black p-2 mb-2">
   <require from="resources/elements/activity/activity"></require>
-  <div class="entry">
-    <h3>${formatLib.selectorDateToJsDate(entry.date)}</h3>
-    <div
-      class="activeMood"
-      alt-text.bind="currentMood.name"
-      title.bind="currentMood.name"
-    >
-      ${currentMood.emoji}
-    </div>
-    <div>
-      <h4>Activities</h4>
-      <activity
-        repeat.for="[id, detail] of entry.activities"
-        id.bind="id"
-        detail.bind="detail"
-        click.trigger="showActivityInfo(id)"
-      ></activity>
-    </div>
-    <div if.bind="entry.note != ''">
-      <h4>Note</h4>
-      <div class="entryNote">${entry.note}</div>
-    </div>
-    <button click.trigger="editEntry(entry.id)">edit</button>
-    <p if.bind="showCreatedDate" class="small grey">
-      Entered on ${formatLib.secondsToDate(entry.created)} at
-      ${formatLib.secondsToTime(entry.created)}
-    </p>
-    <p if.bind="showUpdatedDate" class="small grey">
-      Updated on ${formatLib.secondsToDate(entry.updated)} at
-      ${formatLib.secondsToTime(entry.updated)}
-    </p>
+  <h3>${formatLib.selectorDateToJsDate(entry.date)}</h3>
+  <div
+    class="text-4xl"
+    alt-text.bind="currentMood.name"
+    title.bind="currentMood.name"
+  >
+    ${currentMood.emoji}
   </div>
+  <div>
+    <h4>Activities</h4>
+    <activity
+      repeat.for="[id, detail] of entry.activities"
+      id.bind="id"
+      detail.bind="detail"
+      click.trigger="showActivityInfo(id)"
+    ></activity>
+  </div>
+  <div if.bind="entry.note != ''">
+    <h4>Note</h4>
+    <div class="entryNote">${entry.note}</div>
+  </div>
+  <button click.trigger="editEntry(entry.id)">edit</button>
+  <p if.bind="showCreatedDate" class="small grey">
+    Entered on ${formatLib.secondsToDate(entry.created)} at
+    ${formatLib.secondsToTime(entry.created)}
+  </p>
+  <p if.bind="showUpdatedDate" class="small grey">
+    Updated on ${formatLib.secondsToDate(entry.updated)} at
+    ${formatLib.secondsToTime(entry.updated)}
+  </p>
 </template>

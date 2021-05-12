@@ -1,13 +1,11 @@
-<template>
-  <div class="menuContainer">
-    <div class="menu">
-      <div
-        repeat.for="row of router.navigation"
-        class="menuItem ${row.isActive ? 'active' : ''}"
-      >
-        <a href.bind="row.href">${row.title}</a>
-      </div>
-      <!-- ${FirestoreCounter.count} -->
+<template class="flex border-b border-black">
+  <div class="flex items-center ml-auto mr-auto">
+    <div
+      repeat.for="row of router.navigation"
+      class="inline-block p-2 pl-4 pr-4 ${row.isActive ? '' : 'opacity-40'}"
+    >
+      <a href.bind="row.href">${row.title}</a>
     </div>
+    <!-- ${FirestoreCounter.count} -->
   </div>
 </template>
