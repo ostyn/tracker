@@ -25,6 +25,17 @@ const cssRules = [
     options: {
       esModule: false
     }
+  },
+  {
+    loader: 'postcss-loader',
+    options: {
+      postcssOptions: {
+        plugins: [
+          'autoprefixer',
+          'cssnano'
+        ]
+      }
+    }
   }
 ];
 
@@ -243,6 +254,18 @@ module.exports = ({ production } = {}, {extractCss, analyze, tests, hmr, port, h
     }),
     new HtmlWebpackPlugin({
       template: 'index.ejs',
+      minify: production ? {
+        removeComments: true,
+        collapseWhitespace: true
+        // collapseInlineTagWhitespace: true,
+        // collapseBooleanAttributes: true,
+        // removeAttributeQuotes: true,
+        // minifyCSS: true,
+        // minifyJS: true,
+        // removeScriptTypeAttributes: true,
+        // removeStyleLinkTypeAttributes: true,
+        // ignoreCustomFragments: [/\${.*?}/g]
+      } : undefined,
       metadata: {
         // available in index.ejs //
         baseUrl
