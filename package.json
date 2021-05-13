@@ -8,6 +8,7 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@tailwindcss/forms": "^0.3.2",
     "aurelia-animator-css": "^1.0.4",
     "aurelia-bootstrapper": "^2.3.3",
     "aurelia-dialog": "^2.0.0",
@@ -16,7 +17,8 @@
     "firebaseui": "^4.5.0",
     "flatpickr": "^4.6.9",
     "luxon": "^1.26.0",
-    "moment": "^2.29.1"
+    "moment": "^2.29.1",
+    "nightwind": "^1.1.11"
   },
   "devDependencies": {
     "@fullhuman/postcss-purgecss": "^4.0.3",

@@ -11,7 +11,7 @@
     </select>
     <span>
       <select value.bind="workingCopy.category" matcher.bind="categoryComparer">
-        <option value="">Select a category</option>
+        <option value="">Choose...</option>
         <option repeat.for="category of categories">${category}</option>
       </select>
       <input
@@ -20,7 +20,7 @@
         placeholder="category"
       />
     </span>
-    <div>
+    <div class="text-center">
       <button type="button" click.trigger="newActivity()">new</button>
 
       <button if.bind="workingCopy.id" click.trigger="openInfo(activity.id)">
@@ -36,6 +36,7 @@
       </button>
       <button
         type="button"
+        class="bg-red-600"
         if.bind="workingCopy.id"
         click.trigger="deleteActivity()"
       >

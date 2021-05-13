@@ -8,3 +8,20 @@
 .month-picker .flatpickr-calendar {
   width: 100%;
 }
+
+input[type="text"], select {
+  @apply m-1 text-sm bg-white ring-0 w-28;
+}
+option {
+  @apply bg-white
+}
+
+button {
+  @apply ring-0 shadow text-white mt-2 mb-2 min-w-max w-24 p-1 pl-3 pr-3 bg-green-500 hover:bg-green-600
+}
+footer {
+  @apply sticky bottom-0 p-2 bg-white;
+}
+body {
+  @apply bg-white text-black
+}
