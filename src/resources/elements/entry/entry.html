@@ -1,4 +1,4 @@
-<template class="block border-dashed border border-black p-2 mb-2">
+<template class="block p-2 mb-2 border border-black border-dashed">
   <require from="resources/elements/activity/activity"></require>
   <h3>${formatLib.selectorDateToJsDate(entry.date)}</h3>
   <div
@@ -19,14 +19,14 @@
   </div>
   <div if.bind="entry.note != ''">
     <h4>Note</h4>
-    <div class="entryNote">${entry.note}</div>
+    <div>${entry.note}</div>
   </div>
   <button click.trigger="editEntry(entry.id)">edit</button>
-  <p if.bind="showCreatedDate" class="small grey">
+  <p if.bind="showCreatedDate" class="text-sm text-gray-500">
     Entered on ${formatLib.secondsToDate(entry.created)} at
     ${formatLib.secondsToTime(entry.created)}
   </p>
-  <p if.bind="showUpdatedDate" class="small grey">
+  <p if.bind="showUpdatedDate" class="text-sm text-gray-500">
     Updated on ${formatLib.secondsToDate(entry.updated)} at
     ${formatLib.secondsToTime(entry.updated)}
   </p>

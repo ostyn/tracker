@@ -9,7 +9,7 @@
         dates.bind="relatedEntryMap"
         on-date-select.call="onDateSelect(date)"
       ></calendar-wrapper>
-      <div class="related-entry-list">
+      <div>
         <ul>
           <li repeat.for="[key, value] of relatedEntryMap">
             ${key} - ${value.activities.get(activityId)}

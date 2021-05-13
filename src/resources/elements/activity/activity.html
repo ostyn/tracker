@@ -1,20 +1,9 @@
 <template class="inline-block p-1 text-center">
   <div class="text-3xl">${findActivity.emoji}</div>
-  <div class="activityName">
+  <div>
     ${findActivity.name}
     <span
-      class="
-        inline-flex
-        items-center
-        justify-center
-        px-2
-        py-0
-        text-xs text-white
-        bg-black
-        border-black
-        rounded-full
-        border-1
-      "
+      class="inline-flex items-center justify-center px-2 py-0 text-xs text-white bg-black border-black rounded-full  border-1"
       if.bind="detail.length || detail>1"
       >${detail.length || detail}</span
     >

@@ -8,20 +8,20 @@
     ></activity-grid>
   </div>
   <footer>
-    <div class="activity-container">
+    <div>
       <activity
         repeat.for="[id, detail] of workingCopy.activities"
-        class="cursor"
+        class="cursor-pointer"
         click.trigger="removeActivity(id)"
         id.bind="id"
         detail.bind="detail"
       ></activity>
     </div>
-    <div class="note-edit" click.trigger="openTextPrompt()">
-      <span class="edit-icon">📝</span>
-      <span class="note">${workingCopy.note || "enter note here..." }</span>
+    <div click.trigger="openTextPrompt()">
+      <span>📝</span>
+      <span>${workingCopy.note || "enter note here..." }</span>
     </div>
-    <span class="activeMood" click.trigger="openMoodPrompt()">
+    <span click.trigger="openMoodPrompt()">
       ${getMood(workingCopy.mood).emoji}
     </span>
     <input type="date" value.bind="workingCopy.date" max.bind="date" name="" />
