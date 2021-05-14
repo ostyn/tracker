@@ -2,7 +2,7 @@
   <ux-dialog>
     <ux-dialog-body>
       <label
-        class.bind="m.id === currentMoodId ? 'activeMood' : 'inactiveMood'"
+        class.bind="m.id === currentMoodId ? 'text-4xl' : 'text-3xl opacity-40'"
         repeat.for="m of moods"
       >
         ${m.emoji}

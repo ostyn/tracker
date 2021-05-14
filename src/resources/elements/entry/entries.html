@@ -7,11 +7,12 @@
     year.bind="currentYear"
     on-month-change.call="onMonthChange(month, year)"
   ></calendar-wrapper>
-  <div class="p-2">
-    <span if.bind="summary.withinCurrentStreak">
-      You're on a streak of ${summary.currentStreak}!
-    </span>
+  <div class="mx-3">
+    <p class="p-2 text-center" if.bind="summary.withinCurrentStreak">
+      ℹ You're on a streak of ${summary.currentStreak}
+    </p>
     <entry
+      class="mb-3"
       repeat.for="e of entries"
       scroll-to-self.bind="shouldScrollToSelf(e)"
       entry.bind="e"

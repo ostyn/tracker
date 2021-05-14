@@ -1,6 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+.flatpickr-month {
+  @apply text-black bg-white;
+}
 .month-picker .flatpickr-innerContainer {
   display: none;
 }
@@ -9,19 +12,22 @@
   width: 100%;
 }
 
-input[type="text"], select {
-  @apply m-1 text-sm bg-white ring-0 w-28;
+input[type="text"], input[type="date"], select {
+  @apply m-1 text-sm text-black bg-white w-28 ring-0;
 }
 option {
   @apply bg-white
 }
 
 button {
-  @apply ring-0 shadow text-white mt-2 mb-2 min-w-max w-24 p-1 pl-3 pr-3 bg-green-500 hover:bg-green-600
+  @apply ring-0 shadow text-white mt-2 mb-2 min-w-max w-24 p-1 pl-3 pr-3 bg-green-500 hover:bg-green-600 border border-black
 }
 footer {
-  @apply sticky bottom-0 p-2 bg-white;
+  @apply sticky bottom-0 p-3 bg-white border-t border-black;
 }
 body {
   @apply bg-white text-black
+}
+ux-dialog{
+  @apply bg-white border border-black
 }
