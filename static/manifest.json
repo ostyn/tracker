@@ -1,8 +1,8 @@
 {
   "name": "Daily Tracker",
   "short_name": "Tracker",
-  "theme_color": "#4a90e2",
-  "background_color": "#fff",
+  "theme_color": "#000",
+  "background_color": "#000",
   "display": "standalone",
   "scope": "/",
   "start_url": "/",
