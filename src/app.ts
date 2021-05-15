@@ -7,6 +7,7 @@ import firebase from "firebase";
 
 @autoinject
 export class App {
+  isLoaded = false;
   constructor(
     private activityService: ActivityService,
     private moodService: MoodService
@@ -17,6 +18,7 @@ export class App {
       if (user) {
         this.activityService.init();
         this.moodService.init();
+        this.isLoaded = true;
       }
     });
   }
