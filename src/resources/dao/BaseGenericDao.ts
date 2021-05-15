@@ -24,13 +24,16 @@ export class BaseGenericDao {
     return this.getItemsFromQuery(ref);
   }
   getItemsFromQuery(query) {
-    return query.get().then((snapshot) => {
-      let items = [];
-      snapshot.forEach((doc) => {
-        items.push(this.processFirestoreData(doc));
+    return query
+      .where("userId", "==", firebase.auth().currentUser?.uid || null)
+      .get()
+      .then((snapshot) => {
+        let items = [];
+        snapshot.forEach((doc) => {
+          items.push(this.processFirestoreData(doc));
+        });
+        return this.sortItems(items);
       });
-      return this.sortItems(items);
-    });
   }
   private processFirestoreData(doc: any) {
     const item = {
@@ -52,6 +55,7 @@ export class BaseGenericDao {
       updated: firebase.firestore.FieldValue.serverTimestamp(),
       created:
         passedEntry.created || firebase.firestore.FieldValue.serverTimestamp(),
+      userId: firebase.auth().currentUser?.uid,
     };
     if (id)
       return ref

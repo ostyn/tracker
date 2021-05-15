@@ -17,9 +17,7 @@ export class MoodService {
     return this.updateCacheThenNotify();
   }
   moodsCache = [];
-  constructor(private moodDao: MoodDao, private ea: EventAggregator) {
-    this.updateCacheThenNotify();
-  }
+  constructor(private moodDao: MoodDao, private ea: EventAggregator) {}
   notifyListeners() {
     this.ea.publish("moodsUpdated");
   }

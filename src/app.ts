@@ -3,6 +3,8 @@ import { MoodService } from "./resources/services/moodService";
 import { ActivityService } from "resources/services/activityService";
 import { PLATFORM } from "aurelia-pal";
 import { Router } from "aurelia-router";
+import firebase from "firebase";
+
 @autoinject
 export class App {
   constructor(
@@ -11,8 +13,12 @@ export class App {
   ) {}
   router;
   created() {
-    this.activityService.init();
-    this.moodService.init();
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.activityService.init();
+        this.moodService.init();
+      }
+    });
   }
   configureRouter(config, router: Router) {
     config.title = "tracker";
