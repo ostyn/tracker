@@ -17,7 +17,7 @@ export class MoodEdit {
     this.resetActiveMood();
   }
 
-  cancelEdit() {
+  newMood() {
     this.resetActiveMood();
   }
 

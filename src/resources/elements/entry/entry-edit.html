@@ -18,18 +18,7 @@
       ></activity>
     </div>
     <div
-      class="
-        relative
-        flex
-        p-3
-        mb-3
-        overflow-scroll
-        whitespace-pre-line
-        align-middle
-        border border-black border-dashed
-        place-content-center
-        max-h-24
-      "
+      class="relative flex p-3 mb-3 overflow-scroll whitespace-pre-line align-middle border border-black border-dashed  place-content-center max-h-24"
       click.trigger="openTextPrompt()"
     >
       <span class="absolute top-0 right-0 m-2">📝</span>
@@ -45,6 +34,8 @@
     >
       submit
     </button>
-    <button if.bind="entry.id" click.trigger="deleteEntry()">delete</button>
+    <button class="bg-red-500" if.bind="entry.id" click.trigger="deleteEntry()">
+      delete
+    </button>
   </footer>
 </template>

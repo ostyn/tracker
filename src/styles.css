@@ -20,7 +20,7 @@ option {
 }
 
 button {
-  @apply ring-0 shadow text-white mt-2 mb-2 min-w-max w-24 p-1 pl-3 pr-3 bg-green-500 hover:bg-green-600 border border-black
+  @apply ring-0 shadow text-white mt-2 mb-2 min-w-max w-24 p-1 pl-3 pr-3 bg-green-500 hover:bg-green-600 border border-black disabled:filter disabled:grayscale
 }
 footer {
   @apply sticky bottom-0 p-3 bg-white border-t border-black;
