@@ -15,6 +15,8 @@ export class ActivityInfo {
   ) {}
   activate(activityId) {
     this.activityId = activityId;
+    //TODO fix how we load up calendar information.
+    //It's been broken ever since we added userId to everything.
     this.entryDao.getEntriesWithSpecificActivity(activityId).then((entries) => {
       for (let entry of entries) {
         this.relatedEntryMap.set(entry.date, entry);
