@@ -5,9 +5,7 @@ import nightwind from "nightwind/helper";
 @autoinject
 export class NavBar {
   FirestoreCounter = FirestoreCounter;
-  constructor(public router: Router) {
-    nightwind.toggle();
-  }
+  constructor(public router: Router) {}
   toggleNightMode() {
     nightwind.toggle();
   }
