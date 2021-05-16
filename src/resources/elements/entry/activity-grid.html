@@ -12,7 +12,7 @@
     </button>
   </div>
   <div repeat.for="[header, activityList] of categoryToActivityList">
-    <h2>${header}</h2>
+    <h2 class="mt-3 uppercase opacity-60">${header}</h2>
     <activity
       repeat.for="activity of activityList"
       click.trigger="onActivityClick({event: $event, activity: activity})"

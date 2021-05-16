@@ -1,12 +1,14 @@
 <template class="block p-4 border border-black border-dashed">
   <require from="resources/elements/activity/activity"></require>
-  <h3>${formatLib.selectorDateToJsDate(entry.date)}</h3>
-  <div
-    class="text-4xl"
-    alt-text.bind="currentMood.name"
-    title.bind="currentMood.name"
-  >
-    ${currentMood.emoji}
+  <div class="flex align-middle">
+    <h2 class="self-center">${formatLib.selectorDateToJsDate(entry.date)}</h2>
+    <span
+      class="m-1 ml-auto text-4xl"
+      alt-text.bind="currentMood.name"
+      title.bind="currentMood.name"
+    >
+      ${currentMood.emoji}
+    </span>
   </div>
   <div>
     <h4>Activities</h4>
@@ -23,11 +25,11 @@
     <div class="whitespace-pre-line">${entry.note}</div>
   </div>
   <button click.trigger="editEntry(entry.id)">edit</button>
-  <p if.bind="showCreatedDate" class="text-sm text-gray-500">
+  <p if.bind="showCreatedDate" class="text-sm opacity-60">
     Entered on ${formatLib.secondsToDate(entry.created)} at
     ${formatLib.secondsToTime(entry.created)}
   </p>
-  <p if.bind="showUpdatedDate" class="text-sm text-gray-500">
+  <p if.bind="showUpdatedDate" class="text-sm opacity-60">
     Updated on ${formatLib.secondsToDate(entry.updated)} at
     ${formatLib.secondsToTime(entry.updated)}
   </p>

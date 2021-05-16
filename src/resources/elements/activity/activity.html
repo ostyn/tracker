@@ -1,26 +1,15 @@
 <template class="inline-block p-1 text-center">
-  <div class="text-3xl">${findActivity.emoji}</div>
-  <div>
+  <div class="m-1 mt-0 text-3xl">${findActivity.emoji}</div>
+  <div class="text-sm">
     ${findActivity.name}
     <span
-      class="
-        inline-flex
-        items-center
-        justify-center
-        px-2
-        py-0
-        text-xs text-white
-        bg-black
-        border-black
-        rounded-full
-        border-1
-      "
+      class="inline-flex items-center justify-center px-2 py-0 text-xs text-white bg-black border-black rounded-full  border-1"
       if.bind="detail.length > 1 || detail>1"
       >${detail.length || detail}</span
     >
   </div>
   <div
-    class="text-left"
+    class="text-sm text-left"
     if.bind="findActivity.type ==='text' && detail.length>0"
   >
     <div repeat.for="textItem of detail">${textItem}</div>
