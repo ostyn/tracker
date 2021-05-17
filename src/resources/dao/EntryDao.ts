@@ -27,11 +27,13 @@ export class EntryDao extends BaseGenericDao {
     query = query.orderBy("created", "desc");
     return this.getItemsFromQuery(query);
   }
-  getEntriesWithSpecificActivity(id): Promise<IEntry[]> {
+  getEntriesWithSpecificActivityAndDate(id, month, year): Promise<IEntry[]> {
     return this.getItemsFromQuery(
       this.db
         .collection("entries")
         .where("activitiesArray", "array-contains", id)
+        .where("month", "==", month)
+        .where("year", "==", year)
     ).then((items) => {
       return items.sort((a, b) => {
         if (a.date < b.date) {

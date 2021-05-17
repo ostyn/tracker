@@ -8,6 +8,7 @@
         if.bind="!loading"
         dates.bind="relatedEntryMap"
         on-date-select.call="onDateSelect(date)"
+        on-month-change.call="onMonthChange(month, year)"
       ></calendar-wrapper>
       <div>
         <ul>

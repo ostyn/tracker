@@ -15,14 +15,18 @@ export class ActivityInfo {
   ) {}
   activate(activityId) {
     this.activityId = activityId;
-    //TODO fix how we load up calendar information.
-    //It's been broken ever since we added userId to everything.
-    this.entryDao.getEntriesWithSpecificActivity(activityId).then((entries) => {
-      for (let entry of entries) {
-        this.relatedEntryMap.set(entry.date, entry);
-      }
-      this.loading = false;
-    });
+    this.entryDao
+      .getEntriesWithSpecificActivityAndDate(
+        activityId,
+        new Date().getMonth() + 1,
+        new Date().getFullYear()
+      )
+      .then((entries) => {
+        for (let entry of entries) {
+          this.relatedEntryMap.set(entry.date, entry);
+        }
+        this.loading = false;
+      });
   }
   onDateSelect(date) {
     this.router.navigateToRoute("entries", {
@@ -31,5 +35,16 @@ export class ActivityInfo {
       day: date.getDate(),
     });
     this.controller.cancel();
+  }
+  onMonthChange(month, year) {
+    const newEntryMap = new Map();
+    this.entryDao
+      .getEntriesWithSpecificActivityAndDate(this.activityId, month, year)
+      .then((entries) => {
+        for (let entry of entries) {
+          newEntryMap.set(entry.date, entry);
+        }
+        this.relatedEntryMap = newEntryMap;
+      });
   }
 }

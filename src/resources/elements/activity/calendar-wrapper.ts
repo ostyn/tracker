@@ -16,6 +16,7 @@ export class CalendarWrapper {
   @bindable public onDateSelect;
 
   private calendar: Element;
+  instance: any;
   onMonthYearChange(selectedDates, dateStr, instance) {
     this.month = instance.currentMonth + 1;
     this.year = instance.currentYear;
@@ -23,9 +24,12 @@ export class CalendarWrapper {
       this.onMonthChange({ year: this.year, month: this.month });
   }
   constructor(private router: Router, public controller: DialogController) {}
+  datesChanged(newValue) {
+    if (this.instance && newValue) this.instance.redraw();
+  }
   attached() {
     this.inline = this.inline === true || this.inline === "true";
-    flatpickr(this.calendar, {
+    this.instance = flatpickr(this.calendar, {
       inline: this.inline,
       defaultDate:
         this.month && this.year ? `${this.year}-${this.month}` : new Date(),
