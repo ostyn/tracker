@@ -12,6 +12,10 @@
   width: 100%;
 }
 
+.calendar-event {
+  @apply bg-blue-500 w-3 h-1 absolute bottom-0.5 rounded-full left-3
+}
+
 input[type="text"], input[type="date"], select {
   @apply m-1 text-sm text-black bg-white w-28 ring-0;
 }
@@ -31,14 +35,4 @@ body {
 ux-dialog{
   @apply bg-white border border-black
 }
-.event {
-  position: absolute;
-  width: 10px;
-  height: 3px;
-  border-radius: 150px;
-  bottom: 3px;
-  left: calc(50% - 5px);
-  content: "TODO - move to tailwind";
-  display: block;
-  background: #3d8eb9;
-}
+

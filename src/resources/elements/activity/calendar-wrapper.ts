@@ -38,7 +38,7 @@ export class CalendarWrapper {
         const dt = DateTime.fromJSDate(dayElem.dateObj);
         const key = dt.toFormat("yyyy-MM-dd");
         const entry: IEntry = this.dates.get(key);
-        if (entry) dayElem.innerHTML += `<span class='event'></span>`;
+        if (entry) dayElem.innerHTML += `<span class='calendar-event'></span>`;
       }).bind(this),
       onMonthChange: this.onMonthYearChange.bind(this),
       onYearChange: this.onMonthYearChange.bind(this),
