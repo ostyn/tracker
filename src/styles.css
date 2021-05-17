@@ -31,3 +31,14 @@ body {
 ux-dialog{
   @apply bg-white border border-black
 }
+.event {
+  position: absolute;
+  width: 10px;
+  height: 3px;
+  border-radius: 150px;
+  bottom: 3px;
+  left: calc(50% - 5px);
+  content: "TODO - move to tailwind";
+  display: block;
+  background: #3d8eb9;
+}
