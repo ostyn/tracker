@@ -1,3 +1,4 @@
+import firebase from "firebase";
 import { IEntry } from "./../elements/entry/entry.interface";
 import { BaseGenericDao } from "./BaseGenericDao";
 export class EntryDao extends BaseGenericDao {
@@ -28,7 +29,9 @@ export class EntryDao extends BaseGenericDao {
   }
   getEntriesWithSpecificActivity(id): Promise<IEntry[]> {
     return this.getItemsFromQuery(
-      this.db.collection("entries").orderBy(`activities.${id}`, "asc")
+      this.db
+        .collection("entries")
+        .where("activitiesArray", "array-contains", id)
     ).then((items) => {
       return items.sort((a, b) => {
         if (a.date < b.date) {
@@ -41,9 +44,38 @@ export class EntryDao extends BaseGenericDao {
       });
     });
   }
-  beforeSaveFixup(item) {
+  private backfill() {
+    let batch = this.db.batch();
+
+    this.db
+      .collection("entries")
+      .where("userId", "==", firebase.auth().currentUser.uid)
+      .get()
+      .then((querySnapshot) => {
+        let i = 0;
+        querySnapshot.forEach((doc) => {
+          const docRef = this.db.collection("entries").doc(doc.id);
+          batch.update(docRef, {
+            activitiesArray: Array.from(
+              this.processFirestoreData(doc).activities.keys()
+            ),
+          });
+          i++;
+          if (i > 100) {
+            batch.commit();
+            batch = this.db.batch();
+            i = 0;
+          }
+        });
+
+        batch.commit();
+      });
+  }
+
+  beforeSaveFixup(item: IEntry) {
     var clone = Object.assign({}, item);
     clone.activities = this.strMapToObj(item.activities);
+    clone.activitiesArray = Array.from(item.activities.keys());
     return clone;
   }
   afterLoadFixup(item) {

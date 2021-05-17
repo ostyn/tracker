@@ -35,7 +35,7 @@ export class BaseGenericDao {
         return this.sortItems(items);
       });
   }
-  private processFirestoreData(doc: any) {
+  public processFirestoreData(doc: any) {
     const item = {
       ...doc.data(),
       id: doc.id,
