@@ -20,7 +20,7 @@
     >
   </div>
   <ul
-    class="${detail.length>1? 'list-disc':''} text-sm text-left"
+    class="${detail.length>1? 'list-disc list-inside':''} text-sm text-left"
     if.bind="activity.type ==='text' && detail.length>0"
   >
     <li repeat.for="textItem of detail">${textItem}</li>
