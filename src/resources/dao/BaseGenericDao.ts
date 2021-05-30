@@ -17,6 +17,9 @@ export class BaseGenericDao {
       .get()
       .then((snapshot) => {
         return this.processFirestoreData(snapshot);
+      })
+      .catch((err) => {
+        console.log(err);
       });
   }
   getItems() {
@@ -33,6 +36,9 @@ export class BaseGenericDao {
           items.push(this.processFirestoreData(doc));
         });
         return this.sortItems(items);
+      })
+      .catch((err) => {
+        console.log(err);
       });
   }
   public processFirestoreData(doc: any) {
@@ -63,11 +69,19 @@ export class BaseGenericDao {
         .set(updatedEntry)
         .then(() => {
           return id;
+        })
+        .catch((err) => {
+          console.log(err);
         });
     else
-      return ref.add(updatedEntry).then((docRef) => {
-        return docRef.id;
-      });
+      return ref
+        .add(updatedEntry)
+        .then((docRef) => {
+          return docRef.id;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
   }
   deleteItem(id) {
     var ref = this.db.collection(this.name);
