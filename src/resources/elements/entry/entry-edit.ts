@@ -121,18 +121,19 @@ export class EntryEdit {
     }
   }
   submitEntry() {
-    let year, month, day;
-    [year, month, day] = this.workingCopy.date.split("-");
-    this.entryService.addEntry({
+    let parts = this.workingCopy.date.split("-");
+    let dateFields = {
+      year: Number.parseInt(parts[0]),
+      month: Number.parseInt(parts[1]),
+      day: Number.parseInt(parts[2]),
+    };
+    let splitTimestampEntry = {
       ...this.workingCopy,
-      year,
-      month,
-      day,
-    });
+      ...dateFields,
+    };
+    this.entryService.addEntry(splitTimestampEntry);
     this.router.navigateToRoute("entries", {
-      year,
-      month,
-      day,
+      ...dateFields,
     });
   }
   newEntry(): IEntry {
