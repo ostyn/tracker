@@ -91,7 +91,6 @@ export class EntryEdit {
           activity.id,
           [text].concat(this.workingCopy.activities.get(activity.id) || [])
         );
-        console.log(this.workingCopy.activities.get(activity.id));
       }
     }
   }
