@@ -24,12 +24,10 @@ export class ActivityService {
     this.fetchActivities().then((activities) => {
       this.activitiesCache = activities;
       this.activitiesMap = new Map();
-      this.activitiesCache.forEach((activity) => {
-        this.activitiesMap.set(activity.id, activity);
-      });
       this.categories = new Set();
-      this.activitiesCache.forEach((item: IActivity) => {
-        this.categories.add(item.category);
+      this.activitiesCache.forEach((activity: IActivity) => {
+        this.activitiesMap.set(activity.id, activity);
+        this.categories.add(activity.category);
       });
       this.notifyListeners();
     });

@@ -103,7 +103,7 @@ export class EntryEdit {
     }
   }
   removeActivity(id) {
-    if (this.findActivity(id).type !== "text") {
+    if (this.activityService.getActivity(id).type !== "text") {
       if (this.workingCopy.activities.get(id) > 1)
         this.workingCopy.activities.set(
           id,
@@ -135,9 +135,6 @@ export class EntryEdit {
       month,
       day,
     });
-  }
-  findActivity(id) {
-    return this.activities.find((activity) => activity.id === id);
   }
   newEntry(): IEntry {
     var date = new Date();

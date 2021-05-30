@@ -5,7 +5,7 @@ import { EventAggregator } from "aurelia-event-aggregator";
 
 @autoinject
 export class MoodService {
-  presetMoods: IMood[] = [
+  private presetMoods: IMood[] = [
     {
       emoji: "🚧",
       id: "0",
@@ -13,6 +13,7 @@ export class MoodService {
       name: "TBD",
     },
   ];
+  private moodsMap: Map<string, IMood>;
   public init() {
     return this.updateCacheThenNotify();
   }
@@ -25,6 +26,10 @@ export class MoodService {
   updateCacheThenNotify() {
     this.fetchMoods().then((moods) => {
       this.moodsCache = moods;
+      this.moodsMap = new Map();
+      this.moodsCache.concat(this.presetMoods).forEach((mood: IMood) => {
+        this.moodsMap.set(mood.id, mood);
+      });
       this.notifyListeners();
     });
   }
@@ -42,10 +47,7 @@ export class MoodService {
   }
 
   getMood(id) {
-    return (
-      this.moodsCache.find((mood) => mood.id === id) ||
-      this.presetMoods.find((mood) => mood.id === id)
-    );
+    return this.moodsMap.get(id);
   }
 
   getAllMoods(): IMood[] {
