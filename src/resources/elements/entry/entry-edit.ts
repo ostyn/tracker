@@ -122,17 +122,18 @@ export class EntryEdit {
     }
   }
   submitEntry() {
-    let parts = this.workingCopy.date.split("-");
-    let splitTimestampEntry = {
+    let year, month, day;
+    [year, month, day] = this.workingCopy.date.split("-");
+    this.entryService.addEntry({
       ...this.workingCopy,
-      year: Number.parseInt(parts[0]),
-      month: Number.parseInt(parts[1]),
-      day: Number.parseInt(parts[2]),
-    };
-    this.entryService.addEntry(splitTimestampEntry);
+      year,
+      month,
+      day,
+    });
     this.router.navigateToRoute("entries", {
-      year: Number.parseInt(parts[0]),
-      month: Number.parseInt(parts[1]),
+      year,
+      month,
+      day,
     });
   }
   findActivity(id) {
