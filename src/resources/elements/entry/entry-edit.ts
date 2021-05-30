@@ -67,7 +67,7 @@ export class EntryEdit {
       .open({
         viewModel: TextDialog,
         model: this.workingCopy.note,
-        lock: false,
+        lock: true,
       })
       .whenClosed((response) => {
         if (!response.wasCancelled) {

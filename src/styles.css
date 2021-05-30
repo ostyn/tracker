@@ -30,9 +30,11 @@ footer {
   @apply sticky bottom-0 p-3 bg-white border-t border-black;
 }
 body {
-  @apply bg-white text-black
+  @apply text-black bg-white;
 }
 ux-dialog{
-  @apply bg-white border border-black
+  @apply bg-white border border-black;
 }
-
+ux-dialog-overlay.active{
+  @apply bg-white opacity-80;
+}

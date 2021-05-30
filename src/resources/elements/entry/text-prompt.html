@@ -1,7 +1,11 @@
 <template>
   <ux-dialog>
     <ux-dialog-body>
-      <textarea class="w-full text-black bg-white" value.bind="text"></textarea>
+      <textarea
+        attach-focus
+        class="w-full h-48 text-black bg-white"
+        value.bind="text"
+      ></textarea>
     </ux-dialog-body>
     <ux-dialog-footer>
       <button click.trigger="controller.cancel()">Cancel</button>
