@@ -12,7 +12,7 @@ export class App {
     private activityService: ActivityService,
     private moodService: MoodService
   ) {}
-  router;
+  router: Router;
   created() {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
@@ -55,8 +55,7 @@ export class App {
       {
         route: ["entry"],
         moduleId: PLATFORM.moduleName("./resources/routes/entry-route"),
-        nav: true,
-        title: "📝",
+        nav: false,
         name: "entry",
       },
     ]);
