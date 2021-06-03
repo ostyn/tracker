@@ -4,6 +4,16 @@
   <ux-dialog>
     <ux-dialog-body>
       <activity id.bind="activityId"></activity>
+      <div>Days with activity: ${daysWithActivity}</div>
+      <div>
+        Percent of days with activity: ${(daysWithActivity / daysElapsed *
+        100).toFixed(2)}%
+      </div>
+      <div>Total activities: ${totalActivity}</div>
+      <div>
+        Average activities per day with activity:
+        ${(totalActivity/daysWithActivity).toFixed(2)}
+      </div>
       <calendar-wrapper
         if.bind="!loading"
         dates.bind="relatedEntryMap"
