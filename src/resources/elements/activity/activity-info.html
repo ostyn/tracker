@@ -7,6 +7,7 @@
       <calendar-wrapper
         if.bind="!loading"
         dates.bind="relatedEntryMap"
+        activity-id.bind="activityId"
         on-date-select.call="onDateSelect(date)"
         on-month-change.call="onMonthChange(month, year)"
       ></calendar-wrapper>

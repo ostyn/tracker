@@ -2,7 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 .flatpickr-month {
-  @apply text-black bg-white;
+  @apply text-black bg-white shadow-none !important;
+}
+.flatpickr-calendar {
+  @apply shadow-none;
+}
+.flatpickr-next-month, .flatpickr-prev-month {
+  @apply text-black fill-current !important;
+}
+.flatpickr-day{
+  height: 48px;
+  line-height: revert;
 }
 .month-picker .flatpickr-innerContainer {
   display: none;

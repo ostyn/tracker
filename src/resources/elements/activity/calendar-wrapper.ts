@@ -1,14 +1,15 @@
-import { Router } from "aurelia-router";
+import { MoodService } from "./../../services/moodService";
 import { IEntry } from "./../entry/entry.interface";
 import { autoinject, bindable } from "aurelia-framework";
 import { DateTime } from "luxon";
 import { DialogController } from "aurelia-dialog";
 import flatpickr from "flatpickr";
-import "flatpickr/dist/themes/light.css";
+import "flatpickr/dist/themes/dark.css";
 
 @autoinject
 export class CalendarWrapper {
   @bindable public dates: Map<string, IEntry> = new Map();
+  @bindable public activityId: string;
   @bindable public inline: boolean | string = true;
   @bindable public year: number;
   @bindable public month: number;
@@ -23,7 +24,10 @@ export class CalendarWrapper {
     if (this.onMonthChange)
       this.onMonthChange({ year: this.year, month: this.month });
   }
-  constructor(private router: Router, public controller: DialogController) {}
+  constructor(
+    public controller: DialogController,
+    private moodService: MoodService
+  ) {}
   datesChanged(newValue) {
     if (this.instance && newValue) this.instance.redraw();
   }
@@ -38,7 +42,13 @@ export class CalendarWrapper {
         const dt = DateTime.fromJSDate(dayElem.dateObj);
         const key = dt.toFormat("yyyy-MM-dd");
         const entry: IEntry = this.dates.get(key);
-        if (entry) dayElem.innerHTML += `<span class='calendar-event'></span>`;
+        if (entry) {
+          const activityDetail = entry.activities.get(this.activityId);
+          const activityNumber = activityDetail.length || activityDetail;
+          dayElem.innerHTML += `<div class="rounded-full bg-green-300 text-xs">${
+            this.moodService.getMood(entry.mood).emoji
+          }${activityNumber > 1 ? activityNumber : ""} </div>`;
+        }
       }).bind(this),
       onMonthChange: this.onMonthYearChange.bind(this),
       onYearChange: this.onMonthYearChange.bind(this),
