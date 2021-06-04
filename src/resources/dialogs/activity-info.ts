@@ -1,9 +1,10 @@
 import { Router } from "aurelia-router";
-import { EntryDao } from "./../../dao/EntryDao";
+import { EntryDao } from "resources/dao/EntryDao";
 import { autoinject } from "aurelia-framework";
 import { DialogController } from "aurelia-dialog";
-import { IEntry } from "../entry/entry.interface";
+import { IEntry } from "resources/elements/entry/entry.interface";
 import { DateTime } from "luxon";
+
 @autoinject
 export class ActivityInfo {
   relatedEntryMap: Map<string, IEntry> = new Map();

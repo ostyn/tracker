@@ -1,9 +1,9 @@
 import { autoinject } from "aurelia-framework";
 import { ActivityService } from "resources/services/activityService";
 import { EventAggregator } from "aurelia-event-aggregator";
-import { IActivity } from "./activity.interface";
+import { IActivity } from "resources/elements/activity/activity.interface";
 @autoinject
-export class Activities {
+export class ActivitiesRoute {
   subscribers = [];
   activities: IActivity[] = [];
   activity: IActivity;

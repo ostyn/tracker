@@ -5,7 +5,8 @@ import { autoinject, bindable, computedFrom } from "aurelia-framework";
 import { MoodService } from "resources/services/moodService";
 import { EventAggregator } from "aurelia-event-aggregator";
 import { FormatLib } from "resources/util/FormatLib";
-import { ActivityInfo } from "../activity/activity-info";
+import { ActivityInfo } from "resources/dialogs/activity-info";
+
 @autoinject
 export class Entry {
   @bindable entry: IEntry;

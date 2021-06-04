@@ -2,7 +2,7 @@ import { autoinject } from "aurelia-framework";
 import { MoodService } from "resources/services/moodService";
 import { EventAggregator } from "aurelia-event-aggregator";
 @autoinject
-export class Moods {
+export class MoodsRoute {
   subscribers = [];
   moods;
   mood;

@@ -1,7 +1,8 @@
-import { IMood } from "./../mood/mood.interface";
+import { IMood } from "resources/elements/mood/mood.interface";
 import { MoodService } from "resources/services/moodService";
 import { autoinject } from "aurelia-framework";
 import { DialogController } from "aurelia-dialog";
+
 @autoinject
 export class MoodDialog {
   currentMoodId: string;

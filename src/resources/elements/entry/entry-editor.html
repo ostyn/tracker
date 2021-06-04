@@ -1,5 +1,5 @@
 <template>
-  <require from="./activity-grid"></require>
+  <require from="resources/elements/activity/activity-grid"></require>
   <require from="resources/elements/activity/activity"></require>
   <div class="m-3">
     <activity-grid
@@ -18,7 +18,18 @@
       ></activity>
     </div>
     <div
-      class="relative flex p-3 mb-3 overflow-scroll whitespace-pre-line align-middle border border-black border-dashed  place-content-center max-h-24"
+      class="
+        relative
+        flex
+        p-3
+        mb-3
+        overflow-scroll
+        whitespace-pre-line
+        align-middle
+        border border-black border-dashed
+        place-content-center
+        max-h-24
+      "
       click.trigger="openTextPrompt()"
     >
       <span class="absolute top-0 right-0 m-2">📝</span>

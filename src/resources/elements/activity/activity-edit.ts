@@ -1,9 +1,10 @@
 import { EventAggregator } from "aurelia-event-aggregator";
-import { ActivityInfo } from "./activity-info";
+import { ActivityInfo } from "resources/dialogs/activity-info";
 import { DialogService } from "aurelia-dialog";
 import { ActivityService } from "resources/services/activityService";
 import { autoinject, bindable } from "aurelia-framework";
 import { IActivity } from "./activity.interface";
+
 @autoinject
 export class ActivityEdit {
   @bindable activity: IActivity;

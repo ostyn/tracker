@@ -5,9 +5,9 @@ import { PLATFORM } from "aurelia-pal";
 export function configure(aurelia: Aurelia): void {
   //Pull dark mode setting from local storage and init
   eval(nightwind.init());
-  PLATFORM.moduleName("./resources/elements/entry/text-prompt");
-  PLATFORM.moduleName("./resources/elements/entry/mood-prompt");
-  PLATFORM.moduleName("./resources/elements/activity/activity-info");
+  PLATFORM.moduleName("./resources/dialogs/text-prompt");
+  PLATFORM.moduleName("./resources/dialogs/mood-prompt");
+  PLATFORM.moduleName("./resources/dialogs/activity-info");
   aurelia.use
     .standardConfiguration()
     .feature(PLATFORM.moduleName("resources/index"))

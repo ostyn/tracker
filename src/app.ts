@@ -28,7 +28,7 @@ export class App {
     config.map([
       {
         route: "",
-        moduleId: PLATFORM.moduleName("./resources/elements/entry/entries"),
+        moduleId: PLATFORM.moduleName("./resources/routes/entries.route"),
         nav: true,
         title: "entries",
         name: "entries",
@@ -36,7 +36,7 @@ export class App {
       },
       {
         route: "moods",
-        moduleId: PLATFORM.moduleName("./resources/elements/mood/moods"),
+        moduleId: PLATFORM.moduleName("./resources/routes/moods.route"),
         nav: true,
         title: "moods",
         name: "moods",
@@ -44,9 +44,7 @@ export class App {
       },
       {
         route: "activities",
-        moduleId: PLATFORM.moduleName(
-          "./resources/elements/activity/activities"
-        ),
+        moduleId: PLATFORM.moduleName("./resources/routes/activities.route"),
         nav: true,
         title: "activities",
         name: "activities",
@@ -54,7 +52,7 @@ export class App {
       },
       {
         route: ["entry"],
-        moduleId: PLATFORM.moduleName("./resources/routes/entry-route"),
+        moduleId: PLATFORM.moduleName("./resources/routes/entry.route"),
         nav: false,
         name: "entry",
       },

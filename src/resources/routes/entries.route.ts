@@ -1,11 +1,12 @@
-import { IEntry } from "./entry.interface";
+import { IEntry } from "resources/elements/entry/entry.interface";
 import { activationStrategy, Router } from "aurelia-router";
 import { autoinject, bindable } from "aurelia-framework";
 import { EntryService } from "resources/services/entryService";
 import { EventAggregator } from "aurelia-event-aggregator";
 import { summary } from "date-streaks";
+
 @autoinject
-export class Entries {
+export class EntriesRoute {
   entries;
   subscribers = [];
   @bindable currentMonth;

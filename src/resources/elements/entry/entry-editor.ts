@@ -5,12 +5,12 @@ import { autoinject, bindable } from "aurelia-framework";
 import { EntryService } from "resources/services/entryService";
 import { EventAggregator } from "aurelia-event-aggregator";
 import { DialogService } from "aurelia-dialog";
-import { MoodDialog } from "./mood-prompt";
-import { IEntry } from "./entry.interface";
-import { TextDialog } from "./text-prompt";
+import { MoodDialog } from "resources/dialogs/mood-prompt";
+import { IEntry } from "resources/elements/entry/entry.interface";
+import { TextDialog } from "resources/dialogs/text-prompt";
 
 @autoinject
-export class EntryEdit {
+export class EntryEditor {
   @bindable entry: IEntry;
   workingCopy: IEntry;
   activities = [];
