@@ -21,19 +21,9 @@ export class ActivityInfo {
     this.activityId = activityId;
     const month = new Date().getMonth() + 1;
     const year = new Date().getFullYear();
-    this.entryDao
-      .getEntriesWithSpecificActivityAndDate(activityId, month, year)
-      .then((entries) => {
-        for (let entry of entries) {
-          this.relatedEntryMap.set(entry.date, entry);
-          this.totalActivity +=
-            entry.activities.get(this.activityId).length ||
-            entry.activities.get(this.activityId);
-        }
-        this.daysElapsed = this.getDaysElapsed(month, year);
-        this.daysWithActivity = this.relatedEntryMap.size;
-        this.loading = false;
-      });
+    this.onMonthChange(month, year).finally(() => {
+      this.loading = false;
+    });
   }
   getDaysElapsed(month: number, year: number): number {
     if (month > DateTime.now().get("month")) return 0;
@@ -52,10 +42,10 @@ export class ActivityInfo {
     this.controller.cancel();
   }
   onMonthChange(month, year) {
-    const newEntryMap = new Map();
-    this.entryDao
+    return this.entryDao
       .getEntriesWithSpecificActivityAndDate(this.activityId, month, year)
       .then((entries) => {
+        const newEntryMap = new Map();
         this.totalActivity = 0;
         for (let entry of entries) {
           newEntryMap.set(entry.date, entry);
