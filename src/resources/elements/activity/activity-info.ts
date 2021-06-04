@@ -19,29 +19,20 @@ export class ActivityInfo {
   ) {}
   activate(activityId) {
     this.activityId = activityId;
-    const month = new Date().getMonth() + 1;
-    const year = new Date().getFullYear();
-    this.onMonthChange(month, year).finally(() => {
+    const currentDate = DateTime.now();
+    this.onMonthChange(currentDate.month, currentDate.year).finally(() => {
       this.loading = false;
     });
   }
-  getDaysElapsed(month: number, year: number): number {
-    if (month > DateTime.now().get("month")) return 0;
-    if (month === DateTime.now().get("month")) return DateTime.now().get("day");
-    else
-      return DateTime.fromObject({ year: year, month: month }).get(
-        "daysInMonth"
-      );
-  }
-  onDateSelect(date) {
+  public onDateSelect({ year, month, day }: DateTime) {
     this.router.navigateToRoute("entries", {
-      year: date.getFullYear(),
-      month: date.getMonth() + 1,
-      day: date.getDate(),
+      year,
+      month,
+      day,
     });
     this.controller.cancel();
   }
-  onMonthChange(month, year) {
+  public onMonthChange(month, year) {
     return this.entryDao
       .getEntriesWithSpecificActivityAndDate(this.activityId, month, year)
       .then((entries) => {
@@ -54,8 +45,17 @@ export class ActivityInfo {
             entry.activities.get(this.activityId);
         }
         this.relatedEntryMap = newEntryMap;
-        this.daysElapsed = this.getDaysElapsed(month, year);
+        this.daysElapsed = this.getDaysElapsedInMonth(month, year);
         this.daysWithActivity = this.relatedEntryMap.size;
       });
+  }
+  private getDaysElapsedInMonth(month: number, year: number): number {
+    const currentDate = DateTime.now();
+    if (month > currentDate.month) return 0;
+    if (month === currentDate.month) return currentDate.day;
+    else
+      return DateTime.fromObject({ year: year, month: month }).get(
+        "daysInMonth"
+      );
   }
 }
