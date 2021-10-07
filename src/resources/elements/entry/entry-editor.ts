@@ -1,3 +1,4 @@
+import { EntryDao } from "./../../dao/EntryDao";
 import { Router } from "aurelia-router";
 import { ActivityService } from "resources/services/activityService";
 import { MoodService } from "resources/services/moodService";
@@ -21,7 +22,8 @@ export class EntryEditor {
     private entryService: EntryService,
     private ea: EventAggregator,
     private router: Router,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private entryDao: EntryDao
   ) {
     this.getActivities();
     this.entry = this.newEntry();
@@ -59,6 +61,11 @@ export class EntryEditor {
       .whenClosed((response) => {
         if (!response.wasCancelled) {
           this.workingCopy.mood = response.output;
+          if (!this.workingCopy.id)
+            localStorage.setItem(
+              "checkpoint",
+              JSON.stringify(this.entryDao.beforeSaveFixup(this.workingCopy))
+            );
         }
       });
   }
@@ -72,6 +79,11 @@ export class EntryEditor {
       .whenClosed((response) => {
         if (!response.wasCancelled) {
           this.workingCopy.note = response.output;
+          if (!this.workingCopy.id)
+            localStorage.setItem(
+              "checkpoint",
+              JSON.stringify(this.entryDao.beforeSaveFixup(this.workingCopy))
+            );
         }
       });
   }
@@ -93,6 +105,11 @@ export class EntryEditor {
         );
       }
     }
+    if (!this.workingCopy.id)
+      localStorage.setItem(
+        "checkpoint",
+        JSON.stringify(this.entryDao.beforeSaveFixup(this.workingCopy))
+      );
   }
   removeTextItem(id, textItemIndex) {
     if (this.workingCopy.activities.get(id).length === 1)
@@ -100,6 +117,11 @@ export class EntryEditor {
     else {
       this.workingCopy.activities.get(id).splice(textItemIndex, 1);
     }
+    if (!this.workingCopy.id)
+      localStorage.setItem(
+        "checkpoint",
+        JSON.stringify(this.entryDao.beforeSaveFixup(this.workingCopy))
+      );
   }
   removeActivity(id) {
     if (this.activityService.getActivity(id).type !== "text") {
@@ -119,6 +141,11 @@ export class EntryEditor {
         );
       else this.workingCopy.activities.delete(id);
     }
+    if (!this.workingCopy.id)
+      localStorage.setItem(
+        "checkpoint",
+        JSON.stringify(this.entryDao.beforeSaveFixup(this.workingCopy))
+      );
   }
   submitEntry() {
     let parts = this.workingCopy.date.split("-");
@@ -132,6 +159,7 @@ export class EntryEditor {
       ...dateFields,
     };
     this.entryService.addEntry(splitTimestampEntry);
+    localStorage.removeItem("checkpoint");
     this.router.navigateToRoute("entries", {
       ...dateFields,
     });
@@ -160,6 +188,7 @@ export class EntryEditor {
   deleteEntry() {
     if (confirm("Sure you want to delete?")) {
       this.entryService.deleteEntry(this.entry.id);
+      localStorage.removeItem("checkpoint");
       this.router.navigateToRoute("entries");
     }
   }

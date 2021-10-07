@@ -15,7 +15,7 @@ export class Activity {
 
   attached() {
     this.subscribers.push(
-      this.ea.subscribe("activitiesUpdated", this.loadActivity)
+      this.ea.subscribe("activitiesUpdated", this.loadActivity.bind(this))
     );
     this.loadActivity();
   }

@@ -1,6 +1,6 @@
 <template>
   <ux-dialog>
-    <ux-dialog-body>
+    <ux-dialog-body class="text-center">
       <label
         class.bind="m.id === currentMoodId ? 'text-4xl' : 'text-3xl opacity-60'"
         repeat.for="m of moods"
@@ -16,5 +16,8 @@
         />
       </label>
     </ux-dialog-body>
+    <ux-dialog-footer>
+      <button click.trigger="controller.cancel()">Close</button>
+    </ux-dialog-footer>
   </ux-dialog>
 </template>

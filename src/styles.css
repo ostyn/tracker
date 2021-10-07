@@ -7,10 +7,11 @@
 .flatpickr-calendar {
   @apply shadow-none;
 }
-.flatpickr-next-month, .flatpickr-prev-month {
+.flatpickr-next-month,
+.flatpickr-prev-month {
   @apply text-black fill-current !important;
 }
-.flatpickr-day{
+.flatpickr-day {
   height: 48px;
   line-height: revert;
 }
@@ -23,18 +24,20 @@
 }
 
 .calendar-event {
-  @apply bg-blue-500 w-3 h-1 absolute bottom-0.5 rounded-full left-3
+  @apply bg-blue-500 w-3 h-1 absolute bottom-0.5 rounded-full left-3;
 }
 
-input[type="text"], input[type="date"], select {
+input[type="text"],
+input[type="date"],
+select {
   @apply m-1 text-sm text-black bg-white w-28 ring-0;
 }
 option {
-  @apply bg-white
+  @apply bg-white;
 }
 
 button {
-  @apply ring-0 shadow text-white mt-2 mb-2 min-w-max w-24 p-1 pl-3 pr-3 bg-green-500 hover:bg-green-600 border border-black disabled:filter disabled:grayscale
+  @apply w-24 p-1 pl-3 pr-3 mt-2 mb-2 text-white bg-green-500 border border-black shadow ring-0 min-w-max hover:bg-green-600 disabled:filter disabled:grayscale;
 }
 footer {
   @apply sticky bottom-0 p-3 bg-white border-t border-black;
@@ -42,9 +45,22 @@ footer {
 body {
   @apply text-black bg-white;
 }
-ux-dialog{
+ux-dialog {
   @apply bg-white border border-black;
 }
-ux-dialog-overlay.active{
+ux-dialog-overlay.active {
   @apply bg-white opacity-80;
+}
+ux-dialog-container > div {
+  @apply h-full p-0;
+  margin: unset !important;
+}
+ux-dialog-container > div > div {
+  @apply w-full h-full;
+}
+ux-dialog {
+  @apply w-full h-full border-none;
+}
+ux-dialog-footer {
+  @apply sticky bottom-0 text-center bg-white;
 }
