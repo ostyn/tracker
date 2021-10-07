@@ -1,8 +1,14 @@
+import { DialogService } from "aurelia-dialog";
 import { autoinject } from "aurelia-framework";
 import { MoodService } from "./resources/services/moodService";
 import { ActivityService } from "resources/services/activityService";
 import { PLATFORM } from "aurelia-pal";
-import { Router } from "aurelia-router";
+import {
+  Router,
+  NavigationInstruction,
+  PipelineStep,
+  Next,
+} from "aurelia-router";
 import firebase from "firebase";
 
 @autoinject
@@ -10,7 +16,8 @@ export class App {
   isLoaded = false;
   constructor(
     private activityService: ActivityService,
-    private moodService: MoodService
+    private moodService: MoodService,
+    private dialogService: DialogService
   ) {}
   router: Router;
   created() {
@@ -23,6 +30,16 @@ export class App {
     });
   }
   configureRouter(config, router: Router) {
+    const closeDialogStep: PipelineStep = {
+      run: (navigationInstruction: NavigationInstruction, next: Next) => {
+        if (this.dialogService.hasActiveDialog) {
+          this.dialogService.closeAll();
+          return next.cancel();
+        }
+        return next();
+      },
+    };
+    config.addPreActivateStep(closeDialogStep);
     config.title = "tracker";
     config.addPipelineStep("postcomplete", PostCompleteStep);
     config.map([
