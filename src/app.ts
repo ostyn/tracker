@@ -32,7 +32,10 @@ export class App {
   configureRouter(config, router: Router) {
     const closeDialogStep: PipelineStep = {
       run: (navigationInstruction: NavigationInstruction, next: Next) => {
-        if (this.dialogService.hasActiveDialog) {
+        if (
+          navigationInstruction.router.isNavigatingBack &&
+          this.dialogService.hasActiveDialog
+        ) {
           this.dialogService.closeAll();
           return next.cancel();
         }
