@@ -19,7 +19,9 @@ export class Activity {
     );
     this.loadActivity();
   }
-
+  isArray(detail) {
+    return detail?.constructor === Array;
+  }
   loadActivity() {
     this.activity = this.activityService.getActivity(this.id);
   }

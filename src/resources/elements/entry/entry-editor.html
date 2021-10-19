@@ -5,6 +5,7 @@
     <activity-grid
       activities.bind="activities"
       on-activity-click.call="addActivity(activity)"
+      on-activity-long-click.call="addActivityWithText(activity)"
     ></activity-grid>
   </div>
   <footer>

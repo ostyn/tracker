@@ -89,19 +89,19 @@ export class EntryEditor {
   }
 
   addActivity(activity) {
-    if (activity.type === "number" || activity.type === undefined) {
+    if (this.workingCopy.activities.get(activity.id)?.constructor !== Array) {
       if (this.workingCopy.activities.has(activity.id))
         this.workingCopy.activities.set(
           activity.id,
           this.workingCopy.activities.get(activity.id) + 1
         );
       else this.workingCopy.activities.set(activity.id, 1);
-    } else if (activity.type === "text") {
+    } else {
       let text = prompt("Enter text");
       if (text) {
         this.workingCopy.activities.set(
           activity.id,
-          [text].concat(this.workingCopy.activities.get(activity.id) || [])
+          (this.workingCopy.activities.get(activity.id) || []).concat([text])
         );
       }
     }
@@ -111,20 +111,23 @@ export class EntryEditor {
         JSON.stringify(this.entryDao.beforeSaveFixup(this.workingCopy))
       );
   }
-  removeTextItem(id, textItemIndex) {
-    if (this.workingCopy.activities.get(id).length === 1)
-      this.workingCopy.activities.delete(id);
-    else {
-      this.workingCopy.activities.get(id).splice(textItemIndex, 1);
+  addActivityWithText(activity) {
+    if (this.workingCopy.activities.has(activity.id)) {
+      this.addActivity(activity);
+    } else {
+      let text = prompt("Enter text");
+      if (text) {
+        this.workingCopy.activities.set(activity.id, [text]);
+        if (!this.workingCopy.id)
+          localStorage.setItem(
+            "checkpoint",
+            JSON.stringify(this.entryDao.beforeSaveFixup(this.workingCopy))
+          );
+      }
     }
-    if (!this.workingCopy.id)
-      localStorage.setItem(
-        "checkpoint",
-        JSON.stringify(this.entryDao.beforeSaveFixup(this.workingCopy))
-      );
   }
   removeActivity(id) {
-    if (this.activityService.getActivity(id).type !== "text") {
+    if (this.workingCopy.activities.get(id)?.constructor !== Array) {
       if (this.workingCopy.activities.get(id) > 1)
         this.workingCopy.activities.set(
           id,
