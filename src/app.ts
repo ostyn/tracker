@@ -33,7 +33,6 @@ export class App {
   configureRouter(config, router: Router) {
     config.title = "tracker";
     config.addPipelineStep("postcomplete", ScrollToTopPostCompleteStep);
-    this.questionUnloadWhenDialogActive();
     const closeDialogOnBackButtonStep: PipelineStep = {
       run: (navigationInstruction: NavigationInstruction, next: Next) => {
         if (
@@ -55,6 +54,13 @@ export class App {
     config.map([
       {
         route: "",
+        moduleId: PLATFORM.moduleName("./resources/routes/dummy-home.route"),
+        nav: false,
+        title: "",
+        name: "",
+      },
+      {
+        route: "entries",
         moduleId: PLATFORM.moduleName("./resources/routes/entries.route"),
         nav: true,
         title: "entries",
@@ -93,29 +99,8 @@ export class App {
 
     this.router = router;
   }
-
-  private questionUnloadWhenDialogActive() {
-    window.onbeforeunload = (e) => {
-      if (!this.dialogService.hasActiveDialog) return;
-      e = e || window.event;
-      this.dialogService.closeAll();
-      // For IE and Firefox
-      if (e) {
-        e.returnValue = "";
-      }
-
-      // For Safari
-      return "";
-    };
-  }
 }
 class ScrollToTopPostCompleteStep {
-  run(routingContext, next) {
-    window.scrollTo(0, 0);
-    return next();
-  }
-}
-class PostCompleteStep {
   run(routingContext, next) {
     window.scrollTo(0, 0);
     return next();
