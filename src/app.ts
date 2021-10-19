@@ -8,6 +8,7 @@ import {
   NavigationInstruction,
   PipelineStep,
   Next,
+  Redirect,
 } from "aurelia-router";
 import firebase from "firebase";
 
@@ -30,21 +31,27 @@ export class App {
     });
   }
   configureRouter(config, router: Router) {
-    const closeDialogStep: PipelineStep = {
+    config.title = "tracker";
+    config.addPipelineStep("postcomplete", ScrollToTopPostCompleteStep);
+    this.questionUnloadWhenDialogActive();
+    const closeDialogOnBackButtonStep: PipelineStep = {
       run: (navigationInstruction: NavigationInstruction, next: Next) => {
         if (
           navigationInstruction.router.isNavigatingBack &&
           this.dialogService.hasActiveDialog
         ) {
           this.dialogService.closeAll();
-          return next.cancel();
+          return next.cancel(
+            new Redirect(navigationInstruction.previousInstruction.fragment, {
+              trigger: true,
+              replace: false,
+            })
+          );
         }
         return next();
       },
     };
-    config.addPreActivateStep(closeDialogStep);
-    config.title = "tracker";
-    config.addPipelineStep("postcomplete", PostCompleteStep);
+    config.addAuthorizeStep(closeDialogOnBackButtonStep);
     config.map([
       {
         route: "",
@@ -76,9 +83,36 @@ export class App {
         nav: false,
         name: "entry",
       },
+      {
+        route: ["quick-log"],
+        moduleId: PLATFORM.moduleName("./resources/routes/quick-log.route"),
+        nav: false,
+        name: "quick-log",
+      },
     ]);
 
     this.router = router;
+  }
+
+  private questionUnloadWhenDialogActive() {
+    window.onbeforeunload = (e) => {
+      if (!this.dialogService.hasActiveDialog) return;
+      e = e || window.event;
+      this.dialogService.closeAll();
+      // For IE and Firefox
+      if (e) {
+        e.returnValue = "";
+      }
+
+      // For Safari
+      return "";
+    };
+  }
+}
+class ScrollToTopPostCompleteStep {
+  run(routingContext, next) {
+    window.scrollTo(0, 0);
+    return next();
   }
 }
 class PostCompleteStep {
