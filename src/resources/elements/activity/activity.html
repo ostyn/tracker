@@ -1,4 +1,4 @@
-<template class="inline-block p-1 text-center">
+<template class="inline-block p-1 text-center select-none">
   <div class="m-1 mt-0 text-3xl">${activity.emoji}</div>
   <div class="text-sm">
     ${activity.name}
@@ -20,7 +20,13 @@
     >
   </div>
   <ul
-    class="${detail.length>1? 'list-disc list-inside':''} text-sm text-left"
+    class="
+      ${detail.length>1?
+      'list-disc
+      list-inside':''}
+      text-sm text-left
+      select-text
+    "
     if.bind="isArray(detail) && detail.length>0"
   >
     <li repeat.for="textItem of detail">${textItem}</li>
