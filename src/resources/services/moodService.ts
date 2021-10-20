@@ -13,7 +13,7 @@ export class MoodService {
       name: "TBD",
     },
   ];
-  private moodsMap: Map<string, IMood>;
+  private moodsMap: Map<string, IMood> = new Map();
   public init() {
     return this.updateCacheThenNotify();
   }
