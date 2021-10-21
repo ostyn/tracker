@@ -1,0 +1,37 @@
+<template>
+  <require from="resources/elements/activity/activity"></require>
+  <ux-dialog>
+    <ux-dialog-body class="">
+      <activity id.bind="activity.id"></activity>
+      <div if.bind="isArray(detail)">
+        <div repeat.for="item of detail">
+          <input type="text" value.bind="detail[$index]" /><button
+            click.trigger="detail.splice($index,1)"
+          >
+            ❌
+          </button>
+        </div>
+      </div>
+      <hr />
+      <div if.bind="isArray(detail)">
+        <form submit.trigger="addItem()">
+          <input
+            focus="true"
+            type="text"
+            value.bind="newItem"
+            placeholder="add item"
+          />
+          <button if.bind="newItem" click.trigger="addItem()">▶</button>
+        </form>
+      </div>
+    </ux-dialog-body>
+    <ux-dialog-footer>
+      <button
+        click.trigger="controller.ok({activityId: activity.id, detail:detail})"
+      >
+        done
+      </button>
+      <button click.trigger="controller.cancel()">cancel</button>
+    </ux-dialog-footer>
+  </ux-dialog>
+</template>

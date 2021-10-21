@@ -14,6 +14,7 @@
         repeat.for="[id, detail] of workingCopy.activities"
         class="align-top cursor-pointer"
         click.trigger="removeActivity(id)"
+        long-click.trigger="editActivityDetail(id)"
         id.bind="id"
         detail.bind="detail"
       ></activity>

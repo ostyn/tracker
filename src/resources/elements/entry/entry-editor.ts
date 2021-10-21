@@ -9,6 +9,7 @@ import { DialogService } from "aurelia-dialog";
 import { MoodDialog } from "resources/dialogs/mood-prompt";
 import { IEntry } from "resources/elements/entry/entry.interface";
 import { TextDialog } from "resources/dialogs/text-prompt";
+import { ActivityDetailDialog } from "resources/dialogs/activity-detail-prompt";
 
 @autoinject
 export class EntryEditor {
@@ -61,11 +62,7 @@ export class EntryEditor {
       .whenClosed((response) => {
         if (!response.wasCancelled) {
           this.workingCopy.mood = response.output;
-          if (!this.workingCopy.id)
-            localStorage.setItem(
-              "checkpoint",
-              JSON.stringify(this.entryDao.beforeSaveFixup(this.workingCopy))
-            );
+          this.checkpointIfDraft();
         }
       });
   }
@@ -79,15 +76,31 @@ export class EntryEditor {
       .whenClosed((response) => {
         if (!response.wasCancelled) {
           this.workingCopy.note = response.output;
-          if (!this.workingCopy.id)
-            localStorage.setItem(
-              "checkpoint",
-              JSON.stringify(this.entryDao.beforeSaveFixup(this.workingCopy))
-            );
+          this.checkpointIfDraft();
         }
       });
   }
-
+  editActivityDetail(id) {
+    this.dialogService
+      .open({
+        viewModel: ActivityDetailDialog,
+        model: {
+          activityId: id,
+          detail: this.isArray(this.workingCopy.activities.get(id))
+            ? [...this.workingCopy.activities.get(id)]
+            : this.workingCopy.activities.get(id),
+        },
+        lock: true,
+      })
+      .whenClosed(
+        ((response) => {
+          if (!response.wasCancelled) {
+            this.workingCopy.activities.set(id, response.output.detail);
+            this.checkpointIfDraft();
+          }
+        }).bind(this)
+      );
+  }
   addActivity(activity) {
     if (this.workingCopy.activities.get(activity.id)?.constructor !== Array) {
       if (this.workingCopy.activities.has(activity.id))
@@ -105,11 +118,7 @@ export class EntryEditor {
         );
       }
     }
-    if (!this.workingCopy.id)
-      localStorage.setItem(
-        "checkpoint",
-        JSON.stringify(this.entryDao.beforeSaveFixup(this.workingCopy))
-      );
+    this.checkpointIfDraft();
   }
   addActivityWithText(activity) {
     if (this.workingCopy.activities.has(activity.id)) {
@@ -118,11 +127,7 @@ export class EntryEditor {
       let text = prompt("Enter text");
       if (text) {
         this.workingCopy.activities.set(activity.id, [text]);
-        if (!this.workingCopy.id)
-          localStorage.setItem(
-            "checkpoint",
-            JSON.stringify(this.entryDao.beforeSaveFixup(this.workingCopy))
-          );
+        this.checkpointIfDraft();
       }
     }
   }
@@ -144,11 +149,7 @@ export class EntryEditor {
         );
       else this.workingCopy.activities.delete(id);
     }
-    if (!this.workingCopy.id)
-      localStorage.setItem(
-        "checkpoint",
-        JSON.stringify(this.entryDao.beforeSaveFixup(this.workingCopy))
-      );
+    this.checkpointIfDraft();
   }
   submitEntry() {
     let parts = this.workingCopy.date.split("-");
@@ -194,5 +195,15 @@ export class EntryEditor {
       localStorage.removeItem("checkpoint");
       this.router.navigateToRoute("entries");
     }
+  }
+  isArray(array) {
+    return array?.constructor === Array;
+  }
+  checkpointIfDraft() {
+    if (!this.workingCopy.id)
+      localStorage.setItem(
+        "checkpoint",
+        JSON.stringify(this.entryDao.beforeSaveFixup(this.workingCopy))
+      );
   }
 }
