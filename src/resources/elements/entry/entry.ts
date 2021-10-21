@@ -28,8 +28,7 @@ export class Entry {
     this.getMoods();
     if (this.scrollToSelf)
       this.element.scrollIntoView({
-        block: "end",
-        inline: "end",
+        block: "center",
       });
   }
 

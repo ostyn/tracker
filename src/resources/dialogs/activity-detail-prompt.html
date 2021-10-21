@@ -16,6 +16,7 @@
       <div if.bind="isArray(detail)">
         <form submit.trigger="addItem()">
           <input
+            ref="inputBox"
             focus="true"
             type="text"
             value.bind="newItem"

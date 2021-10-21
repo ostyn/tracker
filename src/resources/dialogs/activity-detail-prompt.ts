@@ -8,6 +8,7 @@ export class ActivityDetailDialog {
   activity: IActivity;
   detail: number | string[];
   newItem: string;
+  inputBox: Element;
 
   constructor(
     public controller: DialogController,
@@ -25,6 +26,7 @@ export class ActivityDetailDialog {
     //@ts-ignore
     this.detail.push(this.newItem);
     this.newItem = undefined;
+    this.inputBox.scrollIntoView(true);
   }
 }
 
