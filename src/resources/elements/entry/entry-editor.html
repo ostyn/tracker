@@ -4,8 +4,8 @@
   <div class="m-3">
     <activity-grid
       activities.bind="activities"
-      on-activity-click.call="addActivity(activity)"
-      on-activity-long-click.call="addActivityWithText(activity)"
+      on-activity-click.call="addActivity(activity.id)"
+      on-activity-long-click.call="longPress(activity.id)"
     ></activity-grid>
   </div>
   <footer>
@@ -14,7 +14,6 @@
         repeat.for="[id, detail] of workingCopy.activities"
         class="align-top cursor-pointer"
         click.trigger="removeActivity(id)"
-        long-click.trigger="editActivityDetail(id)"
         id.bind="id"
         detail.bind="detail"
       ></activity>

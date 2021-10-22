@@ -1,3 +1,4 @@
+import { Options } from "aurelia-loader-nodejs";
 import { EntryDao } from "./../../dao/EntryDao";
 import { Router } from "aurelia-router";
 import { ActivityService } from "resources/services/activityService";
@@ -80,43 +81,47 @@ export class EntryEditor {
         }
       });
   }
-  editActivityDetail(id) {
+  longPress(id) {
+    if (this.isArray(this.workingCopy.activities.get(id)))
+      this.editActivityDetail(id, this.workingCopy.activities.get(id));
+    else if (!this.workingCopy.activities.has(id)) this.editActivityDetail(id);
+    else this.addActivity(id);
+  }
+  editActivityDetail(id, detail = []) {
     this.dialogService
       .open({
         viewModel: ActivityDetailDialog,
         model: {
           activityId: id,
-          detail: this.isArray(this.workingCopy.activities.get(id))
-            ? [...this.workingCopy.activities.get(id)]
-            : this.workingCopy.activities.get(id),
+          detail,
         },
         lock: true,
       })
       .whenClosed(
         ((response) => {
           if (!response.wasCancelled) {
-            this.workingCopy.activities.set(id, response.output.detail);
-            this.checkpointIfDraft();
+            if (this.isArray(response.output.detail)) {
+              if (response.output.detail.length > 0) {
+                this.workingCopy.activities.set(id, response.output.detail);
+              } else if (response.output.detail.length === 0) {
+                this.workingCopy.activities.delete(id);
+              }
+              this.checkpointIfDraft();
+            }
           }
         }).bind(this)
       );
   }
-  addActivity(activity) {
-    if (this.workingCopy.activities.get(activity.id)?.constructor !== Array) {
-      if (this.workingCopy.activities.has(activity.id))
+  addActivity(id) {
+    if (!this.isArray(this.workingCopy.activities.get(id))) {
+      if (this.workingCopy.activities.has(id))
         this.workingCopy.activities.set(
-          activity.id,
-          this.workingCopy.activities.get(activity.id) + 1
+          id,
+          this.workingCopy.activities.get(id) + 1
         );
-      else this.workingCopy.activities.set(activity.id, 1);
+      else this.workingCopy.activities.set(id, 1);
     } else {
-      let text = prompt("Enter text");
-      if (text) {
-        this.workingCopy.activities.set(
-          activity.id,
-          (this.workingCopy.activities.get(activity.id) || []).concat([text])
-        );
-      }
+      this.editActivityDetail(id, [...this.workingCopy.activities.get(id)]);
     }
     this.checkpointIfDraft();
   }
@@ -132,7 +137,7 @@ export class EntryEditor {
     }
   }
   removeActivity(id) {
-    if (this.workingCopy.activities.get(id)?.constructor !== Array) {
+    if (!this.isArray(this.workingCopy.activities.get(id))) {
       if (this.workingCopy.activities.get(id) > 1)
         this.workingCopy.activities.set(
           id,
@@ -140,14 +145,7 @@ export class EntryEditor {
         );
       else this.workingCopy.activities.delete(id);
     } else {
-      if (this.workingCopy.activities.get(id).length > 1)
-        this.workingCopy.activities.set(
-          id,
-          this.workingCopy.activities
-            .get(id)
-            .slice(0, this.workingCopy.activities.get(id).length - 1)
-        );
-      else this.workingCopy.activities.delete(id);
+      this.editActivityDetail(id, this.workingCopy.activities.get(id));
     }
     this.checkpointIfDraft();
   }
