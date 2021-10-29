@@ -5,10 +5,6 @@
     <label
       >Archived<input type="checkbox" checked.bind="workingCopy.isArchived"
     /></label>
-    <select name="type" id="type" value.bind="workingCopy.type">
-      <option value="number">number</option>
-      <option value="text">text</option>
-    </select>
     <span>
       <select value.bind="workingCopy.category" matcher.bind="categoryComparer">
         <option value="">Choose...</option>
