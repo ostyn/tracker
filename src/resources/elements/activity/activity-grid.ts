@@ -2,14 +2,19 @@ import { IActivity } from "resources/elements/activity/activity.interface";
 import { bindable } from "aurelia-framework";
 export class ActivityGrid {
   @bindable activities: IActivity[] = [];
+  @bindable searchTerm: string = "";
   @bindable onActivityClick;
   @bindable onActivityLongClick;
   @bindable filterArchived: boolean | string = true;
+  search: boolean = false;
   categoryToActivityList = new Map();
   uncategorized: IActivity[] = [];
   sortActivities: boolean = true;
   groupActivities: boolean = true;
 
+  searchTermChanged(newVal) {
+    this.activitiesChanged(this.activities);
+  }
   activitiesChanged(newVal) {
     this.categoryToActivityList = new Map();
     this.uncategorized = [];
@@ -19,6 +24,12 @@ export class ActivityGrid {
       if (this.filterArchived && activity.isArchived) {
         return;
       }
+      if (
+        !activity.name.includes(this.searchTerm) &&
+        !activity.category.includes(this.searchTerm) &&
+        !activity.emoji.includes(this.searchTerm)
+      )
+        return;
       if (this.groupActivities && activity.category) {
         const currentCategoryList: IActivity[] =
           this.categoryToActivityList.get(activity.category) || [];

@@ -1,6 +1,17 @@
 <template>
   <require from="resources/elements/activity/activity"></require>
   <div class="text-center">
+    <button if.bind="!search" click.trigger="search = !search">
+      🔎 ${searchTerm?'"'+searchTerm+'"':""}
+    </button>
+    <input
+      class="bg-white"
+      value.bind="searchTerm"
+      blur.trigger="search = false"
+      if.bind="search"
+      placeholder="search"
+      focus.bind="search"
+    />
     <button click.trigger="toggleShowArchived()">
       ${filterArchived? "show": "hide"} archived
     </button>
