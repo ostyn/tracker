@@ -1,7 +1,7 @@
 <template>
   <require from="resources/elements/activity/activity"></require>
   <div class="text-center">
-    <button if.bind="!search" click.trigger="search = !search">
+    <button class="w-2" if.bind="!search" click.trigger="search = !search">
       🔎 ${searchTerm?'"'+searchTerm+'"':""}
     </button>
     <input
@@ -13,10 +13,7 @@
       focus.bind="search"
     />
     <button click.trigger="toggleShowArchived()">
-      ${filterArchived? "show": "hide"} archived
-    </button>
-    <button click.trigger="toggleSort()">
-      ${sortActivities? "unsort": "sort"}
+      ${filterArchived? "🙈": "🐵"}
     </button>
     <button click.trigger="toggleGroup()">
       ${groupActivities? "ungroup": "group"}

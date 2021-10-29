@@ -9,7 +9,6 @@ export class ActivityGrid {
   search: boolean = false;
   categoryToActivityList = new Map();
   uncategorized: IActivity[] = [];
-  sortActivities: boolean = true;
   groupActivities: boolean = true;
 
   searchTermChanged(newVal) {
@@ -39,12 +38,14 @@ export class ActivityGrid {
         this.uncategorized.push(activity);
       }
     });
-    if (this.sortActivities) {
-      this.categoryToActivityList.forEach((val: IActivity[], key) => {
-        val.sort((a, b) => a.name.localeCompare(b.name));
-      });
-      this.uncategorized.sort((a, b) => a.name.localeCompare(b.name));
-    }
+    this.categoryToActivityList.forEach((val: IActivity[], key) => {
+      val.sort(
+        (a, b) => a.isArchived > b.isArchived || a.name.localeCompare(b.name)
+      );
+    });
+    this.uncategorized.sort(
+      (a, b) => a.isArchived > b.isArchived || a.name.localeCompare(b.name)
+    );
   }
   toggleShowArchived() {
     this.filterArchived = !this.filterArchived;
@@ -52,10 +53,6 @@ export class ActivityGrid {
   }
   toggleGroup() {
     this.groupActivities = !this.groupActivities;
-    this.activitiesChanged(this.activities);
-  }
-  toggleSort() {
-    this.sortActivities = !this.sortActivities;
     this.activitiesChanged(this.activities);
   }
 }
