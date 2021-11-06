@@ -1,7 +1,9 @@
+import { DialogService } from "aurelia-dialog";
 import { autoinject } from "aurelia-framework";
 import { ActivityService } from "resources/services/activityService";
 import { EventAggregator } from "aurelia-event-aggregator";
 import { IActivity } from "resources/elements/activity/activity.interface";
+import { ActivityInfo } from "resources/dialogs/activity-info";
 @autoinject
 export class ActivitiesRoute {
   subscribers = [];
@@ -9,7 +11,8 @@ export class ActivitiesRoute {
   activity: IActivity;
   constructor(
     private activityService: ActivityService,
-    private ea: EventAggregator
+    private ea: EventAggregator,
+    private dialogService: DialogService
   ) {}
 
   getActivities = () => {
@@ -28,5 +31,11 @@ export class ActivitiesRoute {
   }
   setCurrentActivity(activity: IActivity) {
     this.activity = activity;
+  }
+  showActivityInfo(id) {
+    this.dialogService.open({
+      viewModel: ActivityInfo,
+      model: id,
+    });
   }
 }

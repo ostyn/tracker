@@ -58,7 +58,6 @@ export class EntryEditor {
       .open({
         viewModel: MoodDialog,
         model: this.workingCopy.mood,
-        lock: false,
       })
       .whenClosed((response) => {
         if (!response.wasCancelled) {
@@ -72,7 +71,6 @@ export class EntryEditor {
       .open({
         viewModel: TextDialog,
         model: this.workingCopy.note,
-        lock: true,
       })
       .whenClosed((response) => {
         if (!response.wasCancelled) {
@@ -95,7 +93,6 @@ export class EntryEditor {
           activityId: id,
           detail,
         },
-        lock: true,
       })
       .whenClosed(
         ((response) => {

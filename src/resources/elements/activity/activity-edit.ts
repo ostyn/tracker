@@ -41,7 +41,6 @@ export class ActivityEdit {
     this.dialogService.open({
       viewModel: ActivityInfo,
       model: activityId,
-      lock: false,
     });
   }
 

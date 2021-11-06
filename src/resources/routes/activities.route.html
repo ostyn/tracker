@@ -5,6 +5,7 @@
     <activity-grid
       activities.bind="activities"
       on-activity-click.call="setCurrentActivity(activity)"
+      on-activity-long-click.call="showActivityInfo(activity.id)"
       filter-archived="false"
     ></activity-grid>
   </div>

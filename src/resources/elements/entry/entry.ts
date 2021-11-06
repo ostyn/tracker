@@ -57,7 +57,6 @@ export class Entry {
     this.dialogService.open({
       viewModel: ActivityInfo,
       model: id,
-      lock: false,
     });
   }
 }
