@@ -124,5 +124,92 @@ exports.createEntryAdjustStreaks = functions.firestore
           },
           { merge: true }
         );
+    } else {
+      console.error(
+        "onCreate Streak Update: Entry adjacent to more than 2 existing streaks. Aborting"
+      );
+      return;
     }
+  });
+
+exports.deleteEntryAdjustStreaks = functions.firestore
+  .document("entries/{entryId}")
+  .onDelete(async (snap, context) => {
+    const entry: IEntry = snap.data() as IEntry;
+    const userId = snap.data().userId;
+    let entriesOnDateSnapshot = await db
+      .collection("entries")
+      .where("userId", "==", userId)
+      .where("year", "==", entry.year)
+      .where("month", "==", entry.month)
+      .where("day", "==", entry.day)
+      .get();
+    if (entriesOnDateSnapshot.size >= 1) return;
+    let date = new Date(entry.date);
+    let snapshot = await db
+      .collection("streaks")
+      .where("userId", "==", userId)
+      .where("type", "==", "daysPosted")
+      .where("beginDate", "<=", date)
+      .get();
+    let streaks: Streak[] = [];
+    snapshot.forEach((doc) => {
+      const streak = doc.data();
+      doc.id;
+      if (streak.endDate.toDate() >= date) {
+        streaks.push(createStreak(streak, doc.id));
+      }
+    });
+    if (streaks.length > 1) {
+      console.error(
+        "onDelete Streak Update: More than one streak containing deleted entry. Aborting"
+      );
+      return;
+    }
+    const streak = streaks[0];
+    if (streak.length === 1) db.collection("streaks").doc(streak.id).delete();
+    else if (streak.beginDate.getTime() === date.getTime())
+      db.collection("streaks")
+        .doc(streak.id)
+        .set(
+          {
+            beginDate: addDaysToDate(1, date),
+            length: streak.length - 1,
+            updated: new Date(context.timestamp),
+          },
+          { merge: true }
+        );
+    else if (streak.endDate.getTime() === date.getTime())
+      db.collection("streaks")
+        .doc(streak.id)
+        .set(
+          {
+            endDate: addDaysToDate(-1, date),
+            length: streak.length - 1,
+            updated: new Date(context.timestamp),
+          },
+          { merge: true }
+        );
+    // * Middle of streak?
+    // 	* Split into two streaks: shrink one, add a new one, same creation/update dates
+  });
+
+exports.updateEntryAdjustStreaks = functions.firestore
+  .document("entries/{entryId}")
+  .onUpdate((change, context) => {
+    const before = change.before.data() as IEntry;
+    const after = change.after.data() as IEntry;
+    if (before.date === after.date) return;
+
+    // // Get an object representing the document
+    // // e.g. {'name': 'Marie', 'age': 66}
+    // const newValue = change.after.data();
+
+    // // ...or the previous value before this update
+    // const previousValue = change.before.data();
+
+    // // access a particular field as you would any JS property
+    // const name = newValue.name;
+
+    // // perform desired operations ...
   });
