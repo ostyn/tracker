@@ -1,6 +1,7 @@
 import { IEntry } from "./../../src/resources/elements/entry/entry.interface";
 import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
+import { differenceInDays } from "date-fns";
 admin.initializeApp();
 const db = admin.firestore();
 
@@ -190,8 +191,27 @@ exports.deleteEntryAdjustStreaks = functions.firestore
           },
           { merge: true }
         );
-    // * Middle of streak?
-    // 	* Split into two streaks: shrink one, add a new one, same creation/update dates
+    else {
+      db.collection("streaks")
+        .doc(streak.id)
+        .set(
+          {
+            beginDate: addDaysToDate(1, date),
+            length: differenceInDays(streak.endDate, date),
+            updated: new Date(context.timestamp),
+          },
+          { merge: true }
+        );
+      db.collection("streaks").add({
+        userId,
+        created: new Date(context.timestamp),
+        updated: new Date(context.timestamp),
+        length: differenceInDays(date, streak.beginDate),
+        beginDate: streak.beginDate,
+        endDate: addDaysToDate(-1, date),
+        type: "daysPosted",
+      });
+    }
   });
 
 exports.updateEntryAdjustStreaks = functions.firestore

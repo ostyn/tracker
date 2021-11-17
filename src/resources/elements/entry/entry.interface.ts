@@ -1,6 +1,8 @@
 export interface IEntry {
   activitiesArray?: string[];
   day?: number;
+  month?: number;
+  year?: number;
   updated?: Date;
   created?: Date;
   id?: string;
