@@ -116,9 +116,11 @@ async function updateStreaksAfterDelete(
     return;
   }
   const streak = streaks[0];
-  if (streak.length === 1) db.collection("streaks").doc(streak.id).delete();
+  if (streak.length === 1)
+    await db.collection("streaks").doc(streak.id).delete();
   else if (streak.beginDate.getTime() === date.getTime())
-    db.collection("streaks")
+    await db
+      .collection("streaks")
       .doc(streak.id)
       .set(
         {
@@ -129,7 +131,8 @@ async function updateStreaksAfterDelete(
         { merge: true }
       );
   else if (streak.endDate.getTime() === date.getTime())
-    db.collection("streaks")
+    await db
+      .collection("streaks")
       .doc(streak.id)
       .set(
         {
@@ -140,7 +143,8 @@ async function updateStreaksAfterDelete(
         { merge: true }
       );
   else {
-    db.collection("streaks")
+    await db
+      .collection("streaks")
       .doc(streak.id)
       .set(
         {
@@ -150,7 +154,7 @@ async function updateStreaksAfterDelete(
         },
         { merge: true }
       );
-    db.collection("streaks").add({
+    await db.collection("streaks").add({
       userId,
       created: new Date(timestamp),
       updated: new Date(timestamp),
@@ -181,7 +185,7 @@ async function updateStreaksAfterCreate(userId: any, entry: IEntry) {
   });
   //no-existing streak relations
   if (streaks.length === 0)
-    db.collection("streaks").add({
+    await db.collection("streaks").add({
       userId,
       created: entry.created,
       updated: entry.updated,
@@ -200,7 +204,8 @@ async function updateStreaksAfterCreate(userId: any, entry: IEntry) {
   } //adjacent to a single streak
   else if (streaks.length === 1) {
     if (date < streaks[0].beginDate)
-      db.collection("streaks")
+      await db
+        .collection("streaks")
         .doc(streaks[0].id)
         .set(
           {
@@ -211,7 +216,8 @@ async function updateStreaksAfterCreate(userId: any, entry: IEntry) {
           { merge: true }
         );
     if (date > streaks[0].endDate)
-      db.collection("streaks")
+      await db
+        .collection("streaks")
         .doc(streaks[0].id)
         .set(
           {
@@ -234,8 +240,9 @@ async function updateStreaksAfterCreate(userId: any, entry: IEntry) {
       survivingStreak = streakB;
       defunctStreak = streakA;
     }
-    db.collection("streaks").doc(defunctStreak.id).delete();
-    db.collection("streaks")
+    await db.collection("streaks").doc(defunctStreak.id).delete();
+    await db
+      .collection("streaks")
       .doc(survivingStreak.id)
       .set(
         {
