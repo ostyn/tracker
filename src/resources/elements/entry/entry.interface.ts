@@ -1,4 +1,5 @@
 export interface IEntry {
+  userId?: any;
   activitiesArray?: string[];
   day?: number;
   month?: number;

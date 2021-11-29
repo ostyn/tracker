@@ -2,36 +2,11 @@ import { IEntry } from "./../../src/resources/elements/entry/entry.interface";
 import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
 import { differenceInDays } from "date-fns";
+import { Streak } from "./streak.interface";
+import { createStreakFromDbStreak, addDaysToDate } from "./utils";
 admin.initializeApp();
 const db = admin.firestore();
 
-interface Streak {
-  created: Date;
-  updated: Date;
-  length: number;
-  beginDate: Date;
-  endDate: Date;
-  id: string;
-  type: string;
-  userId: string;
-}
-function createStreak(firestoreObject: any, id: string): Streak {
-  return {
-    userId: firestoreObject.userId,
-    id: id,
-    created: firestoreObject.created.toDate(),
-    updated: firestoreObject.updated.toDate(),
-    length: firestoreObject.length,
-    beginDate: firestoreObject.beginDate.toDate(),
-    endDate: firestoreObject.endDate.toDate(),
-    type: "daysPosted",
-  };
-}
-function addDaysToDate(days: number, origDate: Date) {
-  var date = new Date(origDate.valueOf());
-  date.setDate(date.getDate() + days);
-  return date;
-}
 exports.createEntryAdjustStreaks = functions.firestore
   .document("entries/{entryId}")
   .onCreate(async (snap, context) => {
@@ -75,6 +50,7 @@ exports.updateEntryAdjustStreaks = functions.firestore
     );
     await updateStreaksAfterCreate(userId, after);
   });
+
 async function dateHasEntries(userId: any, year: any, month: any, day: any) {
   let entriesOnDateSnapshot = await db
     .collection("entries")
@@ -85,6 +61,7 @@ async function dateHasEntries(userId: any, year: any, month: any, day: any) {
     .get();
   return entriesOnDateSnapshot.size >= 1;
 }
+
 async function updateStreaksAfterDelete(
   userId: any,
   date: Date,
@@ -103,10 +80,10 @@ async function updateStreaksAfterDelete(
     .get();
   let streaks: Streak[] = [];
   snapshot.forEach((doc) => {
-    const streak = doc.data();
+    const dbStreak = doc.data();
     doc.id;
-    if (streak.beginDate.toDate() <= date) {
-      streaks.push(createStreak(streak, doc.id));
+    if (dbStreak.beginDate.toDate() <= date) {
+      streaks.push(createStreakFromDbStreak(dbStreak, doc.id));
     }
   });
   if (streaks.length > 1) {
@@ -165,6 +142,7 @@ async function updateStreaksAfterDelete(
     });
   }
 }
+
 async function updateStreaksAfterCreate(userId: any, entry: IEntry) {
   const date = new Date(entry.date);
   let snapshot = await db
@@ -176,9 +154,9 @@ async function updateStreaksAfterCreate(userId: any, entry: IEntry) {
     .get();
   let streaks: Streak[] = [];
   snapshot.forEach((doc) => {
-    const streak = doc.data();
-    if (addDaysToDate(-1, streak.beginDate.toDate()) <= date) {
-      streaks.push(createStreak(streak, doc.id));
+    const dbStreak = doc.data();
+    if (addDaysToDate(-1, dbStreak.beginDate.toDate()) <= date) {
+      streaks.push(createStreakFromDbStreak(dbStreak, doc.id));
     }
   });
   //no-existing streak relations
