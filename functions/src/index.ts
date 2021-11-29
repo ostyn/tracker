@@ -12,7 +12,7 @@ exports.createEntryAdjustStreaks = functions.firestore
   .onCreate(async (snap, context) => {
     const entry: IEntry = snap.data() as IEntry;
     const userId = snap.data().userId;
-    await updateStreaksAfterCreate(userId, entry);
+    await updateStreaksAfterCreate(userId, entry, "daysPosted");
   });
 
 exports.deleteEntryAdjustStreaks = functions.firestore
@@ -48,7 +48,7 @@ exports.updateEntryAdjustStreaks = functions.firestore
       before.day,
       context.timestamp
     );
-    await updateStreaksAfterCreate(userId, after);
+    await updateStreaksAfterCreate(userId, after, "daysPosted");
   });
 
 async function dateHasEntries(userId: any, year: any, month: any, day: any) {
@@ -71,7 +71,11 @@ async function updateStreaksAfterDelete(
   timestamp: any
 ) {
   if (await dateHasEntries(userId, year, month, day)) return;
-  let streaks: Streak[] = await getAffectedStreaksFromDate(userId, date);
+  let streaks: Streak[] = await getAffectedStreaksForDate(
+    userId,
+    date,
+    "daysPosted"
+  );
   if (streaks.length > 1) {
     console.error(
       "onDelete Streak Update: More than one streak containing deleted entry. Aborting"
@@ -124,14 +128,23 @@ async function updateStreaksAfterDelete(
       length: differenceInDays(date, streak.beginDate),
       beginDate: streak.beginDate,
       endDate: addDaysToDate(-1, date),
-      type: "daysPosted",
+      type: streak.type,
     });
   }
 }
 
-async function updateStreaksAfterCreate(userId: any, entry: IEntry) {
+async function updateStreaksAfterCreate(
+  userId: any,
+  entry: IEntry,
+  type: string
+) {
   const date = new Date(entry.date);
-  let streaks: Streak[] = await getAffectedStreaksFromDate(userId, date, 1);
+  let streaks: Streak[] = await getAffectedStreaksForDate(
+    userId,
+    date,
+    type,
+    1
+  );
   //no-existing streak relations
   if (streaks.length === 0)
     await db.collection("streaks").add({
@@ -141,7 +154,7 @@ async function updateStreaksAfterCreate(userId: any, entry: IEntry) {
       length: 1,
       beginDate: new Date(entry.date),
       endDate: new Date(entry.date),
-      type: "daysPosted",
+      type: type,
     });
   //contained in a streak
   else if (
@@ -215,15 +228,16 @@ async function updateStreaksAfterCreate(userId: any, entry: IEntry) {
     return;
   }
 }
-async function getAffectedStreaksFromDate(
+async function getAffectedStreaksForDate(
   userId: any,
   date: Date,
+  type: string,
   proximity: number = 0
 ) {
   let snapshot = await db
     .collection("streaks")
     .where("userId", "==", userId)
-    .where("type", "==", "daysPosted")
+    .where("type", "==", type)
     .where("endDate", ">=", addDaysToDate(-1 * proximity, date))
     .orderBy("endDate", "desc")
     .get();
