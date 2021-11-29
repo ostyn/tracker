@@ -71,21 +71,7 @@ async function updateStreaksAfterDelete(
   timestamp: any
 ) {
   if (await dateHasEntries(userId, year, month, day)) return;
-  let snapshot = await db
-    .collection("streaks")
-    .where("userId", "==", userId)
-    .where("type", "==", "daysPosted")
-    .where("endDate", ">=", date)
-    .orderBy("endDate", "desc")
-    .get();
-  let streaks: Streak[] = [];
-  snapshot.forEach((doc) => {
-    const dbStreak = doc.data();
-    doc.id;
-    if (dbStreak.beginDate.toDate() <= date) {
-      streaks.push(createStreakFromDbStreak(dbStreak, doc.id));
-    }
-  });
+  let streaks: Streak[] = await getAffectedStreaksFromDate(userId, date);
   if (streaks.length > 1) {
     console.error(
       "onDelete Streak Update: More than one streak containing deleted entry. Aborting"
@@ -145,20 +131,7 @@ async function updateStreaksAfterDelete(
 
 async function updateStreaksAfterCreate(userId: any, entry: IEntry) {
   const date = new Date(entry.date);
-  let snapshot = await db
-    .collection("streaks")
-    .where("userId", "==", userId)
-    .where("type", "==", "daysPosted")
-    .where("endDate", ">=", addDaysToDate(-1, date))
-    .orderBy("endDate", "desc")
-    .get();
-  let streaks: Streak[] = [];
-  snapshot.forEach((doc) => {
-    const dbStreak = doc.data();
-    if (addDaysToDate(-1, dbStreak.beginDate.toDate()) <= date) {
-      streaks.push(createStreakFromDbStreak(dbStreak, doc.id));
-    }
-  });
+  let streaks: Streak[] = await getAffectedStreaksFromDate(userId, date, 1);
   //no-existing streak relations
   if (streaks.length === 0)
     await db.collection("streaks").add({
@@ -241,4 +214,25 @@ async function updateStreaksAfterCreate(userId: any, entry: IEntry) {
     );
     return;
   }
+}
+async function getAffectedStreaksFromDate(
+  userId: any,
+  date: Date,
+  proximity: number = 0
+) {
+  let snapshot = await db
+    .collection("streaks")
+    .where("userId", "==", userId)
+    .where("type", "==", "daysPosted")
+    .where("endDate", ">=", addDaysToDate(-1 * proximity, date))
+    .orderBy("endDate", "desc")
+    .get();
+  let streaks: Streak[] = [];
+  snapshot.forEach((doc) => {
+    const dbStreak = doc.data();
+    if (addDaysToDate(-1 * proximity, dbStreak.beginDate.toDate()) <= date) {
+      streaks.push(createStreakFromDbStreak(dbStreak, doc.id));
+    }
+  });
+  return streaks;
 }
