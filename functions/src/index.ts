@@ -93,19 +93,19 @@ async function updateStreaksAfterDelete(
   day: any,
   timestamp: any
 ) {
-  console.log("hit delete");
   if (await dateHasEntries(userId, year, month, day)) return;
   let snapshot = await db
     .collection("streaks")
     .where("userId", "==", userId)
     .where("type", "==", "daysPosted")
-    .where("beginDate", "<=", date)
+    .where("endDate", ">=", date)
+    .orderBy("endDate", "desc")
     .get();
   let streaks: Streak[] = [];
   snapshot.forEach((doc) => {
     const streak = doc.data();
     doc.id;
-    if (streak.endDate.toDate() >= date) {
+    if (streak.beginDate.toDate() <= date) {
       streaks.push(createStreak(streak, doc.id));
     }
   });
@@ -166,20 +166,18 @@ async function updateStreaksAfterDelete(
   }
 }
 async function updateStreaksAfterCreate(userId: any, entry: IEntry) {
-  console.log("hit create");
-
   const date = new Date(entry.date);
   let snapshot = await db
     .collection("streaks")
     .where("userId", "==", userId)
     .where("type", "==", "daysPosted")
-    .where("beginDate", "<=", addDaysToDate(1, date))
+    .where("endDate", ">=", addDaysToDate(-1, date))
+    .orderBy("endDate", "desc")
     .get();
   let streaks: Streak[] = [];
   snapshot.forEach((doc) => {
     const streak = doc.data();
-    doc.id;
-    if (addDaysToDate(1, streak.endDate.toDate()) >= date) {
+    if (addDaysToDate(-1, streak.beginDate.toDate()) <= date) {
       streaks.push(createStreak(streak, doc.id));
     }
   });
