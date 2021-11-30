@@ -22,14 +22,7 @@ exports.deleteEntryAdjustStreaks = functions.firestore
     const userId = snap.data().userId;
     const date = new Date(entry.date);
 
-    await updateStreaksAfterDelete(
-      userId,
-      date,
-      entry.year,
-      entry.month,
-      entry.day,
-      context.timestamp
-    );
+    await updateStreaksAfterDelete(userId, date, context.timestamp);
   });
 
 exports.updateEntryAdjustStreaks = functions.firestore
@@ -43,21 +36,18 @@ exports.updateEntryAdjustStreaks = functions.firestore
     await updateStreaksAfterDelete(
       userId,
       new Date(before.date),
-      before.year,
-      before.month,
-      before.day,
       context.timestamp
     );
     await updateStreaksAfterCreate(userId, after, "daysPosted");
   });
 
-async function dateHasEntries(userId: any, year: any, month: any, day: any) {
+async function dateHasEntries(userId: any, date: Date) {
   let entriesOnDateSnapshot = await db
     .collection("entries")
     .where("userId", "==", userId)
-    .where("year", "==", year)
-    .where("month", "==", month)
-    .where("day", "==", day)
+    .where("year", "==", date.getFullYear())
+    .where("month", "==", date.getMonth() + 1)
+    .where("day", "==", date.getDate())
     .get();
   return entriesOnDateSnapshot.size >= 1;
 }
@@ -65,12 +55,9 @@ async function dateHasEntries(userId: any, year: any, month: any, day: any) {
 async function updateStreaksAfterDelete(
   userId: any,
   date: Date,
-  year: any,
-  month: any,
-  day: any,
   timestamp: any
 ) {
-  if (await dateHasEntries(userId, year, month, day)) return;
+  if (await dateHasEntries(userId, date)) return;
   let streaks: Streak[] = await getAffectedStreaksForDate(
     userId,
     date,
