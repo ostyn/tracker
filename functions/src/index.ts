@@ -12,7 +12,12 @@ exports.createEntryAdjustStreaks = functions.firestore
   .onCreate(async (snap, context) => {
     const entry: IEntry = snap.data() as IEntry;
     const userId = snap.data().userId;
-    await updateStreaksAfterCreate(userId, entry, "daysPosted");
+    await updateStreaksAfterCreate(
+      userId,
+      "daysPosted",
+      new Date(entry.date),
+      new Date(context.timestamp)
+    );
   });
 
 exports.deleteEntryAdjustStreaks = functions.firestore
@@ -20,9 +25,13 @@ exports.deleteEntryAdjustStreaks = functions.firestore
   .onDelete(async (snap, context) => {
     const entry: IEntry = snap.data() as IEntry;
     const userId = snap.data().userId;
-    const date = new Date(entry.date);
 
-    await updateStreaksAfterDelete(userId, date, context.timestamp);
+    await updateStreaksAfterDelete(
+      userId,
+      "daysPosted",
+      new Date(entry.date),
+      new Date(context.timestamp)
+    );
   });
 
 exports.updateEntryAdjustStreaks = functions.firestore
@@ -35,10 +44,16 @@ exports.updateEntryAdjustStreaks = functions.firestore
 
     await updateStreaksAfterDelete(
       userId,
+      "daysPosted",
       new Date(before.date),
-      context.timestamp
+      new Date(context.timestamp)
     );
-    await updateStreaksAfterCreate(userId, after, "daysPosted");
+    await updateStreaksAfterCreate(
+      userId,
+      "daysPosted",
+      new Date(after.date),
+      new Date(context.timestamp)
+    );
   });
 
 async function dateHasEntries(userId: any, date: Date) {
@@ -54,15 +69,12 @@ async function dateHasEntries(userId: any, date: Date) {
 
 async function updateStreaksAfterDelete(
   userId: any,
+  type: string,
   date: Date,
-  timestamp: any
+  actionTime: Date
 ) {
   if (await dateHasEntries(userId, date)) return;
-  let streaks: Streak[] = await getAffectedStreaksForDate(
-    userId,
-    date,
-    "daysPosted"
-  );
+  let streaks: Streak[] = await getAffectedStreaksForDate(userId, date, type);
   if (streaks.length > 1) {
     console.error(
       "onDelete Streak Update: More than one streak containing deleted entry. Aborting"
@@ -80,7 +92,7 @@ async function updateStreaksAfterDelete(
         {
           beginDate: addDaysToDate(1, date),
           length: streak.length - 1,
-          updated: new Date(timestamp),
+          updated: actionTime,
         },
         { merge: true }
       );
@@ -92,7 +104,7 @@ async function updateStreaksAfterDelete(
         {
           endDate: addDaysToDate(-1, date),
           length: streak.length - 1,
-          updated: new Date(timestamp),
+          updated: actionTime,
         },
         { merge: true }
       );
@@ -104,14 +116,14 @@ async function updateStreaksAfterDelete(
         {
           beginDate: addDaysToDate(1, date),
           length: differenceInDays(streak.endDate, date),
-          updated: new Date(timestamp),
+          updated: actionTime,
         },
         { merge: true }
       );
     await db.collection("streaks").add({
       userId,
-      created: new Date(timestamp),
-      updated: new Date(timestamp),
+      created: actionTime,
+      updated: actionTime,
       length: differenceInDays(date, streak.beginDate),
       beginDate: streak.beginDate,
       endDate: addDaysToDate(-1, date),
@@ -122,10 +134,10 @@ async function updateStreaksAfterDelete(
 
 async function updateStreaksAfterCreate(
   userId: any,
-  entry: IEntry,
-  type: string
+  type: string,
+  date: Date,
+  actionTime: Date
 ) {
-  const date = new Date(entry.date);
   let streaks: Streak[] = await getAffectedStreaksForDate(
     userId,
     date,
@@ -136,11 +148,11 @@ async function updateStreaksAfterCreate(
   if (streaks.length === 0)
     await db.collection("streaks").add({
       userId,
-      created: entry.created,
-      updated: entry.updated,
+      created: actionTime,
+      updated: actionTime,
       length: 1,
-      beginDate: new Date(entry.date),
-      endDate: new Date(entry.date),
+      beginDate: date,
+      endDate: date,
       type: type,
     });
   //contained in a streak
@@ -160,7 +172,7 @@ async function updateStreaksAfterCreate(
           {
             beginDate: date,
             length: streaks[0].length + 1,
-            updated: entry.created,
+            updated: actionTime,
           },
           { merge: true }
         );
@@ -172,7 +184,7 @@ async function updateStreaksAfterCreate(
           {
             endDate: date,
             length: streaks[0].length + 1,
-            updated: entry.created,
+            updated: actionTime,
           },
           { merge: true }
         );
@@ -204,7 +216,7 @@ async function updateStreaksAfterCreate(
               ? survivingStreak.endDate
               : defunctStreak.endDate,
           length: survivingStreak.length + defunctStreak.length + 1,
-          updated: entry.created,
+          updated: actionTime,
         },
         { merge: true }
       );
