@@ -18,6 +18,14 @@ exports.createEntryAdjustStreaks = functions.firestore
       new Date(entry.date),
       new Date(context.timestamp)
     );
+    entry.activitiesArray?.forEach(async (activity) => {
+      await updateStreaksAfterCreate(
+        userId,
+        "activity:" + activity,
+        new Date(entry.date),
+        new Date(context.timestamp)
+      );
+    });
   });
 
 exports.deleteEntryAdjustStreaks = functions.firestore
@@ -26,12 +34,27 @@ exports.deleteEntryAdjustStreaks = functions.firestore
     const entry: IEntry = snap.data() as IEntry;
     const userId = snap.data().userId;
 
-    await updateStreaksAfterDelete(
-      userId,
-      "daysPosted",
-      new Date(entry.date),
-      new Date(context.timestamp)
-    );
+    if (!(await dateHasEntries(userId, new Date(entry.date))))
+      await updateStreaksAfterDelete(
+        userId,
+        "daysPosted",
+        new Date(entry.date),
+        new Date(context.timestamp)
+      );
+    (
+      await getActivitiesNotRepresentedOnDate(
+        userId,
+        new Date(entry.date),
+        entry.activitiesArray as string[]
+      )
+    ).forEach(async (activity) => {
+      await updateStreaksAfterDelete(
+        userId,
+        "activity:" + activity,
+        new Date(entry.date),
+        new Date(context.timestamp)
+      );
+    });
   });
 
 exports.updateEntryAdjustStreaks = functions.firestore
@@ -40,31 +63,115 @@ exports.updateEntryAdjustStreaks = functions.firestore
     const before = change.before.data() as IEntry;
     const after = change.after.data() as IEntry;
     const userId = before.userId;
-    if (before.date === after.date) return;
-
-    await updateStreaksAfterDelete(
-      userId,
-      "daysPosted",
-      new Date(before.date),
-      new Date(context.timestamp)
-    );
-    await updateStreaksAfterCreate(
-      userId,
-      "daysPosted",
-      new Date(after.date),
-      new Date(context.timestamp)
-    );
+    if (before.date !== after.date) {
+      if (!(await dateHasEntries(userId, new Date(before.date))))
+        await updateStreaksAfterDelete(
+          userId,
+          "daysPosted",
+          new Date(before.date),
+          new Date(context.timestamp)
+        );
+      await updateStreaksAfterCreate(
+        userId,
+        "daysPosted",
+        new Date(after.date),
+        new Date(context.timestamp)
+      );
+      const toCheckupOn = await getActivitiesNotRepresentedOnDate(
+        userId,
+        new Date(before.date),
+        before.activitiesArray as []
+      );
+      for (let activity of toCheckupOn) {
+        await updateStreaksAfterDelete(
+          userId,
+          "activity:" + activity,
+          new Date(before.date),
+          new Date(context.timestamp)
+        );
+      }
+      (after.activitiesArray as []).forEach(async (activity) => {
+        await updateStreaksAfterCreate(
+          userId,
+          "activity:" + activity,
+          new Date(after.date),
+          new Date(context.timestamp)
+        );
+      });
+    } else {
+      const removedActivities: string[] = [];
+      const addedActivities: string[] = [];
+      before.activitiesArray?.forEach((activity) => {
+        if (!(after.activities as Record<string, any>)[activity])
+          removedActivities.push(activity);
+      });
+      after.activitiesArray?.forEach((activity) => {
+        if (!(before.activities as Record<string, any>)[activity])
+          addedActivities.push(activity);
+      });
+      const toCheckupOn = await getActivitiesNotRepresentedOnDate(
+        userId,
+        new Date(before.date),
+        removedActivities
+      );
+      for (let activity of toCheckupOn) {
+        await updateStreaksAfterDelete(
+          userId,
+          "activity:" + activity,
+          new Date(before.date),
+          new Date(context.timestamp)
+        );
+      }
+      addedActivities.forEach(async (activity) => {
+        await updateStreaksAfterCreate(
+          userId,
+          "activity:" + activity,
+          new Date(after.date),
+          new Date(context.timestamp)
+        );
+      });
+    }
   });
 
+//TODO: Soon we'll have to check if a date has mood/activity instead of just "exists"
 async function dateHasEntries(userId: any, date: Date) {
-  let entriesOnDateSnapshot = await db
+  let query = db
+    .collection("entries")
+    .where("userId", "==", userId)
+    .where("year", "==", date.getFullYear())
+    .where("month", "==", date.getMonth() + 1)
+    .where("day", "==", date.getDate());
+
+  let entriesOnDateSnapshot = await query.get();
+  return entriesOnDateSnapshot.size >= 1;
+}
+
+//TODO: Soon we'll have to check if a date has mood/activity instead of just "exists"
+async function getActivitiesNotRepresentedOnDate(
+  userId: any,
+  date: Date,
+  activities: any[]
+): Promise<string[]> {
+  if (activities.length === 0) return [];
+  let query = db
     .collection("entries")
     .where("userId", "==", userId)
     .where("year", "==", date.getFullYear())
     .where("month", "==", date.getMonth() + 1)
     .where("day", "==", date.getDate())
-    .get();
-  return entriesOnDateSnapshot.size >= 1;
+    .where("activitiesArray", "array-contains-any", activities);
+  const entries = await query.get();
+  const unrepresentedActivities: Map<string, number> = new Map();
+  activities.forEach((activity) => {
+    unrepresentedActivities.set(activity, 1);
+  });
+  entries.forEach((entry) => {
+    entry.data().activitiesArray.forEach((activity: string) => {
+      unrepresentedActivities.delete(activity);
+    });
+  });
+
+  return Array.from(unrepresentedActivities.keys());
 }
 
 async function updateStreaksAfterDelete(
@@ -72,8 +179,7 @@ async function updateStreaksAfterDelete(
   type: string,
   date: Date,
   actionTime: Date
-) {
-  if (await dateHasEntries(userId, date)) return;
+): Promise<any> {
   let streaks: Streak[] = await getAffectedStreaksForDate(userId, date, type);
   if (streaks.length > 1) {
     console.error(
@@ -81,11 +187,12 @@ async function updateStreaksAfterDelete(
     );
     return;
   }
+  if (streaks.length === 0) return;
   const streak = streaks[0];
-  if (streak.length === 1)
-    await db.collection("streaks").doc(streak.id).delete();
-  else if (streak.beginDate.getTime() === date.getTime())
-    await db
+  if (streak.length === 1) {
+    return await db.collection("streaks").doc(streak.id).delete();
+  } else if (streak.beginDate.getTime() === date.getTime()) {
+    return await db
       .collection("streaks")
       .doc(streak.id)
       .set(
@@ -96,8 +203,8 @@ async function updateStreaksAfterDelete(
         },
         { merge: true }
       );
-  else if (streak.endDate.getTime() === date.getTime())
-    await db
+  } else if (streak.endDate.getTime() === date.getTime()) {
+    return await db
       .collection("streaks")
       .doc(streak.id)
       .set(
@@ -108,7 +215,7 @@ async function updateStreaksAfterDelete(
         },
         { merge: true }
       );
-  else {
+  } else {
     await db
       .collection("streaks")
       .doc(streak.id)
@@ -120,7 +227,7 @@ async function updateStreaksAfterDelete(
         },
         { merge: true }
       );
-    await db.collection("streaks").add({
+    return await db.collection("streaks").add({
       userId,
       created: actionTime,
       updated: actionTime,

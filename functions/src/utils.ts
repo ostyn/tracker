@@ -9,7 +9,7 @@ export function createStreakFromDbStreak(dbStreak: any, id: string): Streak {
     length: dbStreak.length,
     beginDate: dbStreak.beginDate.toDate(),
     endDate: dbStreak.endDate.toDate(),
-    type: "daysPosted",
+    type: dbStreak.type,
   };
 }
 export function addDaysToDate(days: number, origDate: Date) {
