@@ -9,7 +9,7 @@ export class ActivityService {
     return this.updateCacheThenNotify();
   }
   activitiesCache: IActivity[] = [];
-  activitiesMap: Map<string, IActivity> = new Map();
+  public activitiesMap: Map<string, IActivity> = new Map();
   categories: Set<string>;
   constructor(private activityDao: ActivityDao, private ea: EventAggregator) {}
   notifyListeners() {

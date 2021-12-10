@@ -13,11 +13,11 @@
   <div>
     <h3>Activities</h3>
     <activity
-      repeat.for="[id, detail] of entry.activities"
-      id.bind="id"
+      repeat.for="activity of entry.activitiesArray | map: activityService.activitiesMap | sort: 'name'"
+      id.bind="activity.id"
       class="align-top cursor-pointer"
-      detail.bind="detail"
-      click.trigger="showActivityInfo(id)"
+      detail.bind="entry.activities.get(activity.id)"
+      click.trigger="showActivityInfo(activity.id)"
     ></activity>
   </div>
   <div if.bind="entry.note != ''">

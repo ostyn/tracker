@@ -1,3 +1,4 @@
+import { ActivityService } from "./../../services/activityService";
 import { IEntry } from "./entry.interface";
 import { DialogService } from "aurelia-dialog";
 import { Router } from "aurelia-router";
@@ -20,7 +21,8 @@ export class Entry {
     private ea: EventAggregator,
     public formatLib: FormatLib,
     private dialogService: DialogService,
-    private element: Element
+    private element: Element,
+    public activityService: ActivityService
   ) {}
 
   attached() {

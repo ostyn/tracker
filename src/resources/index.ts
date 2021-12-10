@@ -1,8 +1,12 @@
+import { PLATFORM } from "aurelia-pal";
 import { FrameworkConfiguration } from "aurelia-framework";
 import { Workbox } from "workbox-window";
 
 export function configure(config: FrameworkConfiguration): void {
-  //config.globalResources([]);
+  config.globalResources([
+    PLATFORM.moduleName("./value-converters/map"),
+    PLATFORM.moduleName("./value-converters/sort"),
+  ]);
 }
 
 if ("serviceWorker" in navigator) {
