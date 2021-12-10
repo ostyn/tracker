@@ -37,7 +37,7 @@ option {
 }
 
 button {
-  @apply w-24 p-1 pl-3 pr-3 mt-2 mb-2 text-white bg-green-500 border border-black shadow ring-0 min-w-max hover:bg-green-600 disabled:filter disabled:grayscale;
+  @apply w-24 p-1 pl-3 pr-3 mt-2 mb-2 text-black bg-green-500 rounded-md shadow dark:text-black ring-0 min-w-max hover:bg-green-600 disabled:filter disabled:grayscale;
 }
 footer {
   @apply sticky bottom-0 p-3 bg-white border-t border-black;
