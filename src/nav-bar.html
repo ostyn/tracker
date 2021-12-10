@@ -7,6 +7,10 @@
       <a href.bind="row.href">${row.title}</a>
     </div>
     <!-- ${FirestoreCounter.count} -->
-    <span click.trigger="toggleNightMode()">🌓</span>
+    <span
+      click.trigger="toggleNightMode()"
+      long-click.trigger="toggleShowArchived()"
+      >🌓</span
+    >
   </div>
 </template>

@@ -5,6 +5,8 @@ import { IActivity } from "resources/elements/activity/activity.interface";
 
 @autoinject
 export class ActivityService {
+  showArchivedActivities: boolean = true;
+  originalActivities: IActivity[];
   public init() {
     return this.updateCacheThenNotify();
   }
@@ -20,16 +22,30 @@ export class ActivityService {
     this.updateCacheThenNotify();
   }
 
+  toggleArchivedActivitiesThenNotify() {
+    this.showArchivedActivities = !this.showArchivedActivities;
+    this.setupActivities(this.originalActivities);
+    this.notifyListeners();
+  }
+
   updateCacheThenNotify() {
     this.fetchActivities().then((activities) => {
-      this.activitiesCache = activities;
-      this.activitiesMap = new Map();
-      this.categories = new Set();
-      this.activitiesCache.forEach((activity: IActivity) => {
+      this.originalActivities = activities;
+      this.setupActivities(activities);
+      this.notifyListeners();
+    });
+  }
+
+  private setupActivities(activities: IActivity[]) {
+    this.activitiesCache = [];
+    this.activitiesMap = new Map();
+    this.categories = new Set();
+    activities.forEach((activity: IActivity) => {
+      if (!activity.isArchived || this.showArchivedActivities) {
+        this.activitiesCache.push(activity);
         this.activitiesMap.set(activity.id, activity);
         this.categories.add(activity.category);
-      });
-      this.notifyListeners();
+      }
     });
   }
 
