@@ -10,6 +10,9 @@ export class ActivityGrid {
   categoryToActivityList = new Map();
   uncategorized: IActivity[] = [];
   groupActivities: boolean = true;
+  getSortedHeaders() {
+    return Array.from(this.categoryToActivityList.keys()).sort();
+  }
 
   searchTermChanged(newVal) {
     this.activitiesChanged(this.activities);

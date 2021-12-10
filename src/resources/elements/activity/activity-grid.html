@@ -13,16 +13,16 @@
       focus.bind="search"
     />
     <button click.trigger="toggleShowArchived()">
-      ${filterArchived? "🙈": "🐵"}
+      ${filterArchived? "📘": "📖"}
     </button>
     <button click.trigger="toggleGroup()">
-      ${groupActivities? "ungroup": "group"}
+      ${groupActivities? "🤝": "👐"}
     </button>
   </div>
-  <div repeat.for="[header, activityList] of categoryToActivityList">
+  <div repeat.for="header of getSortedHeaders(categoryToActivityList)">
     <h2 class="mt-3 uppercase opacity-60">${header}</h2>
     <activity
-      repeat.for="activity of activityList"
+      repeat.for="activity of categoryToActivityList.get(header)"
       click.trigger="onActivityClick({event: $event, activity: activity})"
       long-click.trigger="onActivityLongClick({event: $event, activity: activity})"
       id.bind="activity.id"
