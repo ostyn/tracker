@@ -13,7 +13,11 @@ export class ActivityService {
   activitiesCache: IActivity[] = [];
   public activitiesMap: Map<string, IActivity> = new Map();
   categories: Set<string>;
-  constructor(private activityDao: ActivityDao, private ea: EventAggregator) {}
+  constructor(private activityDao: ActivityDao, private ea: EventAggregator) {
+    if (localStorage.getItem("showArchivedActivities") !== null)
+      this.showArchivedActivities =
+        localStorage.getItem("showArchivedActivities") === "true";
+  }
   notifyListeners() {
     this.ea.publish("activitiesUpdated");
   }
@@ -24,6 +28,10 @@ export class ActivityService {
 
   toggleArchivedActivitiesThenNotify() {
     this.showArchivedActivities = !this.showArchivedActivities;
+    localStorage.setItem(
+      "showArchivedActivities",
+      this.showArchivedActivities + ""
+    );
     this.setupActivities(this.originalActivities);
     this.notifyListeners();
   }
