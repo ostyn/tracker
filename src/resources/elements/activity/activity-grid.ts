@@ -27,9 +27,11 @@ export class ActivityGrid {
         return;
       }
       if (
-        !activity.name.includes(this.searchTerm) &&
-        !activity.category.includes(this.searchTerm) &&
-        !activity.emoji.includes(this.searchTerm)
+        !activity.name.toLowerCase().includes(this.searchTerm.toLowerCase()) &&
+        !activity.category
+          .toLowerCase()
+          .includes(this.searchTerm.toLowerCase()) &&
+        !activity.emoji.toLowerCase().includes(this.searchTerm.toLowerCase())
       )
         return;
       if (this.groupActivities && activity.category) {
