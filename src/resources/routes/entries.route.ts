@@ -4,6 +4,9 @@ import { autoinject, bindable } from "aurelia-framework";
 import { EntryService } from "resources/services/entryService";
 import { EventAggregator } from "aurelia-event-aggregator";
 import { summary } from "date-streaks";
+import firebase from "firebase";
+import { ActivityService } from "resources/services/activityService";
+import { MoodService } from "resources/services/moodService";
 
 @autoinject
 export class EntriesRoute {
@@ -19,11 +22,13 @@ export class EntriesRoute {
     todayInStreak: boolean;
     withinCurrentStreak: boolean;
   };
-  isLoading: boolean;
+  isLoading: boolean = true;
   constructor(
     private entryService: EntryService,
     private ea: EventAggregator,
-    private router: Router
+    private router: Router,
+    private activityService: ActivityService,
+    private moodService: MoodService
   ) {}
   shouldScrollToSelf(entry: IEntry) {
     return entry.day === this.currentDay;
@@ -65,7 +70,13 @@ export class EntriesRoute {
       this.currentMonth = date.getMonth() + 1;
       this.currentYear = date.getFullYear();
     }
-    this.getEntries();
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.activityService.init();
+        this.moodService.init();
+        this.getEntries();
+      }
+    });
   }
   attached() {
     this.subscribers.push(this.ea.subscribe("entriesUpdated", this.getEntries));

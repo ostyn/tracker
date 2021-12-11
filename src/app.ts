@@ -1,7 +1,5 @@
 import { DialogService } from "aurelia-dialog";
 import { autoinject } from "aurelia-framework";
-import { MoodService } from "./resources/services/moodService";
-import { ActivityService } from "resources/services/activityService";
 import { PLATFORM } from "aurelia-pal";
 import {
   Router,
@@ -14,19 +12,16 @@ import firebase from "firebase";
 
 @autoinject
 export class App {
-  isLoaded = false;
-  constructor(
-    private activityService: ActivityService,
-    private moodService: MoodService,
-    private dialogService: DialogService
-  ) {}
+  showNewEntryButton = false;
+  loadedAndNotLoggedIn = false;
+  constructor(private dialogService: DialogService) {}
   router: Router;
   created() {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        this.activityService.init();
-        this.moodService.init();
-        this.isLoaded = true;
+        this.showNewEntryButton = true;
+      } else {
+        this.loadedAndNotLoggedIn = true;
       }
     });
   }

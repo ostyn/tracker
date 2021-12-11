@@ -2,15 +2,15 @@
   <require from="./styles.css"></require>
   <require from="./nav-bar"></require>
   <require from="resources/elements/login/login"></require>
-  <nav-bar if.bind="isLoaded"></nav-bar>
-  <login></login>
+  <nav-bar></nav-bar>
   <button
     class="fixed w-auto p-2.5 text-xl rounded-full bottom-2 right-2"
-    if.bind="router.currentInstruction.fragment != '/entry'"
+    if.bind="showNewEntryButton && router.currentInstruction.fragment != '/entry'"
     click.trigger="router.navigateToRoute('entry')"
   >
     📝
   </button>
+  <login if.bind="loadedAndNotLoggedIn"></login>
 
-  <router-view if.bind="isLoaded"></router-view>
+  <router-view if.bind="!loadedAndNotLoggedIn"></router-view>
 </template>
