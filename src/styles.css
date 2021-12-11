@@ -1,6 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+body {
+  background-color: black;
+}
 .flatpickr-month {
   @apply text-black bg-white shadow-none !important;
 }
