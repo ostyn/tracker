@@ -12,5 +12,8 @@
   </button>
   <login if.bind="loadedAndNotLoggedIn"></login>
 
-  <router-view if.bind="!loadedAndNotLoggedIn"></router-view>
+  <router-view
+    class="block max-w-xl m-auto"
+    if.bind="!loadedAndNotLoggedIn"
+  ></router-view>
 </template>
