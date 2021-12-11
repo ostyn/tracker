@@ -22,11 +22,18 @@ export class ActivityDetailDialog {
   isArray(array) {
     return array?.constructor === Array;
   }
-  addItem() {
-    //@ts-ignore
-    this.detail.push(this.newItem);
-    this.newItem = undefined;
-    this.inputBox.scrollIntoView(true);
+  addItemOrSubmit() {
+    if (this.newItem !== "" && this.newItem !== undefined) {
+      //@ts-ignore
+      this.detail.push(this.newItem);
+      this.newItem = undefined;
+      this.inputBox.scrollIntoView(true);
+    } else {
+      this.submitForm();
+    }
+  }
+  submitForm() {
+    this.controller.ok({ activityId: this.activity.id, detail: this.detail });
   }
 }
 

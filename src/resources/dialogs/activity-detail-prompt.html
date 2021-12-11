@@ -14,7 +14,7 @@
       </div>
       <hr />
       <div if.bind="isArray(detail)">
-        <form submit.trigger="addItem()">
+        <form submit.trigger="addItemOrSubmit()">
           <input
             ref="inputBox"
             focus="true"
@@ -22,16 +22,12 @@
             value.bind="newItem"
             placeholder="add item"
           />
-          <button if.bind="newItem" click.trigger="addItem()">▶</button>
+          <button if.bind="newItem" click.trigger="addItemOrSubmit()">▶</button>
         </form>
       </div>
     </ux-dialog-body>
     <ux-dialog-footer>
-      <button
-        click.trigger="controller.ok({activityId: activity.id, detail:detail})"
-      >
-        done
-      </button>
+      <button click.trigger="submitForm()">done</button>
       <button click.trigger="controller.cancel()">cancel</button>
     </ux-dialog-footer>
   </ux-dialog>
