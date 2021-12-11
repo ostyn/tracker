@@ -19,6 +19,7 @@ export class EntriesRoute {
     todayInStreak: boolean;
     withinCurrentStreak: boolean;
   };
+  isLoading: boolean;
   constructor(
     private entryService: EntryService,
     private ea: EventAggregator,
@@ -28,6 +29,7 @@ export class EntriesRoute {
     return entry.day === this.currentDay;
   }
   getEntries = () => {
+    this.isLoading = true;
     this.entryService
       .getEntries(
         Number.parseInt(this.currentYear),
@@ -40,6 +42,9 @@ export class EntriesRoute {
           dates.push(new Date(entry.year, entry.month, entry.day));
         }
         this.summary = summary({ dates });
+      })
+      .finally(() => {
+        this.isLoading = false;
       });
   };
 
