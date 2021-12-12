@@ -22,14 +22,21 @@ export class BaseGenericDao {
         console.log(err);
       });
   }
-  getItems() {
+  getItems(hitCache = false) {
     var ref = this.db.collection(this.name);
-    return this.getItemsFromQuery(ref);
+    return this.getItemsFromQuery(ref, hitCache);
   }
-  getItemsFromQuery(query) {
-    return query
-      .where("userId", "==", firebase.auth().currentUser?.uid || null)
-      .get()
+  getItemsFromQuery(query, hitCache = false) {
+    let request;
+    if (hitCache)
+      request = query
+        .where("userId", "==", firebase.auth().currentUser?.uid || null)
+        .get({ source: "cache" });
+    else
+      request = query
+        .where("userId", "==", firebase.auth().currentUser?.uid || null)
+        .get();
+    return request
       .then((snapshot) => {
         let items = [];
         snapshot.forEach((doc) => {

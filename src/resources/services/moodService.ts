@@ -18,20 +18,35 @@ export class MoodService {
     return this.updateCacheThenNotify();
   }
   moodsCache = [];
+  firstLoad = true;
   constructor(private moodDao: MoodDao, private ea: EventAggregator) {}
   notifyListeners() {
     this.ea.publish("moodsUpdated");
   }
 
   updateCacheThenNotify() {
-    this.fetchMoods().then((moods) => {
-      this.moodsCache = moods;
-      this.moodsMap = new Map();
-      this.moodsCache.concat(this.presetMoods).forEach((mood: IMood) => {
-        this.moodsMap.set(mood.id, mood);
+    if (this.firstLoad)
+      this.fetchMoods(true).then((moods) => {
+        this.moodsCache = moods;
+        this.moodsMap = new Map();
+        this.moodsCache.concat(this.presetMoods).forEach((mood: IMood) => {
+          this.moodsMap.set(mood.id, mood);
+        });
+        this.firstLoad = false;
+        this.notifyListeners();
+        this.updateCacheThenNotify();
       });
-      this.notifyListeners();
-    });
+    else
+      this.fetchMoods(true).then((moods) => {
+        this.moodsCache = moods;
+        this.moodsMap = new Map();
+        this.moodsCache.concat(this.presetMoods).forEach((mood: IMood) => {
+          this.moodsMap.set(mood.id, mood);
+        });
+        this.firstLoad = false;
+        this.notifyListeners();
+        this.updateCacheThenNotify();
+      });
   }
 
   saveMood(mood) {
@@ -39,8 +54,8 @@ export class MoodService {
     this.updateCacheThenNotify();
   }
 
-  fetchMoods() {
-    return this.moodDao.getItems().then((moods: IMood[]) => {
+  fetchMoods(hitCache) {
+    return this.moodDao.getItems(hitCache).then((moods: IMood[]) => {
       moods.push();
       return moods;
     });

@@ -11,6 +11,7 @@ export class ActivityService {
     return this.updateCacheThenNotify();
   }
   activitiesCache: IActivity[] = [];
+  firstLoad = true;
   public activitiesMap: Map<string, IActivity> = new Map();
   categories: Set<string>;
   constructor(private activityDao: ActivityDao, private ea: EventAggregator) {
@@ -37,11 +38,20 @@ export class ActivityService {
   }
 
   updateCacheThenNotify() {
-    this.fetchActivities().then((activities) => {
-      this.originalActivities = activities;
-      this.setupActivities(activities);
-      this.notifyListeners();
-    });
+    if (this.firstLoad)
+      this.fetchActivities(true).then((activities) => {
+        this.originalActivities = activities;
+        this.setupActivities(activities);
+        this.firstLoad = false;
+        this.notifyListeners();
+        this.updateCacheThenNotify();
+      });
+    else
+      this.fetchActivities(true).then((activities) => {
+        this.originalActivities = activities;
+        this.setupActivities(activities);
+        this.notifyListeners();
+      });
   }
 
   private setupActivities(activities: IActivity[]) {
@@ -57,10 +67,10 @@ export class ActivityService {
     });
   }
 
-  fetchActivities(): Promise<IActivity[]> {
-    return this.activityDao
-      .getItems()
-      .then((activities: IActivity) => activities);
+  fetchActivities(hitCache = false): Promise<IActivity[]> {
+    return this.activityDao.getItems(hitCache).then((activities: IActivity) => {
+      return activities;
+    });
   }
 
   getActivities(): IActivity[] {
