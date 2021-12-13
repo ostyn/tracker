@@ -37,7 +37,7 @@ export class MoodService {
         this.updateCacheThenNotify();
       });
     else
-      this.fetchMoods(true).then((moods) => {
+      this.fetchMoods().then((moods) => {
         this.moodsCache = moods;
         this.moodsMap = new Map();
         this.moodsCache.concat(this.presetMoods).forEach((mood: IMood) => {
@@ -45,7 +45,6 @@ export class MoodService {
         });
         this.firstLoad = false;
         this.notifyListeners();
-        this.updateCacheThenNotify();
       });
   }
 
@@ -54,7 +53,7 @@ export class MoodService {
     this.updateCacheThenNotify();
   }
 
-  fetchMoods(hitCache) {
+  fetchMoods(hitCache = false) {
     return this.moodDao.getItems(hitCache).then((moods: IMood[]) => {
       moods.push();
       return moods;

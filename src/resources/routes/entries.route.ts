@@ -1,9 +1,9 @@
+import { StreakService } from "resources/services/streakService";
 import { IEntry } from "resources/elements/entry/entry.interface";
 import { activationStrategy, Router } from "aurelia-router";
 import { autoinject, bindable } from "aurelia-framework";
 import { EntryService } from "resources/services/entryService";
 import { EventAggregator } from "aurelia-event-aggregator";
-import { summary } from "date-streaks";
 import firebase from "firebase";
 import { ActivityService } from "resources/services/activityService";
 import { MoodService } from "resources/services/moodService";
@@ -15,20 +15,16 @@ export class EntriesRoute {
   @bindable currentMonth;
   @bindable currentYear;
   currentDay: number;
-  summary: {
-    currentStreak: number;
-    longestStreak: number;
-    streaks: number[];
-    todayInStreak: boolean;
-    withinCurrentStreak: boolean;
-  };
   isLoading: boolean = true;
+  currentStreak: any;
+  showStreakMessage: boolean;
   constructor(
     private entryService: EntryService,
     private ea: EventAggregator,
     private router: Router,
     private activityService: ActivityService,
-    private moodService: MoodService
+    private moodService: MoodService,
+    private streakService: StreakService
   ) {}
   shouldScrollToSelf(entry: IEntry) {
     return entry.day === this.currentDay;
@@ -42,11 +38,6 @@ export class EntriesRoute {
       )
       .then((entries) => {
         this.entries = entries;
-        let dates: Date[] = [];
-        for (let entry of entries) {
-          dates.push(new Date(entry.year, entry.month, entry.day));
-        }
-        this.summary = summary({ dates });
       })
       .finally(() => {
         this.isLoading = false;
@@ -69,6 +60,14 @@ export class EntriesRoute {
       let date = new Date();
       this.currentMonth = date.getMonth() + 1;
       this.currentYear = date.getFullYear();
+    }
+    if (this.currentMonth == new Date().getMonth() + 1) {
+      this.streakService
+        .getEntryStreakStatusForDate(new Date())
+        .then((data) => {
+          this.currentStreak = data[0];
+        });
+      this.showStreakMessage = true;
     }
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
