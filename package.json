@@ -13,6 +13,7 @@
     "aurelia-bootstrapper": "^2.3.3",
     "aurelia-dialog": "^2.0.0",
     "aurelia-long-click-event": "^1.0.3",
+    "date-fns": "^2.27.0",
     "date-streaks": "^1.2.1",
     "firebase": "^7.14.5",
     "firebaseui": "^4.8.1",

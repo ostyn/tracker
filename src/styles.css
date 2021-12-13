@@ -4,28 +4,10 @@
 body {
   background-color: black;
 }
-.flatpickr-month {
-  @apply text-black bg-white shadow-none !important;
-}
-.flatpickr-calendar {
-  @apply top-auto max-w-xs m-auto mb-1 shadow-none;
-}
-.flatpickr-next-month,
-.flatpickr-prev-month {
-  @apply text-black fill-current !important;
-}
 .flatpickr-day {
   height: 48px;
   line-height: revert;
 }
-.month-picker .flatpickr-innerContainer {
-  display: none;
-}
-
-.month-picker .flatpickr-calendar {
-  width: 100%;
-}
-
 .calendar-event {
   @apply bg-blue-500 w-3 h-1 absolute bottom-0.5 rounded-full left-3;
 }
