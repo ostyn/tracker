@@ -1,7 +1,8 @@
 import { MoodService } from "./../../services/moodService";
 import { IEntry } from "./../entry/entry.interface";
 import { autoinject, bindable } from "aurelia-framework";
-import { DateTime } from "luxon";
+import { format } from "date-fns";
+
 import { DialogController } from "aurelia-dialog";
 import flatpickr from "flatpickr";
 import "flatpickr/dist/themes/dark.css";
@@ -39,8 +40,8 @@ export class CalendarWrapper {
         this.month && this.year ? `${this.year}-${this.month}` : new Date(),
       monthSelectorType: "static",
       onDayCreate: ((dObj, dStr, fp, dayElem) => {
-        const dt = DateTime.fromJSDate(dayElem.dateObj);
-        const key = dt.toFormat("yyyy-MM-dd");
+        const dt = new Date(dayElem.dateObj);
+        const key = format(dt, "yyyy-MM-dd");
         const entry: IEntry = this.dates.get(key);
         if (entry) {
           const activityDetail = entry.activities.get(this.activityId);
@@ -54,7 +55,7 @@ export class CalendarWrapper {
       onYearChange: this.onMonthYearChange.bind(this),
       onChange: ((selectedDates, dateStr, instance) => {
         if (this.onDateSelect)
-          this.onDateSelect({ date: DateTime.fromJSDate(selectedDates[0]) });
+          this.onDateSelect({ date: new Date(selectedDates[0]) });
       }).bind(this),
     });
   }

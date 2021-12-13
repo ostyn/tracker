@@ -3,7 +3,7 @@ import { EntryDao } from "resources/dao/EntryDao";
 import { autoinject } from "aurelia-framework";
 import { DialogController } from "aurelia-dialog";
 import { IEntry } from "resources/elements/entry/entry.interface";
-import { DateTime } from "luxon";
+import { getDaysInMonth } from "date-fns";
 
 @autoinject
 export class ActivityInfo {
@@ -20,16 +20,16 @@ export class ActivityInfo {
   ) {}
   activate(activityId) {
     this.activityId = activityId;
-    const currentDate = DateTime.now();
-    this.onMonthChange(currentDate.month, currentDate.year).finally(() => {
+    const now = new Date();
+    this.onMonthChange(now.getMonth() + 1, now.getFullYear()).finally(() => {
       this.loading = false;
     });
   }
-  public onDateSelect({ year, month, day }: DateTime) {
+  public onDateSelect(date: Date) {
     this.router.navigateToRoute("entries", {
-      year,
-      month,
-      day,
+      year: date.getFullYear(),
+      month: date.getMonth() + 1,
+      day: date.getDate(),
     });
     this.controller.cancel();
   }
@@ -51,12 +51,9 @@ export class ActivityInfo {
       });
   }
   private getDaysElapsedInMonth(month: number, year: number): number {
-    const currentDate = DateTime.now();
-    if (month > currentDate.month) return 0;
-    if (month === currentDate.month) return currentDate.day;
-    else
-      return DateTime.fromObject({ year: year, month: month }).get(
-        "daysInMonth"
-      );
+    const currentDate = new Date();
+    if (month > currentDate.getMonth() + 1) return 0;
+    if (month === currentDate.getMonth() + 1) return currentDate.getDate();
+    else return getDaysInMonth(new Date(year, month, 1));
   }
 }
