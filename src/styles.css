@@ -8,7 +8,7 @@ body {
   @apply text-black bg-white shadow-none !important;
 }
 .flatpickr-calendar {
-  @apply max-w-xs m-auto shadow-none;
+  @apply top-auto max-w-xs m-auto mb-1 shadow-none;
 }
 .flatpickr-next-month,
 .flatpickr-prev-month {

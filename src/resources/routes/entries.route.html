@@ -8,22 +8,22 @@
     on-month-change.call="onMonthChange(month, year)"
   ></calendar-wrapper>
   <div class="mx-3">
-    <p
-      if.bind="showStreakMessage && currentStreak"
-      class="p-2 text-center"
-      if.bind="currentStreak"
-    >
+    <div class="my-2 text-center" if.bind="showStreakMessage && currentStreak">
       ℹ You're on a streak of ${currentStreak.length}
-    </p>
+    </div>
+    <div
+      if.bind="!currentStreak && showStreakMessage"
+      class="self-center w-1/3 h-4 m-auto my-2 bg-gray-300 rounded-sm  animate-pulse"
+    ></div>
     <entry
-      class="my-3"
+      class="mb-3"
       repeat.for="e of entries"
       scroll-to-self.bind="shouldScrollToSelf(e)"
       entry.bind="e"
     ></entry>
     <div
       if.bind="isLoading"
-      class="block p-4 my-3 bg-gray-100 rounded-md dark:bg-gray-800"
+      class="block p-4 mb-3 bg-gray-100 rounded-md dark:bg-gray-800"
     >
       <div class="flex align-middle animate-pulse">
         <div class="self-center w-2/3 h-4 bg-gray-300 rounded-sm"></div>

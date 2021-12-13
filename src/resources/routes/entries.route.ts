@@ -17,7 +17,7 @@ export class EntriesRoute {
   currentDay: number;
   isLoading: boolean = true;
   currentStreak: any;
-  showStreakMessage: boolean;
+  showStreakMessage: boolean = false;
   constructor(
     private entryService: EntryService,
     private ea: EventAggregator,
@@ -61,16 +61,16 @@ export class EntriesRoute {
       this.currentMonth = date.getMonth() + 1;
       this.currentYear = date.getFullYear();
     }
-    if (this.currentMonth == new Date().getMonth() + 1) {
-      this.streakService
-        .getEntryStreakStatusForDate(new Date())
-        .then((data) => {
-          this.currentStreak = data[0];
-        });
-      this.showStreakMessage = true;
-    }
+    this.showStreakMessage = this.currentMonth == new Date().getMonth() + 1;
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
+        if (this.showStreakMessage) {
+          this.streakService
+            .getEntryStreakStatusForDate(new Date())
+            .then((data) => {
+              this.currentStreak = data[0];
+            });
+        }
         this.activityService.init();
         this.moodService.init();
         this.getEntries();
