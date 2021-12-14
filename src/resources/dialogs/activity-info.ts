@@ -1,9 +1,10 @@
+import { StreakService } from "resources/services/streakService";
 import { Router } from "aurelia-router";
 import { EntryDao } from "resources/dao/EntryDao";
 import { autoinject } from "aurelia-framework";
 import { DialogController } from "aurelia-dialog";
 import { IEntry } from "resources/elements/entry/entry.interface";
-import { getDaysInMonth } from "date-fns";
+import { endOfMonth, format, getDaysInMonth } from "date-fns";
 
 @autoinject
 export class ActivityInfo {
@@ -13,10 +14,12 @@ export class ActivityInfo {
   daysElapsed: number;
   daysWithActivity: number;
   totalActivity = 0;
+  streaks: any[];
   constructor(
     public controller: DialogController,
     private entryDao: EntryDao,
-    private router: Router
+    private router: Router,
+    private streakService: StreakService
   ) {}
   activate(activityId) {
     this.activityId = activityId;
@@ -33,7 +36,19 @@ export class ActivityInfo {
     });
     this.controller.cancel();
   }
+  public formatDate(date) {
+    return format(date, "yyyy/MM/dd");
+  }
   public onMonthChange(month, year) {
+    this.streakService
+      .getActivityStreaksCrossingRange(
+        this.activityId,
+        new Date(year, month - 1, 1),
+        endOfMonth(new Date(year, month - 1, 1))
+      )
+      .then((data) => {
+        this.streaks = data;
+      });
     return this.entryDao
       .getEntriesWithSpecificActivityAndDate(this.activityId, month, year)
       .then((entries) => {
