@@ -153,23 +153,30 @@ async function getActivitiesNotRepresentedOnDate(
   activities: any[]
 ): Promise<string[]> {
   if (activities.length === 0) return [];
-  let query = db
-    .collection("entries")
-    .where("userId", "==", userId)
-    .where("year", "==", date.getFullYear())
-    .where("month", "==", date.getMonth() + 1)
-    .where("day", "==", date.getDate())
-    .where("activitiesArray", "array-contains-any", activities);
-  const entries = await query.get();
   const unrepresentedActivities: Map<string, number> = new Map();
   activities.forEach((activity) => {
     unrepresentedActivities.set(activity, 1);
   });
-  entries.forEach((entry) => {
-    entry.data().activitiesArray.forEach((activity: string) => {
-      unrepresentedActivities.delete(activity);
+  //array-contains-any limits to 10 per query
+  for (let i = 0; i < activities.length; i += 10) {
+    let query = db
+      .collection("entries")
+      .where("userId", "==", userId)
+      .where("year", "==", date.getFullYear())
+      .where("month", "==", date.getMonth() + 1)
+      .where("day", "==", date.getDate())
+      .where(
+        "activitiesArray",
+        "array-contains-any",
+        activities.slice(i, i + 10)
+      );
+    let entries = await query.get();
+    entries.forEach((entry) => {
+      entry.data().activitiesArray.forEach((activity: string) => {
+        unrepresentedActivities.delete(activity);
+      });
     });
-  });
+  }
 
   return Array.from(unrepresentedActivities.keys());
 }
