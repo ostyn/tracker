@@ -71,8 +71,6 @@ export class EntriesRoute {
               this.currentStreak = data[0];
             });
         }
-        this.activityService.init();
-        this.moodService.init();
         this.getEntries();
       }
     });
