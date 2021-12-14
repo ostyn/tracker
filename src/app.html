@@ -4,7 +4,7 @@
   <require from="resources/elements/login/login"></require>
   <nav-bar></nav-bar>
   <button
-    class="fixed w-auto p-2.5 text-xl rounded-full bottom-2 right-2"
+    class="fixed w-12 h-12 p-2.5 text-xl rounded-full bottom-2 right-2"
     if.bind="showNewEntryButton && router.currentInstruction.fragment != '/entry'"
     click.trigger="router.navigateToRoute('entry')"
   >
