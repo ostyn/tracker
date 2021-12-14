@@ -40,7 +40,7 @@ export class BaseGenericDao {
       .then((snapshot) => {
         let items = [];
         snapshot.forEach((doc) => {
-          items.push(this.processFirestoreData(doc));
+          items.push(this.processFirestoreData(doc, hitCache));
         });
         return this.sortItems(items);
       })
@@ -48,14 +48,14 @@ export class BaseGenericDao {
         console.log(err);
       });
   }
-  public processFirestoreData(doc: any) {
+  public processFirestoreData(doc: any, hitCache = false) {
     const item = {
       ...doc.data(),
       id: doc.id,
     };
     if (item.created) item.created = item.created.toDate();
     if (item.updated) item.updated = item.updated.toDate();
-    FirestoreCounter.count++;
+    if (!hitCache) FirestoreCounter.count++;
     return this.afterLoadFixup(item);
   }
   saveItem(passedEntry): Promise<any> {
