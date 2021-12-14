@@ -47,7 +47,7 @@ export class ActivityService {
         this.updateCacheThenNotify();
       });
     else
-      this.fetchActivities(true).then((activities) => {
+      this.fetchActivities().then((activities) => {
         this.originalActivities = activities;
         this.setupActivities(activities);
         this.notifyListeners();
