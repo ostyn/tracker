@@ -56,14 +56,7 @@ export class App {
     config.addAuthorizeStep(closeDialogOnBackButtonStep);
     config.map([
       {
-        route: "",
-        moduleId: PLATFORM.moduleName("./resources/routes/dummy-home.route"),
-        nav: false,
-        title: "",
-        name: "",
-      },
-      {
-        route: "entries",
+        route: ["", "entries"],
         moduleId: PLATFORM.moduleName("./resources/routes/entries.route"),
         nav: true,
         title: "entries",
