@@ -69,6 +69,6 @@ export class ActivityInfo {
     const currentDate = new Date();
     if (month > currentDate.getMonth() + 1) return 0;
     if (month === currentDate.getMonth() + 1) return currentDate.getDate();
-    else return getDaysInMonth(new Date(year, month, 1));
+    else return getDaysInMonth(new Date(year, month - 1, 1));
   }
 }
