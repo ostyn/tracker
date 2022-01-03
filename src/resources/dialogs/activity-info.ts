@@ -15,6 +15,7 @@ export class ActivityInfo {
   daysWithActivity: number;
   totalActivity = 0;
   streaks: any[];
+  percentOfDays: string;
   constructor(
     public controller: DialogController,
     private entryDao: EntryDao,
@@ -63,12 +64,25 @@ export class ActivityInfo {
         this.relatedEntryMap = newEntryMap;
         this.daysElapsed = this.getDaysElapsedInMonth(month, year);
         this.daysWithActivity = this.relatedEntryMap.size;
+        this.percentOfDays = this.daysElapsed
+          ? ((this.daysWithActivity / this.daysElapsed) * 100).toFixed(2)
+          : "0.00";
+        console.log(
+          this.daysElapsed,
+          this.daysWithActivity,
+          this.percentOfDays
+        );
       });
   }
   private getDaysElapsedInMonth(month: number, year: number): number {
     const currentDate = new Date();
-    if (month > currentDate.getMonth() + 1) return 0;
-    if (month === currentDate.getMonth() + 1) return currentDate.getDate();
+    if (new Date(year, month - 1, 1).getTime() > currentDate.getTime())
+      return 0;
+    if (
+      month === currentDate.getMonth() + 1 &&
+      year == currentDate.getFullYear()
+    )
+      return currentDate.getDate();
     else return getDaysInMonth(new Date(year, month - 1, 1));
   }
 }

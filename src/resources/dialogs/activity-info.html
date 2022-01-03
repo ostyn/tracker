@@ -5,9 +5,7 @@
     <ux-dialog-body>
       <activity id.bind="activityId"></activity>
       <div>This month: ${daysWithActivity}</div>
-      <div>
-        Percent of days: ${(daysWithActivity / daysElapsed * 100).toFixed(2)}%
-      </div>
+      <div>Percent of days: ${percentOfDays}%</div>
       <div>Total Count: ${totalActivity}</div>
       <div>Average per day: ${(totalActivity/daysWithActivity).toFixed(2)}</div>
       <div repeat.for="streak of streaks">
