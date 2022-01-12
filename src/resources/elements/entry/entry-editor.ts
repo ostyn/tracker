@@ -91,7 +91,7 @@ export class EntryEditor {
         viewModel: ActivityDetailDialog,
         model: {
           activityId: id,
-          detail,
+          detail: JSON.parse(JSON.stringify(detail)),
         },
       })
       .whenClosed(
