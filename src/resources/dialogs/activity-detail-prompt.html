@@ -2,14 +2,25 @@
   <require from="resources/elements/activity/activity"></require>
   <ux-dialog>
     <ux-dialog-body class="">
-      <activity id.bind="activity.id"></activity>
-      <div if.bind="isArray(detail)">
+      <div>
+        <activity id.bind="activity.id"></activity>
+      </div>
+      <div if.bind="isArray(detail)" class="inline-block align-top">
         <div repeat.for="item of detail">
           <input type="text" value.bind="detail[$index]" /><button
-            click.trigger="detail.splice($index,1)"
+            click.trigger="removeItem(detail, $index)"
           >
             ❌
           </button>
+        </div>
+      </div>
+      <div class="inline-block">
+        <div
+          repeat.for="detail of mru"
+          click.trigger="addDetailFromMru(detail)"
+          class="p-3 ml-3 text-right"
+        >
+          ${detail}
         </div>
       </div>
       <hr />

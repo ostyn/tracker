@@ -1,15 +1,20 @@
+import { IEntry } from "./../elements/entry/entry.interface";
 import { autoinject } from "aurelia-framework";
 import { EntryDao } from "resources/dao/EntryDao";
 import { EventAggregator } from "aurelia-event-aggregator";
+import { LocalActivityStatsService } from "./localActivityStatsService";
 
 @autoinject
 export class EntryService {
-  constructor(private entryDao: EntryDao, private ea: EventAggregator) {}
+  constructor(
+    private localActivityStatsService: LocalActivityStatsService
+  ) {}
   firstLoad = true;
   notifyListeners() {
     this.ea.publish("entriesUpdated");
   }
-  addEntry(entry) {
+  addEntry(entry: IEntry) {
+    this.localActivityStatsService.updateWithEntry(entry);
     this.entryDao.saveItem(entry);
     this.notifyListeners();
   }

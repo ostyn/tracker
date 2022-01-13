@@ -1,3 +1,4 @@
+import { LocalActivityStatsService } from "./resources/services/localActivityStatsService";
 import { MoodService } from "./resources/services/moodService";
 import { ActivityService } from "./resources/services/activityService";
 import { DialogService } from "aurelia-dialog";
@@ -19,7 +20,8 @@ export class App {
   constructor(
     private dialogService: DialogService,
     private activityService: ActivityService,
-    private moodService: MoodService
+    private moodService: MoodService,
+    private localActivityStatsService: LocalActivityStatsService
   ) {}
   router: Router;
   created() {
@@ -27,6 +29,7 @@ export class App {
       if (user) {
         this.activityService.init();
         this.moodService.init();
+        this.localActivityStatsService.init();
         this.showNewEntryButton = true;
       } else {
         this.loadedAndNotLoggedIn = true;
