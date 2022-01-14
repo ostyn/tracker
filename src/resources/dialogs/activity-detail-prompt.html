@@ -27,7 +27,7 @@
           <button if.bind="newItem" click.trigger="addItemOrSubmit()">▶</button>
         </form>
       </div>
-      <div class="inline-block">
+      <div class="inline-block select-none">
         <div
           repeat.for="detail of mru"
           long-click.trigger="removeMru(detail)"
