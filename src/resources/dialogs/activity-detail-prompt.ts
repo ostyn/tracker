@@ -64,6 +64,12 @@ export class ActivityDetailDialog {
   submitForm() {
     this.controller.ok({ activityId: this.activity.id, detail: this.detail });
   }
+  removeMru(detail: string) {
+    this.localActivityStatsService.removeDetailForActivity(
+      detail,
+      this.activity.id
+    );
+  }
 }
 
 interface ActivityDetail {

@@ -12,7 +12,7 @@ export class LocalActivityStatsService {
         for (let detail of details) {
           this.activityDetails[activity] = this.addActivityDetailsToArray(
             detail,
-            this.activityDetails[activity] || []
+            this.getDetailArray(activity)
           );
         }
       }
@@ -20,17 +20,29 @@ export class LocalActivityStatsService {
     this.save();
   }
   public getMostRecentDetailsForActivity(activityId) {
-    return Array.from(this.activityDetails[activityId] || []);
+    return Array.from(this.getDetailArray(activityId));
   }
-  addActivityDetailsToArray(detail: string, arr: string[]) {
-    const index = arr.findIndex(
-      (str) => detail.toLowerCase() === str.toLowerCase()
-    );
-    if (index >= 0) arr.splice(index, 1);
+  public removeDetailForActivity(detail: string, id: string) {
+    this.removeFromArray(detail, this.getDetailArray(id));
+    this.save();
+  }
+  private addActivityDetailsToArray(detail: string, arr: string[]) {
+    this.removeFromArray(detail, arr);
     arr.splice(this.MAX_ITEMS - 1, arr.length);
     arr.unshift(detail);
     return arr;
   }
+  private getDetailArray(activityId: any): string[] {
+    return this.activityDetails[activityId] || [];
+  }
+  private removeFromArray(detail: string, arr: string[]) {
+    const index = arr.findIndex(
+      (str) => detail.toLowerCase() === str.toLowerCase()
+    );
+    if (index >= 0) arr.splice(index, 1);
+    return arr;
+  }
+
   load() {
     this.activityDetails =
       JSON.parse(localStorage.getItem("mruActivityDetails")) || {};

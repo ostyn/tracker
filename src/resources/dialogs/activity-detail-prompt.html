@@ -14,15 +14,6 @@
           /><button click.trigger="removeItem(detail, $index)">❌</button>
         </div>
       </div>
-      <div class="inline-block">
-        <div
-          repeat.for="detail of mru"
-          click.trigger="addDetailFromMru(detail)"
-          class="p-3 ml-3 text-right"
-        >
-          ${detail}
-        </div>
-      </div>
       <hr />
       <div if.bind="isArray(detail)">
         <form submit.trigger="addItemOrSubmit()">
@@ -35,6 +26,16 @@
           />
           <button if.bind="newItem" click.trigger="addItemOrSubmit()">▶</button>
         </form>
+      </div>
+      <div class="inline-block">
+        <div
+          repeat.for="detail of mru"
+          long-click.trigger="removeMru(detail)"
+          click.trigger="addDetailFromMru(detail)"
+          class="p-3 ml-3 text-right"
+        >
+          ${detail}
+        </div>
       </div>
     </ux-dialog-body>
     <ux-dialog-footer>
