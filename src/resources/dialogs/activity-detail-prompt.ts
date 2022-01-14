@@ -68,6 +68,7 @@ export class ActivityDetailDialog {
       detail,
       this.activity.id
     );
+    this.loadMru();
   }
 }
 
