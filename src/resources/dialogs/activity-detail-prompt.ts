@@ -33,7 +33,8 @@ export class ActivityDetailDialog {
       str.toLowerCase()
     );
     this.mru = allMru.filter(
-      (recentlyUsedDetail) => !lowerCaseDetails.includes(recentlyUsedDetail)
+      (recentlyUsedDetail) =>
+        !lowerCaseDetails.includes(recentlyUsedDetail.toLowerCase())
     );
     console.log(this.mru);
   }
