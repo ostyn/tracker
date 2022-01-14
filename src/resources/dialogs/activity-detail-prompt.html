@@ -7,11 +7,11 @@
       </div>
       <div if.bind="isArray(detail)" class="inline-block align-top">
         <div repeat.for="item of detail">
-          <input type="text" value.bind="detail[$index]" /><button
-            click.trigger="removeItem(detail, $index)"
-          >
-            ❌
-          </button>
+          <input
+            type="text"
+            blur.trigger="loadMru()"
+            value.bind="detail[$index]"
+          /><button click.trigger="removeItem(detail, $index)">❌</button>
         </div>
       </div>
       <div class="inline-block">
