@@ -36,7 +36,6 @@ export class ActivityDetailDialog {
       (recentlyUsedDetail) =>
         !lowerCaseDetails.includes(recentlyUsedDetail.toLowerCase())
     );
-    console.log(this.mru);
   }
   isArray(array) {
     return array?.constructor === Array;
