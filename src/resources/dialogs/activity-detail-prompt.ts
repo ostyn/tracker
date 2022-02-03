@@ -64,11 +64,13 @@ export class ActivityDetailDialog {
     this.controller.ok({ activityId: this.activity.id, detail: this.detail });
   }
   removeMru(detail: string) {
-    this.localActivityStatsService.removeDetailForActivity(
-      detail,
-      this.activity.id
-    );
-    this.loadMru();
+    if (confirm(`Clear "${detail}" from your recents?`)) {
+      this.localActivityStatsService.removeDetailForActivity(
+        detail,
+        this.activity.id
+      );
+      this.loadMru();
+    }
   }
 }
 
