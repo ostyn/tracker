@@ -18,7 +18,6 @@
     "firebase": "^7.14.5",
     "firebaseui": "^4.8.1",
     "flatpickr": "^4.6.9",
-    "moment": "^2.29.1",
     "nightwind": "^1.1.12",
     "workbox-window": "^6.3.0"
   },

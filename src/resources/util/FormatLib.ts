@@ -1,12 +1,12 @@
-import * as moment from "moment";
+import { format } from "date-fns";
 export class FormatLib {
   secondsToDate(seconds) {
-    return moment(seconds).format("MMMM D, YYYY");
+    return format(seconds, "MMMM d, yyyy");
   }
   secondsToTime(seconds) {
-    return moment(seconds).format("h:mm a");
+    return format(seconds, "h:mm a");
   }
-  selectorDateToJsDate(date) {
-    return moment(date).format("dddd - MMMM D, YYYY");
+  selectorDateToJsDate(date: string) {
+    return format(new Date(date), "EEEE - MMMM d, yyyy");
   }
 }
