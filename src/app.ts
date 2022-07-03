@@ -88,12 +88,6 @@ export class App {
         nav: false,
         name: "entry",
       },
-      {
-        route: ["quick-log"],
-        moduleId: PLATFORM.moduleName("./resources/routes/quick-log.route"),
-        nav: false,
-        name: "quick-log",
-      },
     ]);
 
     this.router = router;

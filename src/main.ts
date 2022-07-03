@@ -14,10 +14,10 @@ export function configure(aurelia: Aurelia): void {
     .feature(PLATFORM.moduleName("resources/index"))
     .plugin(PLATFORM.moduleName("aurelia-dialog"))
     .plugin(PLATFORM.moduleName("aurelia-long-click-event"));
-
-  aurelia.use.developmentLogging(environment.debug ? "debug" : "warn");
-
-  if (environment.testing) {
+  //hack to avoid warning
+  var env = environment;
+  aurelia.use.developmentLogging(env.debug ? "debug" : "warn");
+  if (env.testing) {
     aurelia.use.plugin(PLATFORM.moduleName("aurelia-testing"));
   }
 
