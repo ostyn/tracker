@@ -80,10 +80,16 @@ export class EntryEditor {
       });
   }
   longPress(id) {
-    if (this.isArray(this.workingCopy.activities.get(id)))
+    if (this.isArray(this.workingCopy.activities.get(id))) {
+      navigator.vibrate(100);
       this.editActivityDetail(id, this.workingCopy.activities.get(id));
-    else if (!this.workingCopy.activities.has(id)) this.editActivityDetail(id);
-    else this.addActivity(id);
+    } else if (!this.workingCopy.activities.has(id)) {
+      navigator.vibrate(100);
+      this.editActivityDetail(id);
+    } else {
+      navigator.vibrate(50);
+      this.addActivity(id);
+    }
   }
   editActivityDetail(id, detail = []) {
     this.dialogService
@@ -111,6 +117,7 @@ export class EntryEditor {
   }
   addActivity(id) {
     if (!this.isArray(this.workingCopy.activities.get(id))) {
+      navigator.vibrate(50);
       if (this.workingCopy.activities.has(id))
         this.workingCopy.activities.set(
           id,
@@ -118,6 +125,7 @@ export class EntryEditor {
         );
       else this.workingCopy.activities.set(id, 1);
     } else {
+      navigator.vibrate(100);
       this.editActivityDetail(id, [...this.workingCopy.activities.get(id)]);
     }
     this.checkpointIfDraft();
@@ -134,6 +142,7 @@ export class EntryEditor {
     }
   }
   removeActivity(id) {
+    navigator.vibrate(50);
     if (!this.isArray(this.workingCopy.activities.get(id))) {
       if (this.workingCopy.activities.get(id) > 1)
         this.workingCopy.activities.set(
@@ -142,6 +151,7 @@ export class EntryEditor {
         );
       else this.workingCopy.activities.delete(id);
     } else {
+      navigator.vibrate(100);
       this.editActivityDetail(id, this.workingCopy.activities.get(id));
     }
     this.checkpointIfDraft();
