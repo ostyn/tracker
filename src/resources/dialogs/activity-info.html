@@ -8,10 +8,6 @@
       <div>Percent of days: ${percentOfDays}%</div>
       <div>Total Count: ${totalActivity}</div>
       <div>Average per day: ${(totalActivity/daysWithActivity).toFixed(2)}</div>
-      <div repeat.for="streak of streaks">
-        ${formatDate(streak.beginDate)} - ${formatDate(streak.endDate)} =
-        ${streak.length}
-      </div>
       <calendar-wrapper
         if.bind="!loading"
         dates.bind="relatedEntryMap"

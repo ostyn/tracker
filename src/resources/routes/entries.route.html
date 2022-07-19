@@ -8,15 +8,12 @@
       year.bind="currentYear"
       on-month-change.call="onMonthChange(month, year)"
     ></month-control>
-    <div
-      class="mb-2 text-center grayscale"
-      if.bind="showStreakMessage && currentStreak"
-    >
-      ℹ You're on a streak of ${currentStreak.length}
+    <div class="mb-2 text-center grayscale" if.bind="!isLoading">
+      ℹ You're on a streak of ${"???"}
     </div>
     <div
-      if.bind="!currentStreak && showStreakMessage"
-      class="self-center w-1/3 h-6 m-auto my-2 bg-gray-300 rounded-sm  animate-pulse"
+      if.bind="isLoading"
+      class="self-center w-1/3 h-6 m-auto my-2 bg-gray-300 rounded-sm animate-pulse"
     ></div>
     <entry
       class="mb-3"
