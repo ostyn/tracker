@@ -5,6 +5,7 @@ import { autoinject } from "aurelia-framework";
 import { EntryDao } from "resources/dao/EntryDao";
 import { EventAggregator } from "aurelia-event-aggregator";
 import { LocalActivityStatsService } from "./localActivityStatsService";
+import { summary } from "date-streaks";
 
 @autoinject
 export class EntryService {
@@ -29,6 +30,18 @@ export class EntryService {
 
   getEntries(year, month) {
     return this.entryDao.getEntriesFromYearAndMonth(year, month);
+  }
+
+  public generateStats() {
+    let start = new Date().getTime();
+    return this.entryDao.getEntriesFromYearAndMonth().then((entries) => {
+      let dates = [];
+      entries.forEach((entry: IEntry) => {
+        dates.push(new Date(entry.date));
+      });
+      console.log(new Date().getTime() - start);
+      return summary({ dates });
+    });
   }
 
   private createRows(entries: IEntry[]): string {

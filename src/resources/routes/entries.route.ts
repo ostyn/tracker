@@ -13,6 +13,7 @@ export class EntriesRoute {
   @bindable currentYear;
   currentDay: number;
   isLoading: boolean = true;
+  stats: any;
   constructor(
     private entryService: EntryService,
     private ea: EventAggregator,
@@ -30,6 +31,9 @@ export class EntriesRoute {
       )
       .then((entries) => {
         this.entries = entries;
+        this.entryService.generateStats().then((stats) => {
+          this.stats = stats;
+        });
       })
       .finally(() => {
         this.isLoading = false;
