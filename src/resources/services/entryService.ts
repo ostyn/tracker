@@ -1,3 +1,5 @@
+import { MoodService } from "./moodService";
+import { ActivityService } from "./activityService";
 import { IEntry } from "./../elements/entry/entry.interface";
 import { autoinject } from "aurelia-framework";
 import { EntryDao } from "resources/dao/EntryDao";
@@ -7,9 +9,15 @@ import { LocalActivityStatsService } from "./localActivityStatsService";
 @autoinject
 export class EntryService {
   constructor(
+    private entryDao: EntryDao,
+    private ea: EventAggregator,
+    private activityService: ActivityService,
+    private moodService: MoodService,
     private localActivityStatsService: LocalActivityStatsService
   ) {}
-  firstLoad = true;
+  public init() {
+    this.entryDao.setupCacheAndUpdateListener(this.notifyListeners.bind(this));
+  }
   notifyListeners() {
     this.ea.publish("entriesUpdated");
   }
@@ -20,21 +28,31 @@ export class EntryService {
   }
 
   getEntries(year, month) {
-    if (this.firstLoad) {
-      return this.entryDao
-        .getEntriesFromYearAndMonth(year, month, undefined, true)
-        .then((entries) => {
-          this.firstLoad = false;
-          this.notifyListeners();
-          return entries;
-        });
-    }
+    return this.entryDao.getEntriesFromYearAndMonth(year, month);
+  }
 
-    return this.entryDao
-      .getEntriesFromYearAndMonth(year, month)
-      .then((entries) => {
-        return entries;
-      });
+  private createRows(entries: IEntry[]): string {
+    const activities = this.activityService.getActivities();
+    let rows = [];
+    let headers = ["mood"];
+    activities.forEach((activity) => headers.push(activity.name));
+    rows.push(headers.join(","));
+    entries.forEach((entry) => {
+      rows.push(this.createRow(entry, activities));
+    });
+    return rows.join("\r\n");
+  }
+
+  private createRow(entry: IEntry, activities): string {
+    let row = [];
+    row.push(this.moodService.getMood(entry.mood).rating);
+    activities.forEach((activity) => {
+      let currentActivity = entry.activities.get(activity.id);
+      if (currentActivity?.constructor === Array)
+        row.push(currentActivity.length);
+      else row.push(currentActivity);
+    });
+    return row.join(",");
   }
 
   getEntry(id) {

@@ -56,6 +56,7 @@ export class BaseGenericDao {
     if (item.created) item.created = item.created.toDate();
     if (item.updated) item.updated = item.updated.toDate();
     if (!hitCache) FirestoreCounter.count++;
+    if (hitCache) FirestoreCounter.cacheHitCount++;
     return this.afterLoadFixup(item);
   }
   saveItem(passedEntry): Promise<any> {
@@ -94,9 +95,21 @@ export class BaseGenericDao {
     var ref = this.db.collection(this.name);
     return ref
       .doc(id)
-      .delete()
+      .set({
+        updated: firebase.firestore.FieldValue.serverTimestamp(),
+        created: firebase.firestore.FieldValue.serverTimestamp(),
+        userId: firebase.auth().currentUser?.uid,
+      })
       .then(() => {
-        return true;
+        return ref
+          .doc(id)
+          .delete()
+          .then(() => {
+            return true;
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       })
       .catch((err) => {
         console.log(err);

@@ -1,3 +1,4 @@
+import { EntryService } from "resources/services/entryService";
 import { LocalActivityStatsService } from "./resources/services/localActivityStatsService";
 import { MoodService } from "./resources/services/moodService";
 import { ActivityService } from "./resources/services/activityService";
@@ -21,6 +22,7 @@ export class App {
     private dialogService: DialogService,
     private activityService: ActivityService,
     private moodService: MoodService,
+    private entryService: EntryService,
     private localActivityStatsService: LocalActivityStatsService
   ) {}
   router: Router;
@@ -30,6 +32,7 @@ export class App {
         this.activityService.init();
         this.moodService.init();
         this.localActivityStatsService.init();
+        this.entryService.init();
         this.showNewEntryButton = true;
       } else {
         this.loadedAndNotLoggedIn = true;

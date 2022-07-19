@@ -67,11 +67,6 @@ export class ActivityInfo {
         this.percentOfDays = this.daysElapsed
           ? ((this.daysWithActivity / this.daysElapsed) * 100).toFixed(2)
           : "0.00";
-        console.log(
-          this.daysElapsed,
-          this.daysWithActivity,
-          this.percentOfDays
-        );
       });
   }
   private getDaysElapsedInMonth(month: number, year: number): number {
