@@ -14,6 +14,7 @@ export class EntriesRoute {
   currentDay: number;
   isLoading: boolean = true;
   stats: any;
+  showStreakMessage: boolean;
   constructor(
     private entryService: EntryService,
     private ea: EventAggregator,
@@ -23,6 +24,9 @@ export class EntriesRoute {
     return entry.day === this.currentDay;
   }
   getEntries = () => {
+    this.showStreakMessage =
+      this.currentMonth == new Date().getMonth() + 1 &&
+      this.currentYear == new Date().getFullYear();
     this.isLoading = true;
     this.entryService
       .getEntries(
