@@ -93,26 +93,16 @@ export class BaseGenericDao {
   }
   deleteItem(id) {
     var ref = this.db.collection(this.name);
+    ref.doc(id).set({
+      updated: firebase.firestore.FieldValue.serverTimestamp(),
+      created: firebase.firestore.FieldValue.serverTimestamp(),
+      userId: firebase.auth().currentUser?.uid,
+    });
     return ref
       .doc(id)
-      .set({
-        updated: firebase.firestore.FieldValue.serverTimestamp(),
-        created: firebase.firestore.FieldValue.serverTimestamp(),
-        userId: firebase.auth().currentUser?.uid,
-      })
+      .delete()
       .then(() => {
-        return ref
-          .doc(id)
-          .delete()
-          .then(() => {
-            return true;
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      })
-      .catch((err) => {
-        console.log(err);
+        return true;
       });
   }
   beforeSaveFixup(item) {

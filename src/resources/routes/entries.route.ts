@@ -2,6 +2,7 @@ import { IEntry } from "resources/elements/entry/entry.interface";
 import { activationStrategy, Router } from "aurelia-router";
 import { autoinject, bindable } from "aurelia-framework";
 import { EntryService } from "resources/services/entryService";
+import { StatsService } from "resources/services/statsService";
 import { EventAggregator } from "aurelia-event-aggregator";
 import firebase from "firebase";
 
@@ -17,6 +18,7 @@ export class EntriesRoute {
   showStreakMessage: boolean;
   constructor(
     private entryService: EntryService,
+    private statsService: StatsService,
     private ea: EventAggregator,
     private router: Router
   ) {}
@@ -35,13 +37,13 @@ export class EntriesRoute {
       )
       .then((entries) => {
         this.entries = entries;
-        this.entryService.generateStats().then((stats) => {
-          this.stats = stats;
-        });
       })
       .finally(() => {
         this.isLoading = false;
       });
+  };
+  getStats = () => {
+    this.stats = this.statsService.getStreakSummary();
   };
 
   determineActivationStrategy() {
@@ -64,11 +66,13 @@ export class EntriesRoute {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         this.getEntries();
+        this.getStats();
       }
     });
   }
   attached() {
     this.subscribers.push(this.ea.subscribe("entriesUpdated", this.getEntries));
+    this.subscribers.push(this.ea.subscribe("statsUpdated", this.getStats));
   }
 
   detached() {

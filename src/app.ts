@@ -13,6 +13,7 @@ import {
   Redirect,
 } from "aurelia-router";
 import firebase from "firebase";
+import { StatsService } from "resources/services/statsService";
 
 @autoinject
 export class App {
@@ -23,6 +24,7 @@ export class App {
     private activityService: ActivityService,
     private moodService: MoodService,
     private entryService: EntryService,
+    private statsService: StatsService,
     private localActivityStatsService: LocalActivityStatsService
   ) {}
   router: Router;
@@ -33,6 +35,7 @@ export class App {
         this.moodService.init();
         this.localActivityStatsService.init();
         this.entryService.init();
+        this.statsService.init();
         this.showNewEntryButton = true;
       } else {
         this.loadedAndNotLoggedIn = true;
