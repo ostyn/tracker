@@ -27,14 +27,30 @@
           <button if.bind="newItem" click.trigger="addItemOrSubmit()">▶</button>
         </form>
       </div>
-      <div class="inline-block select-none">
-        <div
-          repeat.for="detail of mru"
-          long-click.trigger="removeMru(detail)"
-          click.trigger="addDetailFromMru(detail)"
-          class="p-3 ml-3 text-right"
-        >
-          ${detail}
+      <div class="flex">
+        <div class="inline-block w-1/2 select-none">
+          <div
+            repeat.for="detail of mfuDetails"
+            click.trigger="addDetail(detail.text)"
+            class="p-3"
+          >
+            <span
+              class="inline-flex items-center justify-center px-2 py-0 mr-2 text-xs text-white bg-black border-black rounded-full border-1"
+              >${detail.count}</span
+            >${detail.text}
+          </div>
+        </div>
+        <div class="inline-block w-1/2 select-none">
+          <div
+            repeat.for="detail of mruDetails"
+            click.trigger="addDetail(detail.text)"
+            class="p-3"
+          >
+            <span
+              class="inline-flex items-center justify-center px-2 py-0 mr-2 text-xs text-white bg-black border-black rounded-full border-1"
+              >${detail.dates[0]}</span
+            >${detail.text}
+          </div>
         </div>
       </div>
     </ux-dialog-body>

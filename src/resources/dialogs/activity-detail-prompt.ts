@@ -1,8 +1,10 @@
-import { LocalActivityStatsService } from "./../services/localActivityStatsService";
+import { EventAggregator } from "aurelia-event-aggregator";
+import { StatsService } from "resources/services/statsService";
 import { IActivity } from "./../elements/activity/activity.interface";
 import { ActivityService } from "./../services/activityService";
 import { autoinject } from "aurelia-framework";
 import { DialogController } from "aurelia-dialog";
+import { IStatsDetailEntry } from "resources/services/activity-stats.interface";
 
 @autoinject
 export class ActivityDetailDialog {
@@ -10,37 +12,58 @@ export class ActivityDetailDialog {
   detail: number | string[];
   newItem: string;
   inputBox: Element;
-  mru: string[];
+  mfuDetails: IStatsDetailEntry[];
+  mruDetails: any[];
 
   constructor(
     public controller: DialogController,
     private activityService: ActivityService,
-    private localActivityStatsService: LocalActivityStatsService
+    private statsService: StatsService,
+    private ea: EventAggregator
   ) {}
 
   activate(activityDetail: ActivityDetail) {
     this.activity = this.activityService.getActivity(activityDetail.activityId);
     this.detail = activityDetail.detail;
-
+    this.ea.subscribe("statsUpdated", this.loadMru.bind(this));
     this.loadMru();
   }
+
   loadMru() {
-    const allMru =
-      this.localActivityStatsService.getMostRecentDetailsForActivity(
-        this.activity.id
-      );
+    const map =
+      this.statsService.activityStats.get(this.activity.id).detailsUsed ||
+      new Map();
     const lowerCaseDetails = (this.detail as string[]).map((str) =>
       str.toLowerCase()
     );
-    this.mru = allMru.filter(
+    this.mfuDetails = Array.from(map.values()).filter(
       (recentlyUsedDetail) =>
-        !lowerCaseDetails.includes(recentlyUsedDetail.toLowerCase())
+        !lowerCaseDetails.includes(recentlyUsedDetail.text.toLowerCase())
+    );
+    this.mfuDetails = this.mfuDetails.sort((a, b) => {
+      return b.count - a.count;
+    });
+    this.mfuDetails = this.mfuDetails.slice(
+      0,
+      Math.min(7, this.mfuDetails.length)
+    );
+
+    this.mruDetails = Array.from(map.values()).filter(
+      (recentlyUsedDetail) =>
+        !lowerCaseDetails.includes(recentlyUsedDetail.text.toLowerCase())
+    );
+    this.mruDetails = this.mruDetails.sort((a, b) => {
+      return b.dates[0].localeCompare(a.dates[0]) || b.count - a.count;
+    });
+    this.mruDetails = this.mruDetails.slice(
+      0,
+      Math.min(7, this.mruDetails.length)
     );
   }
   isArray(array) {
     return array?.constructor === Array;
   }
-  addDetailFromMru(detail) {
+  addDetail(detail) {
     //@ts-ignore
     this.detail.push(detail);
     this.loadMru();
@@ -62,15 +85,6 @@ export class ActivityDetailDialog {
   }
   submitForm() {
     this.controller.ok({ activityId: this.activity.id, detail: this.detail });
-  }
-  removeMru(detail: string) {
-    if (confirm(`Clear "${detail}" from your recents?`)) {
-      this.localActivityStatsService.removeDetailForActivity(
-        detail,
-        this.activity.id
-      );
-      this.loadMru();
-    }
   }
 }
 

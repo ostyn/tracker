@@ -1,5 +1,4 @@
 import { EntryService } from "resources/services/entryService";
-import { LocalActivityStatsService } from "./resources/services/localActivityStatsService";
 import { MoodService } from "./resources/services/moodService";
 import { ActivityService } from "./resources/services/activityService";
 import { DialogService } from "aurelia-dialog";
@@ -24,8 +23,7 @@ export class App {
     private activityService: ActivityService,
     private moodService: MoodService,
     private entryService: EntryService,
-    private statsService: StatsService,
-    private localActivityStatsService: LocalActivityStatsService
+    private statsService: StatsService
   ) {}
   router: Router;
   created() {
@@ -33,7 +31,6 @@ export class App {
       if (user) {
         this.activityService.init();
         this.moodService.init();
-        this.localActivityStatsService.init();
         this.entryService.init();
         this.statsService.init();
         this.showNewEntryButton = true;

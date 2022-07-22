@@ -3,7 +3,7 @@ import { EntryDao } from "resources/dao/EntryDao";
 import { autoinject } from "aurelia-framework";
 import { DialogController } from "aurelia-dialog";
 import { IEntry } from "resources/elements/entry/entry.interface";
-import { endOfMonth, format, getDaysInMonth } from "date-fns";
+import { format, getDaysInMonth } from "date-fns";
 
 @autoinject
 export class ActivityInfo {
