@@ -1,3 +1,4 @@
+import { bindable } from "aurelia-framework";
 import { EventAggregator } from "aurelia-event-aggregator";
 import { StatsService } from "resources/services/statsService";
 import { IActivity } from "./../elements/activity/activity.interface";
@@ -10,7 +11,7 @@ import { IStatsDetailEntry } from "resources/services/activity-stats.interface";
 export class ActivityDetailDialog {
   activity: IActivity;
   detail: number | string[];
-  newItem: string;
+  @bindable newItem: string = "";
   inputBox: Element;
   mfuDetails: IStatsDetailEntry[];
   mruDetails: any[];
@@ -21,7 +22,9 @@ export class ActivityDetailDialog {
     private statsService: StatsService,
     private ea: EventAggregator
   ) {}
-
+  newItemChanged() {
+    this.loadMru();
+  }
   activate(activityDetail: ActivityDetail) {
     this.activity = this.activityService.getActivity(activityDetail.activityId);
     this.detail = activityDetail.detail;
@@ -38,7 +41,9 @@ export class ActivityDetailDialog {
     );
     this.mfuDetails = Array.from(map.values()).filter(
       (recentlyUsedDetail) =>
-        !lowerCaseDetails.includes(recentlyUsedDetail.text.toLowerCase())
+        !lowerCaseDetails.includes(recentlyUsedDetail.text.toLowerCase()) &&
+        (recentlyUsedDetail.text.toLowerCase().includes(this.newItem) ||
+          this.newItem === "")
     );
     this.mfuDetails = this.mfuDetails.sort((a, b) => {
       return b.count - a.count;
@@ -50,7 +55,9 @@ export class ActivityDetailDialog {
 
     this.mruDetails = Array.from(map.values()).filter(
       (recentlyUsedDetail) =>
-        !lowerCaseDetails.includes(recentlyUsedDetail.text.toLowerCase())
+        !lowerCaseDetails.includes(recentlyUsedDetail.text.toLowerCase()) &&
+        (recentlyUsedDetail.text.toLowerCase().includes(this.newItem) ||
+          this.newItem === "")
     );
     this.mruDetails = this.mruDetails.sort((a, b) => {
       return b.dates[0].localeCompare(a.dates[0]) || b.count - a.count;
@@ -66,6 +73,7 @@ export class ActivityDetailDialog {
   addDetail(detail) {
     //@ts-ignore
     this.detail.push(detail);
+    this.newItem = "";
     this.loadMru();
   }
   addItemOrSubmit() {
