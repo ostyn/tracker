@@ -42,7 +42,9 @@ export class ActivityDetailDialog {
     this.mfuDetails = Array.from(map.values()).filter(
       (recentlyUsedDetail) =>
         !lowerCaseDetails.includes(recentlyUsedDetail.text.toLowerCase()) &&
-        (recentlyUsedDetail.text.toLowerCase().includes(this.newItem) ||
+        (recentlyUsedDetail.text
+          .toLowerCase()
+          .includes(this.newItem.toLowerCase()) ||
           this.newItem === "")
     );
     this.mfuDetails = this.mfuDetails.sort((a, b) => {
@@ -56,7 +58,9 @@ export class ActivityDetailDialog {
     this.mruDetails = Array.from(map.values()).filter(
       (recentlyUsedDetail) =>
         !lowerCaseDetails.includes(recentlyUsedDetail.text.toLowerCase()) &&
-        (recentlyUsedDetail.text.toLowerCase().includes(this.newItem) ||
+        (recentlyUsedDetail.text
+          .toLowerCase()
+          .includes(this.newItem.toLowerCase()) ||
           this.newItem === "")
     );
     this.mruDetails = this.mruDetails.sort((a, b) => {
