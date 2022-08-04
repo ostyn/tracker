@@ -40,12 +40,11 @@ export class ActivityDetailDialog {
       str.toLowerCase()
     );
     this.mfuDetails = Array.from(map.values()).filter(
-      (recentlyUsedDetail) =>
-        !lowerCaseDetails.includes(recentlyUsedDetail.text.toLowerCase()) &&
-        (recentlyUsedDetail.text
+      (frequentlyUsedDetail) =>
+        !lowerCaseDetails.includes(frequentlyUsedDetail.text.toLowerCase()) &&
+        frequentlyUsedDetail.text
           .toLowerCase()
-          .includes(this.newItem.toLowerCase()) ||
-          this.newItem === "")
+          .includes(this.newItem.toLowerCase())
     );
     this.mfuDetails = this.mfuDetails.sort((a, b) => {
       return b.count - a.count;
@@ -58,10 +57,9 @@ export class ActivityDetailDialog {
     this.mruDetails = Array.from(map.values()).filter(
       (recentlyUsedDetail) =>
         !lowerCaseDetails.includes(recentlyUsedDetail.text.toLowerCase()) &&
-        (recentlyUsedDetail.text
+        recentlyUsedDetail.text
           .toLowerCase()
-          .includes(this.newItem.toLowerCase()) ||
-          this.newItem === "")
+          .includes(this.newItem.toLowerCase())
     );
     this.mruDetails = this.mruDetails.sort((a, b) => {
       return b.dates[0].localeCompare(a.dates[0]) || b.count - a.count;
@@ -84,7 +82,7 @@ export class ActivityDetailDialog {
     if (this.newItem !== "" && this.newItem !== undefined) {
       //@ts-ignore
       this.detail.push(this.newItem);
-      this.newItem = undefined;
+      this.newItem = "";
       this.inputBox.scrollIntoView(true);
       this.loadMru();
     } else {
