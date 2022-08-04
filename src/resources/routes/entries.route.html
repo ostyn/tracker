@@ -3,7 +3,7 @@
   <require from="resources/elements/entry/entry"></require>
   <div class="mx-3">
     <month-control
-      class="my-2"
+      class="sticky z-50 p-2 my-2 bg-white -top-px"
       month.bind="currentMonth"
       year.bind="currentYear"
       on-month-change.call="onMonthChange(month, year)"
