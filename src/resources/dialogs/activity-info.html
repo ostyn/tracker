@@ -22,6 +22,31 @@
           </li>
         </ul>
       </div>
+      <input
+        ref="inputBox"
+        focus="true"
+        type="text"
+        value.bind="newItem"
+        placeholder="add item"
+      />
+      <div class="flex">
+        <div class="inline-block w-1/2 select-none">
+          <div repeat.for="detail of mfuDetails" class="p-3">
+            <span
+              class="inline-flex items-center justify-center px-2 py-0 mr-2 text-xs text-white bg-black border-black rounded-full border-1"
+              >${detail.count}</span
+            >${detail.text}
+          </div>
+        </div>
+        <div class="inline-block w-1/2 select-none">
+          <div repeat.for="detail of mruDetails" class="p-3">
+            <span
+              class="inline-flex items-center justify-center px-2 py-0 mr-2 text-xs text-white bg-black border-black rounded-full border-1"
+              >${detail.dates[0]}</span
+            >${detail.text}
+          </div>
+        </div>
+      </div>
     </ux-dialog-body>
     <ux-dialog-footer>
       <button click.trigger="controller.cancel()">Close</button>

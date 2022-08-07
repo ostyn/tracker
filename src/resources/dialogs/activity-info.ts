@@ -1,9 +1,12 @@
+import { EventAggregator } from "aurelia-event-aggregator";
 import { Router } from "aurelia-router";
 import { EntryDao } from "resources/dao/EntryDao";
-import { autoinject } from "aurelia-framework";
+import { autoinject, bindable } from "aurelia-framework";
 import { DialogController } from "aurelia-dialog";
 import { IEntry } from "resources/elements/entry/entry.interface";
 import { format, getDaysInMonth } from "date-fns";
+import { IStatsDetailEntry } from "resources/services/activity-stats.interface";
+import { StatsService } from "resources/services/statsService";
 
 @autoinject
 export class ActivityInfo {
@@ -14,17 +17,55 @@ export class ActivityInfo {
   daysWithActivity: number;
   totalActivity = 0;
   percentOfDays: string;
+  mfuDetails: IStatsDetailEntry[];
+  mruDetails: any[];
+  @bindable newItem: string = "";
   constructor(
     public controller: DialogController,
     private entryDao: EntryDao,
-    private router: Router
+    private router: Router,
+    private statsService: StatsService,
+    private ea: EventAggregator
   ) {}
+  newItemChanged() {
+    this.loadMru();
+  }
   activate(activityId) {
     this.activityId = activityId;
     const now = new Date();
     this.onMonthChange(now.getMonth() + 1, now.getFullYear()).finally(() => {
       this.loading = false;
     });
+    this.ea.subscribe("statsUpdated", this.loadMru.bind(this));
+    this.loadMru();
+  }
+  loadMru() {
+    const map =
+      this.statsService.activityStats.get(this.activityId).detailsUsed ||
+      new Map();
+    this.mfuDetails = Array.from(map.values()).filter((frequentlyUsedDetail) =>
+      frequentlyUsedDetail.text
+        .toLowerCase()
+        .includes(this.newItem.toLowerCase())
+    );
+    this.mfuDetails = this.mfuDetails.sort((a, b) => {
+      return b.count - a.count;
+    });
+    this.mfuDetails = this.mfuDetails.slice(
+      0,
+      Math.min(7, this.mfuDetails.length)
+    );
+
+    this.mruDetails = Array.from(map.values()).filter((recentlyUsedDetail) =>
+      recentlyUsedDetail.text.toLowerCase().includes(this.newItem.toLowerCase())
+    );
+    this.mruDetails = this.mruDetails.sort((a, b) => {
+      return b.dates[0].localeCompare(a.dates[0]) || b.count - a.count;
+    });
+    this.mruDetails = this.mruDetails.slice(
+      0,
+      Math.min(7, this.mruDetails.length)
+    );
   }
   public onDateSelect(date: Date) {
     this.router.navigateToRoute("entries", {
