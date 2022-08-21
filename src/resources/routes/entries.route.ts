@@ -1,6 +1,8 @@
+import { ActivityService } from "resources/services/activityService";
+import { MoodService } from "resources/services/moodService";
 import { IEntry } from "resources/elements/entry/entry.interface";
 import { activationStrategy, Router } from "aurelia-router";
-import { autoinject, bindable } from "aurelia-framework";
+import { autoinject, bindable, computedFrom } from "aurelia-framework";
 import { EntryService } from "resources/services/entryService";
 import { StatsService } from "resources/services/statsService";
 import { EventAggregator } from "aurelia-event-aggregator";
@@ -16,8 +18,16 @@ export class EntriesRoute {
   isLoading: boolean = true;
   stats: any;
   showStreakMessage: boolean;
+  @computedFrom("activityService.isLoaded", "moodService.isLoaded", "entries")
+  public get isLoaded() {
+    return (
+      this.activityService.isLoaded && this.moodService.isLoaded && this.entries
+    );
+  }
   constructor(
     private entryService: EntryService,
+    private moodService: MoodService,
+    private activityService: ActivityService,
     private statsService: StatsService,
     private ea: EventAggregator,
     private router: Router
@@ -29,7 +39,6 @@ export class EntriesRoute {
     this.showStreakMessage =
       this.currentMonth == new Date().getMonth() + 1 &&
       this.currentYear == new Date().getFullYear();
-    this.isLoading = true;
     this.entryService
       .getEntries(
         Number.parseInt(this.currentYear),
@@ -37,9 +46,6 @@ export class EntriesRoute {
       )
       .then((entries) => {
         this.entries = entries;
-      })
-      .finally(() => {
-        this.isLoading = false;
       });
   };
   getStats = () => {

@@ -20,6 +20,7 @@
     ></div>
     <entry
       class="mb-3"
+      if.bind="isLoaded"
       repeat.for="e of entries"
       scroll-to-self.bind="shouldScrollToSelf(e)"
       entry.bind="e"
@@ -31,7 +32,7 @@
       No entries here
     </div>
     <div
-      if.bind="isLoading"
+      if.bind="!isLoaded"
       class="block p-4 mb-3 bg-gray-100 rounded-md dark:bg-gray-800"
     >
       <div class="flex align-middle animate-pulse">

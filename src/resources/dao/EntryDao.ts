@@ -10,75 +10,7 @@ export class EntryDao extends BaseGenericDao {
   getItem(id) {
     return super.getItem(id);
   }
-  public setupCacheAndUpdateListener(notify) {
-    this.db
-      .collection("entries")
-      .orderBy("updated", "desc")
-      .where(
-        "updated",
-        ">",
-        firebase.firestore.Timestamp.fromMillis(
-          parseInt(localStorage.getItem("lastLoad") || "0")
-        )
-      )
-      .where("userId", "==", firebase.auth().currentUser?.uid || null)
-      .onSnapshot((snapshot) => {
-        FirestoreCounter.count += snapshot.docChanges().length;
-        notify();
-      });
-    if (!localStorage.getItem("lastLoad")) {
-      this.db
-        .collection("entries")
-        .where("userId", "==", firebase.auth().currentUser?.uid || null)
-        .orderBy("updated", "desc")
-        .get({ source: "cache" })
-        .then((snapshot) => {
-          if (snapshot.size === 0) {
-            this.db
-              .collection("entries")
-              .where("userId", "==", firebase.auth().currentUser?.uid || null)
-              .orderBy("updated", "desc")
-              .get({ source: "server" })
 
-              .then((serversnap) => {
-                localStorage.setItem(
-                  "lastLoad",
-                  serversnap.docs[0].data().updated.toDate().getTime()
-                );
-              })
-              .catch((err) => console.log(err));
-          } else {
-            localStorage.setItem(
-              "lastLoad",
-              snapshot.docs[0].data().updated.toDate().getTime()
-            );
-          }
-        })
-        .catch((err) => console.log(err));
-    } else {
-      this.db
-        .collection("entries")
-        .orderBy("updated", "desc")
-        .where(
-          "updated",
-          ">",
-          firebase.firestore.Timestamp.fromMillis(
-            parseInt(localStorage.getItem("lastLoad"))
-          )
-        )
-        .where("userId", "==", firebase.auth().currentUser?.uid || null)
-        .get({ source: "server" })
-        .then((serversnap) => {
-          if (serversnap.size > 0) {
-            notify();
-            localStorage.setItem(
-              "lastLoad",
-              serversnap.docs[0].data().updated.toDate().getTime()
-            );
-          }
-        });
-    }
-  }
   getEntriesFromYearAndMonth(
     year = undefined,
     month = undefined,
@@ -104,7 +36,8 @@ export class EntryDao extends BaseGenericDao {
         .collection("entries")
         .where("activitiesArray", "array-contains", id)
         .where("month", "==", month)
-        .where("year", "==", year)
+        .where("year", "==", year),
+      true
     ).then((items) => {
       return items.sort((a, b) => {
         if (a.date < b.date) {

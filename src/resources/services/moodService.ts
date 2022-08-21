@@ -5,6 +5,7 @@ import { EventAggregator } from "aurelia-event-aggregator";
 
 @autoinject
 export class MoodService {
+  public isLoaded = false;
   private presetMoods: IMood[] = [
     {
       emoji: "🚧",
@@ -15,42 +16,24 @@ export class MoodService {
   ];
   private moodsMap: Map<string, IMood> = new Map();
   public init() {
-    return this.updateCacheThenNotify();
+    this.moodDao.setupCacheAndUpdateListener(this.notifyListeners.bind(this));
   }
   moodsCache = [];
-  firstLoad = true;
   constructor(private moodDao: MoodDao, private ea: EventAggregator) {}
   notifyListeners() {
-    this.ea.publish("moodsUpdated");
-  }
-
-  updateCacheThenNotify() {
-    if (this.firstLoad)
-      this.fetchMoods(true).then((moods) => {
-        this.moodsCache = moods;
-        this.moodsMap = new Map();
-        this.moodsCache.concat(this.presetMoods).forEach((mood: IMood) => {
-          this.moodsMap.set(mood.id, mood);
-        });
-        this.firstLoad = false;
-        this.notifyListeners();
-        this.updateCacheThenNotify();
+    this.fetchMoods().then((moods) => {
+      this.moodsCache = moods;
+      this.moodsMap = new Map();
+      this.moodsCache.concat(this.presetMoods).forEach((mood: IMood) => {
+        this.moodsMap.set(mood.id, mood);
       });
-    else
-      this.fetchMoods().then((moods) => {
-        this.moodsCache = moods;
-        this.moodsMap = new Map();
-        this.moodsCache.concat(this.presetMoods).forEach((mood: IMood) => {
-          this.moodsMap.set(mood.id, mood);
-        });
-        this.firstLoad = false;
-        this.notifyListeners();
-      });
+      this.isLoaded = true;
+      this.ea.publish("moodsUpdated");
+    });
   }
 
   saveMood(mood) {
     this.moodDao.saveItem(mood);
-    this.updateCacheThenNotify();
   }
 
   fetchMoods(hitCache = false) {
@@ -73,7 +56,6 @@ export class MoodService {
 
   deleteMood(id) {
     return this.moodDao.deleteItem(id).then((resp) => {
-      this.updateCacheThenNotify();
       return resp;
     });
   }

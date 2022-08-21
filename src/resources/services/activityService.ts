@@ -5,13 +5,15 @@ import { IActivity } from "resources/elements/activity/activity.interface";
 
 @autoinject
 export class ActivityService {
+  isLoaded = false;
   showArchivedActivities: boolean = true;
   originalActivities: IActivity[];
   public init() {
-    return this.updateCacheThenNotify();
+    this.activityDao.setupCacheAndUpdateListener(
+      this.notifyListeners.bind(this)
+    );
   }
   activitiesCache: IActivity[] = [];
-  firstLoad = true;
   public activitiesMap: Map<string, IActivity> = new Map();
   categories: Set<string>;
   constructor(private activityDao: ActivityDao, private ea: EventAggregator) {
@@ -20,11 +22,15 @@ export class ActivityService {
         localStorage.getItem("showArchivedActivities") === "true";
   }
   notifyListeners() {
-    this.ea.publish("activitiesUpdated");
+    this.fetchActivities().then((activities) => {
+      this.originalActivities = activities;
+      this.setupActivities(activities);
+      this.isLoaded = true;
+      this.ea.publish("activitiesUpdated");
+    });
   }
   saveActivity(activity) {
     this.activityDao.saveItem(activity);
-    this.updateCacheThenNotify();
   }
 
   toggleArchivedActivitiesThenNotify() {
@@ -35,23 +41,6 @@ export class ActivityService {
     );
     this.setupActivities(this.originalActivities);
     this.notifyListeners();
-  }
-
-  updateCacheThenNotify() {
-    if (this.firstLoad)
-      this.fetchActivities(true).then((activities) => {
-        this.originalActivities = activities;
-        this.setupActivities(activities);
-        this.firstLoad = false;
-        this.notifyListeners();
-        this.updateCacheThenNotify();
-      });
-    else
-      this.fetchActivities().then((activities) => {
-        this.originalActivities = activities;
-        this.setupActivities(activities);
-        this.notifyListeners();
-      });
   }
 
   private setupActivities(activities: IActivity[]) {
@@ -85,7 +74,6 @@ export class ActivityService {
 
   deleteActivity(id) {
     return this.activityDao.deleteItem(id).then((resp) => {
-      this.updateCacheThenNotify();
       return resp;
     });
   }

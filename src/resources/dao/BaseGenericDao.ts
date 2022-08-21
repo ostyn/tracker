@@ -10,6 +10,76 @@ export class BaseGenericDao {
   getCollectionName() {
     return this.name;
   }
+
+  public setupCacheAndUpdateListener(notify) {
+    this.db
+      .collection(this.name)
+      .orderBy("updated", "desc")
+      .where(
+        "updated",
+        ">",
+        firebase.firestore.Timestamp.fromMillis(
+          parseInt(localStorage.getItem("lastLoad_" + this.name) || "0")
+        )
+      )
+      .where("userId", "==", firebase.auth().currentUser?.uid || null)
+      .onSnapshot((snapshot) => {
+        FirestoreCounter.count += snapshot.docChanges().length;
+        notify();
+      });
+    if (!localStorage.getItem("lastLoad_" + this.name)) {
+      this.db
+        .collection(this.name)
+        .where("userId", "==", firebase.auth().currentUser?.uid || null)
+        .orderBy("updated", "desc")
+        .get({ source: "cache" })
+        .then((snapshot) => {
+          if (snapshot.size === 0) {
+            this.db
+              .collection(this.name)
+              .where("userId", "==", firebase.auth().currentUser?.uid || null)
+              .orderBy("updated", "desc")
+              .get({ source: "server" })
+
+              .then((serversnap) => {
+                localStorage.setItem(
+                  "lastLoad_" + this.name,
+                  serversnap.docs[0].data().updated.toDate().getTime()
+                );
+              })
+              .catch((err) => console.log(err));
+          } else {
+            localStorage.setItem(
+              "lastLoad_" + this.name,
+              snapshot.docs[0].data().updated.toDate().getTime()
+            );
+          }
+        })
+        .catch((err) => console.log(err));
+    } else {
+      this.db
+        .collection(this.name)
+        .orderBy("updated", "desc")
+        .where(
+          "updated",
+          ">",
+          firebase.firestore.Timestamp.fromMillis(
+            parseInt(localStorage.getItem("lastLoad_" + this.name))
+          )
+        )
+        .where("userId", "==", firebase.auth().currentUser?.uid || null)
+        .get({ source: "server" })
+        .then((serversnap) => {
+          if (serversnap.size > 0) {
+            notify();
+            localStorage.setItem(
+              "lastLoad_" + this.name,
+              serversnap.docs[0].data().updated.toDate().getTime()
+            );
+          }
+        });
+    }
+  }
   getItem(id: string) {
     return this.db
       .collection(this.name)
