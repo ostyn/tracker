@@ -19,7 +19,8 @@ export class ActivityInfo {
   percentOfDays: string;
   mfuDetails: IStatsDetailEntry[];
   mruDetails: any[];
-  @bindable newItem: string = "";
+  @bindable filter: string = "";
+  showLists: boolean = true;
   constructor(
     public controller: DialogController,
     private entryDao: EntryDao,
@@ -27,7 +28,7 @@ export class ActivityInfo {
     private statsService: StatsService,
     private ea: EventAggregator
   ) {}
-  newItemChanged() {
+  filterChanged() {
     this.loadMru();
   }
   activate(activityId) {
@@ -40,13 +41,17 @@ export class ActivityInfo {
     this.loadMru();
   }
   loadMru() {
+    if (!this.statsService.activityStats.get(this.activityId).detailsUsed) {
+      this.showLists = false;
+      return;
+    }
     const map =
       this.statsService.activityStats.get(this.activityId).detailsUsed ||
       new Map();
     this.mfuDetails = Array.from(map.values()).filter((frequentlyUsedDetail) =>
       frequentlyUsedDetail.text
         .toLowerCase()
-        .includes(this.newItem.toLowerCase())
+        .includes(this.filter.toLowerCase())
     );
     this.mfuDetails = this.mfuDetails.sort((a, b) => {
       return b.count - a.count;
@@ -57,7 +62,7 @@ export class ActivityInfo {
     );
 
     this.mruDetails = Array.from(map.values()).filter((recentlyUsedDetail) =>
-      recentlyUsedDetail.text.toLowerCase().includes(this.newItem.toLowerCase())
+      recentlyUsedDetail.text.toLowerCase().includes(this.filter.toLowerCase())
     );
     this.mruDetails = this.mruDetails.sort((a, b) => {
       return b.dates[0].localeCompare(a.dates[0]) || b.count - a.count;
