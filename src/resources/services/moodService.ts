@@ -36,8 +36,8 @@ export class MoodService {
     this.moodDao.saveItem(mood);
   }
 
-  fetchMoods(hitCache = false) {
-    return this.moodDao.getItems(hitCache).then((moods: IMood[]) => {
+  fetchMoods() {
+    return this.moodDao.getItems().then((moods: IMood[]) => {
       moods.push();
       return moods;
     });

@@ -92,25 +92,20 @@ export class BaseGenericDao {
         console.log(err);
       });
   }
-  getItems(hitCache = false) {
+  getItems() {
     var ref = this.db.collection(this.name);
-    return this.getItemsFromQuery(ref, hitCache);
+    return this.getItemsFromQuery(ref);
   }
-  getItemsFromQuery(query, hitCache = false) {
+  getItemsFromQuery(query) {
     let request;
-    if (hitCache)
-      request = query
-        .where("userId", "==", firebase.auth().currentUser?.uid || null)
-        .get({ source: "cache" });
-    else
-      request = query
-        .where("userId", "==", firebase.auth().currentUser?.uid || null)
-        .get();
+    request = query
+      .where("userId", "==", firebase.auth().currentUser?.uid || null)
+      .get({ source: "cache" });
     return request
       .then((snapshot) => {
         let items = [];
         snapshot.forEach((doc) => {
-          items.push(this.processFirestoreData(doc, hitCache));
+          items.push(this.processFirestoreData(doc));
         });
         return this.sortItems(items);
       })
@@ -118,15 +113,13 @@ export class BaseGenericDao {
         console.log(err);
       });
   }
-  public processFirestoreData(doc: any, hitCache = false) {
+  public processFirestoreData(doc: any) {
     const item = {
       ...doc.data(),
       id: doc.id,
     };
     if (item.created) item.created = item.created.toDate();
     if (item.updated) item.updated = item.updated.toDate();
-    if (!hitCache) FirestoreCounter.count++;
-    if (hitCache) FirestoreCounter.cacheHitCount++;
     return this.afterLoadFixup(item);
   }
   saveItem(passedEntry): Promise<any> {

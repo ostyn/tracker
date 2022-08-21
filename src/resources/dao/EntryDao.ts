@@ -14,8 +14,7 @@ export class EntryDao extends BaseGenericDao {
   getEntriesFromYearAndMonth(
     year = undefined,
     month = undefined,
-    day = undefined,
-    hitCache = true
+    day = undefined
   ) {
     let query: any = this.db.collection("entries");
     if (year !== undefined && year !== "" && !Number.isNaN(year))
@@ -28,7 +27,7 @@ export class EntryDao extends BaseGenericDao {
       query = query.where("day", "==", day);
     else query = query.orderBy("day", "desc");
     query = query.orderBy("created", "desc");
-    return this.getItemsFromQuery(query, hitCache);
+    return this.getItemsFromQuery(query);
   }
   getEntriesWithSpecificActivityAndDate(id, month, year): Promise<IEntry[]> {
     return this.getItemsFromQuery(
@@ -36,8 +35,7 @@ export class EntryDao extends BaseGenericDao {
         .collection("entries")
         .where("activitiesArray", "array-contains", id)
         .where("month", "==", month)
-        .where("year", "==", year),
-      true
+        .where("year", "==", year)
     ).then((items) => {
       return items.sort((a, b) => {
         if (a.date < b.date) {

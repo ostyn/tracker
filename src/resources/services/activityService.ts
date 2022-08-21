@@ -56,8 +56,8 @@ export class ActivityService {
     });
   }
 
-  fetchActivities(hitCache = false): Promise<IActivity[]> {
-    return this.activityDao.getItems(hitCache).then((activities: IActivity) => {
+  fetchActivities(): Promise<IActivity[]> {
+    return this.activityDao.getItems().then((activities: IActivity) => {
       return activities;
     });
   }
