@@ -19,24 +19,13 @@
       ></activity>
     </div>
     <div
-      class="
-        relative
-        flex
-        p-3
-        mb-3
-        overflow-scroll
-        whitespace-pre-line
-        align-middle
-        border border-black border-dashed
-        place-content-center
-        max-h-24
-      "
+      class="relative flex p-3 mb-3 overflow-scroll whitespace-pre-line align-middle border border-black border-dashed place-content-center max-h-24"
       click.trigger="openTextPrompt()"
     >
       <span class="absolute top-0 right-0 m-2">📝</span>
       <span>${workingCopy.note || "enter note here..." }</span>
     </div>
-    <span class="text-3xl" click.trigger="openMoodPrompt()">
+    <span class="text-3xl cursor-pointer" click.trigger="openMoodPrompt()">
       ${getMood(workingCopy.mood).emoji}
     </span>
     <input type="date" value.bind="workingCopy.date" max.bind="date" name="" />
