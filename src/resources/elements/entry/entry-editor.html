@@ -9,7 +9,7 @@
     ></activity-grid>
   </div>
   <footer>
-    <div class="overflow-x-scroll whitespace-nowrap">
+    <div class="overflow-x-auto whitespace-nowrap">
       <activity
         repeat.for="[id, detail] of workingCopy.activities"
         class="align-top cursor-pointer"
@@ -19,7 +19,7 @@
       ></activity>
     </div>
     <div
-      class="relative flex p-3 mb-3 overflow-scroll whitespace-pre-line align-middle border border-black border-dashed place-content-center max-h-24"
+      class="relative flex p-3 mb-3 overflow-auto whitespace-pre-line align-middle border border-black border-dashed place-content-center max-h-24"
       click.trigger="openTextPrompt()"
     >
       <span class="absolute top-0 right-0 m-2">📝</span>
