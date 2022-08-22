@@ -72,7 +72,8 @@ export class ActivityInfo {
       Math.min(7, this.mruDetails.length)
     );
   }
-  public onDateSelect(date: Date) {
+  public onDateSelect(date: Date | string) {
+    date = new Date(date);
     this.router.navigateToRoute("entries", {
       year: date.getFullYear(),
       month: date.getMonth() + 1,
