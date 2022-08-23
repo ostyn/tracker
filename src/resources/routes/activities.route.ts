@@ -35,7 +35,7 @@ export class ActivitiesRoute {
   showActivityInfo(id) {
     this.dialogService.open({
       viewModel: ActivityInfo,
-      model: id,
+      model: { id },
     });
   }
 }

@@ -40,7 +40,7 @@ export class ActivityEdit {
   openInfo(activityId) {
     this.dialogService.open({
       viewModel: ActivityInfo,
-      model: activityId,
+      model: { id: activityId },
     });
   }
 

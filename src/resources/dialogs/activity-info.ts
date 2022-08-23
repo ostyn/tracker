@@ -21,6 +21,8 @@ export class ActivityInfo {
   mruDetails: any[];
   @bindable filter: string = "";
   showLists: boolean = true;
+  month: number;
+  year: number;
   constructor(
     public controller: DialogController,
     private entryDao: EntryDao,
@@ -31,10 +33,15 @@ export class ActivityInfo {
   filterChanged() {
     this.loadMru();
   }
-  activate(activityId) {
-    this.activityId = activityId;
-    const now = new Date();
-    this.onMonthChange(now.getMonth() + 1, now.getFullYear()).finally(() => {
+  activate({
+    id,
+    month = new Date().getMonth() + 1,
+    year = new Date().getFullYear(),
+  }) {
+    this.month = month;
+    this.year = year;
+    this.activityId = id;
+    this.onMonthChange(month, year).finally(() => {
       this.loading = false;
     });
     this.ea.subscribe("statsUpdated", this.loadMru.bind(this));
