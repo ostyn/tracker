@@ -23,6 +23,7 @@ export class ActivityInfo {
   showLists: boolean = true;
   month: number;
   year: number;
+  day: number;
   constructor(
     public controller: DialogController,
     private entryDao: EntryDao,
@@ -37,9 +38,11 @@ export class ActivityInfo {
     id,
     month = new Date().getMonth() + 1,
     year = new Date().getFullYear(),
+    day = new Date().getDate(),
   }) {
     this.month = month;
     this.year = year;
+    this.day = day;
     this.activityId = id;
     this.onMonthChange(month, year).finally(() => {
       this.loading = false;

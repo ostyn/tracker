@@ -58,7 +58,12 @@ export class Entry {
   showActivityInfo(id) {
     this.dialogService.open({
       viewModel: ActivityInfo,
-      model: { id, month: this.entry.month, year: this.entry.year },
+      model: {
+        id,
+        month: this.entry.month,
+        year: this.entry.year,
+        day: this.entry.day,
+      },
     });
   }
 }

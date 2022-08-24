@@ -14,6 +14,7 @@ export class CalendarWrapper {
   @bindable public inline: boolean | string = true;
   @bindable public year: number;
   @bindable public month: number;
+  @bindable public day: number;
   @bindable public onMonthChange;
   @bindable public onDateSelect;
 
@@ -37,7 +38,9 @@ export class CalendarWrapper {
     this.instance = flatpickr(this.calendar, {
       inline: this.inline,
       defaultDate:
-        this.month && this.year ? `${this.year}-${this.month}` : new Date(),
+        this.month && this.year && this.day
+          ? `${this.year}-${this.month}-${this.day}`
+          : new Date(),
       monthSelectorType: "static",
       onDayCreate: ((dObj, dStr, fp, dayElem) => {
         const dt = new Date(dayElem.dateObj);
