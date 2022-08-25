@@ -15,6 +15,7 @@ export class ActivityDetailDialog {
   inputBox: Element;
   mfuDetails: IStatsDetailEntry[];
   mruDetails: any[];
+  editingNumber = false;
 
   constructor(
     public controller: DialogController,
@@ -25,14 +26,16 @@ export class ActivityDetailDialog {
   newItemChanged() {
     this.loadMru();
   }
-  activate(activityDetail: ActivityDetail) {
-    this.activity = this.activityService.getActivity(activityDetail.activityId);
-    this.detail = activityDetail.detail;
+  activate({ id, detail, editingNumber }) {
+    this.activity = this.activityService.getActivity(id);
+    this.detail = detail;
+    this.editingNumber = editingNumber;
     this.ea.subscribe("statsUpdated", this.loadMru.bind(this));
     this.loadMru();
   }
 
   loadMru() {
+    if (this.editingNumber) return;
     const map =
       this.statsService.activityStats.get(this.activity.id).detailsUsed ||
       new Map();
@@ -94,7 +97,18 @@ export class ActivityDetailDialog {
     this.loadMru();
   }
   submitForm() {
-    this.controller.ok({ activityId: this.activity.id, detail: this.detail });
+    this.controller.ok({
+      activityId: this.activity.id,
+      detail: this.editingNumber ? Number(this.detail) : this.detail,
+    });
+  }
+  isNumeric(str) {
+    if (typeof str == "number") return true;
+    if (typeof str !== "string") return false; // we only process strings!
+    return (
+      !isNaN(str as any) && // use type coercion to parse the _entirety_ of the string (`parseFloat` alone does not do this)...
+      !isNaN(parseFloat(str))
+    ); // ...and ensure strings of whitespace fail
   }
 }
 

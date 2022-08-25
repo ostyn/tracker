@@ -5,7 +5,16 @@
       <div>
         <activity id.bind="activity.id"></activity>
       </div>
-      <div if.bind="isArray(detail)" class="inline-block align-top">
+      <div if.bind="editingNumber" class="inline-block align-top">
+        <input
+          ref="inputBox"
+          focus="true"
+          type="text"
+          value.bind="detail"
+          placeholder="enter number"
+        />
+      </div>
+      <div if.bind="!editingNumber" class="inline-block align-top">
         <div repeat.for="item of detail">
           <input
             type="text"
@@ -15,7 +24,7 @@
         </div>
       </div>
       <hr />
-      <div if.bind="isArray(detail)">
+      <div if.bind="!editingNumber">
         <form submit.trigger="addItemOrSubmit()">
           <input
             ref="inputBox"
@@ -55,7 +64,12 @@
       </div>
     </ux-dialog-body>
     <ux-dialog-footer>
-      <button click.trigger="submitForm()">done</button>
+      <button
+        disabled.bind="editingNumber && !isNumeric(detail)"
+        click.trigger="submitForm()"
+      >
+        done
+      </button>
       <button click.trigger="controller.cancel()">cancel</button>
     </ux-dialog-footer>
   </ux-dialog>

@@ -80,7 +80,7 @@ export class EntryEditor {
       });
   }
   longPress(id) {
-    if (this.isArray(this.workingCopy.activities.get(id))) {
+    if (this.workingCopy.activities.has(id)) {
       navigator.vibrate(100);
       this.editActivityDetail(id, this.workingCopy.activities.get(id));
     } else if (!this.workingCopy.activities.has(id)) {
@@ -92,12 +92,14 @@ export class EntryEditor {
     }
   }
   editActivityDetail(id, detail = []) {
+    const editingNumber = this.isNumeric(detail);
     this.dialogService
       .open({
         viewModel: ActivityDetailDialog,
         model: {
-          activityId: id,
+          id: id,
           detail: JSON.parse(JSON.stringify(detail)),
+          editingNumber: editingNumber,
         },
       })
       .whenClosed(
@@ -110,10 +112,21 @@ export class EntryEditor {
                 this.workingCopy.activities.delete(id);
               }
               this.checkpointIfDraft();
+            } else if (this.isNumeric(response.output.detail)) {
+              this.workingCopy.activities.set(id, response.output.detail);
+              this.checkpointIfDraft();
             }
           }
         }).bind(this)
       );
+  }
+  isNumeric(str) {
+    if (typeof str == "number") return true;
+    if (typeof str !== "string") return false; // we only process strings!
+    return (
+      !isNaN(str as any) && // use type coercion to parse the _entirety_ of the string (`parseFloat` alone does not do this)...
+      !isNaN(parseFloat(str))
+    ); // ...and ensure strings of whitespace fail
   }
   addActivity(id) {
     if (!this.isArray(this.workingCopy.activities.get(id))) {
@@ -121,7 +134,7 @@ export class EntryEditor {
       if (this.workingCopy.activities.has(id))
         this.workingCopy.activities.set(
           id,
-          this.workingCopy.activities.get(id) + 1
+          Number((this.workingCopy.activities.get(id) + 1).toPrecision(12))
         );
       else this.workingCopy.activities.set(id, 1);
     } else {
@@ -147,7 +160,7 @@ export class EntryEditor {
       if (this.workingCopy.activities.get(id) > 1)
         this.workingCopy.activities.set(
           id,
-          this.workingCopy.activities.get(id) - 1
+          Number((this.workingCopy.activities.get(id) - 1).toPrecision(12))
         );
       else this.workingCopy.activities.delete(id);
     } else {

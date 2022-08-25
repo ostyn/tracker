@@ -102,9 +102,11 @@ export class ActivityInfo {
         this.totalActivity = 0;
         for (let entry of entries) {
           newEntryMap.set(entry.date, entry);
-          this.totalActivity +=
-            entry.activities.get(this.activityId).length ||
-            entry.activities.get(this.activityId);
+          this.totalActivity += this.isArray(
+            entry.activities.get(this.activityId)
+          )
+            ? entry.activities.get(this.activityId).length
+            : entry.activities.get(this.activityId);
         }
         this.relatedEntryMap = newEntryMap;
         this.daysElapsed = this.getDaysElapsedInMonth(month, year);
@@ -113,6 +115,9 @@ export class ActivityInfo {
           ? ((this.daysWithActivity / this.daysElapsed) * 100).toFixed(2)
           : "0.00";
       });
+  }
+  isArray(array) {
+    return array?.constructor === Array;
   }
   private getDaysElapsedInMonth(month: number, year: number): number {
     const currentDate = new Date();
