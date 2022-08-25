@@ -1,6 +1,7 @@
 <template>
   <require from="resources/elements/calendar/month-control"></require>
   <require from="resources/elements/entry/entry"></require>
+  <require from="resources/elements/entry/entry-loading.html"></require>
   <div class="mx-3">
     <month-control
       class="sticky z-50 py-1.5 my-2 bg-white -top-px"
@@ -31,33 +32,6 @@
     >
       No entries here
     </div>
-    <div
-      if.bind="!isLoaded"
-      class="block p-4 mb-3 bg-gray-100 rounded-md dark:bg-gray-800"
-    >
-      <div class="flex align-middle animate-pulse">
-        <div class="self-center w-2/3 h-4 bg-gray-300 rounded-sm"></div>
-        <div
-          class="inline-block w-12 h-12 m-1 ml-auto bg-gray-300 rounded-full"
-        ></div>
-      </div>
-      <div class="animate-pulse">
-        <div class="self-center w-1/3 h-4 bg-gray-300 rounded-sm"></div>
-        <div
-          repeat.for="1 of 13"
-          class="inline-block w-12 h-16 mt-4 mr-4 bg-gray-300 rounded-sm"
-        ></div>
-      </div>
-      <div class="animate-pulse">
-        <div class="self-center w-16 h-4 mt-4 bg-gray-300 rounded-sm"></div>
-        <div class="self-center w-11/12 h-4 mt-4 bg-gray-300 rounded-sm"></div>
-        <div class="self-center w-10/12 h-4 mt-4 bg-gray-300 rounded-sm"></div>
-        <div class="self-center w-11/12 h-4 mt-4 bg-gray-300 rounded-sm"></div>
-        <div class="self-center w-1/3 h-4 mt-4 bg-gray-300 rounded-sm"></div>
-        <div
-          class="self-center w-2/3 h-4 mt-8 mb-4 bg-gray-300 rounded-sm"
-        ></div>
-      </div>
-    </div>
+    <entry-loading if.bind="!isLoaded"></entry-loading>
   </div>
 </template>
