@@ -27,7 +27,7 @@
       entry.bind="e"
     ></entry>
     <div
-      if.bind="!isLoading && !entries.length"
+      if.bind="isLoaded && !entries.length"
       class="block p-4 mb-3 text-center bg-gray-100 rounded-md dark:bg-gray-800"
     >
       No entries here

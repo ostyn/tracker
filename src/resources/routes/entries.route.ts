@@ -15,7 +15,6 @@ export class EntriesRoute {
   @bindable currentMonth;
   @bindable currentYear;
   currentDay: number;
-  isLoading: boolean = true;
   stats: any;
   showStreakMessage: boolean;
   @computedFrom("activityService.isLoaded", "moodService.isLoaded", "entries")
