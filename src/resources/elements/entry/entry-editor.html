@@ -3,6 +3,7 @@
   <require
     from="resources/elements/activity/activity-grid-loading.html"
   ></require>
+  <require from="resources/elements/activity/activity-loading.html"></require>
   <require from="resources/elements/activity/activity"></require>
   <div class="m-3">
     <activity-grid-loading
@@ -16,8 +17,14 @@
     ></activity-grid>
   </div>
   <footer>
-    <div class="overflow-x-auto whitespace-nowrap">
+    <div class="mb-2 overflow-x-auto whitespace-nowrap">
+      <activity-loading
+        if.bind="isLoadingEntry || !activityService.isLoaded"
+        repeat.for="1 of 10"
+      >
+      </activity-loading>
       <activity
+        if.bind="activityService.isLoaded && !isLoadingEntry"
         repeat.for="[id, detail] of workingCopy.activities"
         class="align-top cursor-pointer"
         click.trigger="removeActivity(id)"
