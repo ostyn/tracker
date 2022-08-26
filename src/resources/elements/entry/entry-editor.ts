@@ -1,4 +1,3 @@
-import { Options } from "aurelia-loader-nodejs";
 import { EntryDao } from "./../../dao/EntryDao";
 import { Router } from "aurelia-router";
 import { ActivityService } from "resources/services/activityService";
@@ -15,6 +14,7 @@ import { ActivityDetailDialog } from "resources/dialogs/activity-detail-prompt";
 @autoinject
 export class EntryEditor {
   @bindable entry: IEntry;
+  @bindable isLoadingEntry: boolean = false;
   workingCopy: IEntry;
   activities = [];
   subscribers = [];
