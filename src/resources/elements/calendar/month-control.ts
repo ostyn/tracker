@@ -28,6 +28,7 @@ export class MonthControl {
       this.date = new Date(this.year, this.month - 1, 1);
     else this.date = startOfMonth(new Date());
     this.syncDisplayWithDate();
+    this.getStats();
     this.subscribers.push(this.ea.subscribe("statsUpdated", this.getStats));
   }
 
