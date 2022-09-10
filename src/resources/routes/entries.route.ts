@@ -4,7 +4,6 @@ import { IEntry } from "resources/elements/entry/entry.interface";
 import { activationStrategy, Router } from "aurelia-router";
 import { autoinject, bindable, computedFrom } from "aurelia-framework";
 import { EntryService } from "resources/services/entryService";
-import { StatsService } from "resources/services/statsService";
 import { EventAggregator } from "aurelia-event-aggregator";
 import firebase from "firebase";
 
@@ -15,8 +14,6 @@ export class EntriesRoute {
   @bindable currentMonth;
   @bindable currentYear;
   currentDay: number;
-  stats: any;
-  showStreakMessage: boolean;
   @computedFrom("activityService.isLoaded", "moodService.isLoaded", "entries")
   public get isLoaded() {
     return (
@@ -27,7 +24,6 @@ export class EntriesRoute {
     private entryService: EntryService,
     private moodService: MoodService,
     private activityService: ActivityService,
-    private statsService: StatsService,
     private ea: EventAggregator,
     private router: Router
   ) {}
@@ -35,9 +31,6 @@ export class EntriesRoute {
     return entry.day === this.currentDay;
   }
   getEntries = () => {
-    this.showStreakMessage =
-      this.currentMonth == new Date().getMonth() + 1 &&
-      this.currentYear == new Date().getFullYear();
     this.entryService
       .getEntries(
         Number.parseInt(this.currentYear),
@@ -46,9 +39,6 @@ export class EntriesRoute {
       .then((entries) => {
         this.entries = entries;
       });
-  };
-  getStats = () => {
-    this.stats = this.statsService.getStreakSummary();
   };
 
   determineActivationStrategy() {
@@ -71,13 +61,11 @@ export class EntriesRoute {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         this.getEntries();
-        this.getStats();
       }
     });
   }
   attached() {
     this.subscribers.push(this.ea.subscribe("entriesUpdated", this.getEntries));
-    this.subscribers.push(this.ea.subscribe("statsUpdated", this.getStats));
   }
 
   detached() {
