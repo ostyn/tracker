@@ -49,6 +49,9 @@ export class EntriesRoute {
     this.currentYear = year;
     this.router.navigateToRoute("entries", { month, year });
   }
+  onMonthClick() {
+    window.scrollTo({ top: 0 });
+  }
   activate(params, routeConfig, navigationInstruction) {
     if (params.month) this.currentMonth = params.month;
     if (params.year) this.currentYear = params.year;

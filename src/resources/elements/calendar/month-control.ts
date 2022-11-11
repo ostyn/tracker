@@ -8,6 +8,7 @@ export class MonthControl {
   @bindable month: number;
   @bindable year: number;
   @bindable onMonthChange;
+  @bindable onMonthClick;
   private date: Date;
   public monthName: string;
   subscribers: any = [];
@@ -44,6 +45,9 @@ export class MonthControl {
     this.date = addMonths(this.date, 1);
     this.syncDisplayWithDate();
     this.triggerMonthChange();
+  }
+  triggerMonthClick() {
+    if (this.onMonthClick) this.onMonthClick();
   }
   getStats = () => {
     this.stats = this.statsService.getStreakSummary();

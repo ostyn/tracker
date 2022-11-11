@@ -6,7 +6,11 @@
   >
   <span class="self-center flex-auto text-center">
     <div class="relative inline-block">
-      ${monthName} ${year}
+      <span
+        class="cursor-pointer select-none"
+        click.trigger="triggerMonthClick()"
+        >${monthName} ${year}</span
+      >
       <span
         class="absolute w-16 left-full top-0.5 grayscale text-sm font-bold"
         if.bind="showStreakMessage && stats.todayInStreak"
