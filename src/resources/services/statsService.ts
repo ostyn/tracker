@@ -4,6 +4,7 @@ import { autoinject } from "aurelia-framework";
 import { EventAggregator } from "aurelia-event-aggregator";
 import { IEntry } from "resources/elements/entry/entry.interface";
 import { IStatsActivityEntry } from "./activity-stats.interface";
+import { parseISO } from "date-fns";
 
 @autoinject
 export class StatsService {
@@ -49,7 +50,7 @@ export class StatsService {
 
       let dates = [];
       entries.forEach((entry: IEntry) => {
-        dates.push(new Date(entry.date));
+        dates.push(parseISO(entry.date));
         for (let [activityId, detail] of entry.activities.entries()) {
           if (!this.activityStats.has(activityId)) {
             this.activityStats.set(activityId, { count: 0, dates: [] });

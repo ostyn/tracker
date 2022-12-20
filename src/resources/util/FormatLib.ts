@@ -1,4 +1,4 @@
-import { format } from "date-fns";
+import { format, parseISO } from "date-fns";
 export class FormatLib {
   secondsToDate(seconds) {
     return format(seconds, "MMMM d, yyyy");
@@ -7,6 +7,6 @@ export class FormatLib {
     return format(seconds, "h:mm a");
   }
   selectorDateToJsDate(date: string) {
-    return format(new Date(date), "EEEE - MMMM d, yyyy");
+    return format(parseISO(date), "EEEE - MMMM d, yyyy");
   }
 }
