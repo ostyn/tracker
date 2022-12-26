@@ -17,16 +17,20 @@
       <div if.bind="!editingNumber" class="inline-block align-top">
         <div repeat.for="item of detail">
           <input
+            class="w-64"
             type="text"
             blur.trigger="loadMru()"
             value.bind="detail[$index]"
-          /><button click.trigger="removeItem(detail, $index)">❌</button>
+          /><button class="w-12" click.trigger="removeItem(detail, $index)">
+            ❌
+          </button>
         </div>
       </div>
       <hr />
       <div if.bind="!editingNumber">
         <form submit.trigger="addItemOrSubmit()">
           <input
+            class="w-64"
             ref="inputBox"
             focus="true"
             type="text"

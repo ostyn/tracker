@@ -15,7 +15,7 @@ body {
 input[type="text"],
 input[type="date"],
 select {
-  @apply m-1 text-sm text-black bg-white w-28 ring-0;
+  @apply m-1 text-sm text-black bg-white ring-0;
 }
 option {
   @apply bg-white;
