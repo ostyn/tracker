@@ -8,6 +8,7 @@ export class Activity {
   @bindable detail;
   activity: IActivity;
   subscribers: any = [];
+  isWide: boolean = false;
   constructor(
     private activityService: ActivityService,
     private ea: EventAggregator
@@ -24,6 +25,12 @@ export class Activity {
   }
   loadActivity() {
     this.activity = this.activityService.getActivity(this.id);
+    if (
+      this.isArray(this.detail) &&
+      (this.detail.length > 3 ||
+        this.detail.filter((val) => val.length >= 50).length > 0)
+    )
+      this.isWide = true;
   }
 
   detached() {

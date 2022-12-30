@@ -1,0 +1,6 @@
+.activity-wide {
+  max-width: 66%;
+}
+.activity-narrow {
+  flex-flow: column;
+}
