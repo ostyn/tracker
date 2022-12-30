@@ -22,7 +22,7 @@
   </div>
   <div if.bind="entry.note != ''">
     <h3 class="font-semibold">Note</h3>
-    <div class="whitespace-pre-line">${entry.note}</div>
+    <div class="break-words whitespace-pre-line">${entry.note}</div>
   </div>
   <button click.trigger="editEntry(entry.id)">edit</button>
   <p if.bind="showCreatedDate" class="text-sm opacity-60">
