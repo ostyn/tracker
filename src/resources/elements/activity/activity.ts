@@ -6,6 +6,7 @@ import { ActivityService } from "resources/services/activityService";
 export class Activity {
   @bindable id;
   @bindable detail;
+  @bindable showName = true;
   activity: IActivity;
   subscribers: any = [];
   isWide: boolean = false;

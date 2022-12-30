@@ -11,7 +11,7 @@
         >${isArray(detail)? detail.length: detail}</span
       >
     </span>
-    <div class="text-sm break-words">${activity.name}</div>
+    <div if.bind="showName" class="text-sm break-words">${activity.name}</div>
   </span>
   <span
     class="flex flex-wrap text-left select-text justify-center self-stretch ${(!isWide) ? 'activity-narrow' : ''}"
