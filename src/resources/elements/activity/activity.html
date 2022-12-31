@@ -7,7 +7,7 @@
       ${activity.emoji}
       <span
         class="absolute -bottom-1.5 -right-1.5 inline-flex items-center justify-center px-1.5 py-0 text-xs text-white bg-black border-black rounded-full border-1"
-        if.bind="detail && ((isArray(detail) && detail.length != 1) || (!isArray(detail) && detail != 1))"
+        if.bind="(isNumeric(detail) && detail != 1) || (isArray(detail) && detail.length > 1)"
         >${isArray(detail)? detail.length: detail}</span
       >
     </span>

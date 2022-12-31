@@ -21,9 +21,11 @@ export class Activity {
     );
     this.loadActivity();
   }
-  isArray(detail) {
-    return detail?.constructor === Array;
+
+  detached() {
+    this.subscribers.forEach((sub) => this.subscribers.pop().dispose());
   }
+
   loadActivity() {
     this.activity = this.activityService.getActivity(this.id);
     if (
@@ -34,7 +36,11 @@ export class Activity {
       this.isWide = true;
   }
 
-  detached() {
-    this.subscribers.forEach((sub) => this.subscribers.pop().dispose());
+  isArray(detail: any): boolean {
+    return detail?.constructor === Array;
+  }
+
+  isNumeric(str: any): boolean {
+    return typeof str === "number";
   }
 }
