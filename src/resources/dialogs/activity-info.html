@@ -21,11 +21,19 @@
       <div>
         <ul>
           <li
-            class="cursor-pointer"
+            class="my-2 cursor-pointer"
             click.trigger="onDateSelect(key)"
             repeat.for="[key, value] of relatedEntryMap"
           >
-            ${key} - ${value.activities.get(activityId)}
+            <span
+              class="inline-flex items-center justify-center px-2 py-0 mr-2 text-xs text-white bg-black border-black rounded-full border-1"
+              >${key}</span
+            >
+            <span
+              class="inline-flex items-center text-center justify-center m-0.5 px-2 py-0.5 text-xs text-white bg-blue-600 rounded-md"
+              repeat.for="textItem of value.activities.get(activityId)"
+              >${textItem}</span
+            >
           </li>
         </ul>
       </div>
