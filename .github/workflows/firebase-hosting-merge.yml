@@ -11,6 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - run: echo 'export default { firebaseApiKey:"${{ secrets.FIREBASE_API_KEY }}"};' > ./secrets.js
       - run: npm ci && npm run build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
@@ -18,5 +19,3 @@ jobs:
           firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_REGRETLESS_LIFE_TRACKER }}"
           channelId: live
           projectId: regretless-life-tracker
-          storageBucket: regretless-life-tracker.appspot.com
-          apiKey: "${{ secrets.FIREBASE_API_KEY }}"
