@@ -1,4 +1,5 @@
 import firebase from "firebase/app";
+import secrets from "../secrets.js";
 import "firebase/firestore";
 import "firebase/functions";
 import "firebase/storage";
@@ -6,9 +7,9 @@ import "firebase/auth";
 
 // Pass in your own configuration options
 const config = {
-  projectId: "PROJECT_ID_HERE",
-  apiKey: "API_KEY_HERE",
-  storageBucket: "STORAGE_BUCKET_HERE",
+  projectId: "regretless-life-tracker",
+  apiKey: secrets.firebaseApiKey,
+  storageBucket: "regretless-life-tracker.appspot.com",
   signInOptions: [
     {
       provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
