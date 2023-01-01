@@ -1,5 +1,5 @@
 import firebase from "firebase/app";
-import secrets from "../secrets.js";
+import * as secrets from "./secrets.json";
 import "firebase/firestore";
 import "firebase/functions";
 import "firebase/storage";
