@@ -96,7 +96,7 @@ export class BaseGenericDao {
     var ref = this.db.collection(this.name);
     return this.getItemsFromQuery(ref);
   }
-  getItemsFromQuery(query) {
+  getItemsFromQuery(query): Promise<any> {
     let request;
     request = query
       .where("userId", "==", firebase.auth().currentUser?.uid || null)

@@ -57,7 +57,7 @@ export class ActivityService {
   }
 
   fetchActivities(): Promise<IActivity[]> {
-    return this.activityDao.getItems().then((activities: IActivity) => {
+    return this.activityDao.getItems().then((activities: IActivity[]) => {
       return activities;
     });
   }
