@@ -21,7 +21,10 @@
       if.bind="isLoaded && !entries.length"
       class="block p-4 mb-3 text-center bg-gray-100 rounded-md dark:bg-gray-800"
     >
-      No entries here
+      <p>no entries</p>
+      <button click.trigger="router.navigateToRoute('entry')">
+        📝 log entry
+      </button>
     </div>
     <entry-loading if.bind="!isLoaded"></entry-loading>
   </div>
