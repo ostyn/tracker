@@ -14,7 +14,7 @@
     <div if.bind="showName" class="text-sm break-words">${activity.name}</div>
   </span>
   <span
-    class="flex flex-wrap text-left select-text justify-center self-stretch ${(!isWide) ? 'activity-narrow' : ''}"
+    class="flex flex-wrap text-left select-text justify-center self-center ${(!isWide) ? 'activity-narrow' : ''}"
     if.bind="isArray(detail) && detail.length>0"
   >
     <span
