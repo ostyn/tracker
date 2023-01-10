@@ -31,9 +31,16 @@
             >
             <span
               class="inline-flex items-center text-center justify-center m-0.5 px-2 py-0.5 text-xs text-white bg-blue-600 rounded-md"
+              if.bind="isArray(value.activities.get(activityId))"
               repeat.for="textItem of value.activities.get(activityId)"
               >${textItem}</span
             >
+            <span
+              class="inline-flex items-center text-center justify-center m-0.5 px-2 py-0.5 text-xs text-white bg-blue-600 rounded-md"
+              else
+            >
+              ${value.activities.get(activityId)}
+            </span>
           </li>
         </ul>
       </div>
