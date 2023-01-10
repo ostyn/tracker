@@ -13,7 +13,7 @@
   <div>
     <h3 class="font-semibold">Activities</h3>
     <activity
-      show-name="false"
+      show-name.bind="false"
       repeat.for="activity of entry.activitiesArray | map: activityService.activitiesMap | sort: 'name'"
       id.bind="activity.id"
       class="align-top cursor-pointer"
