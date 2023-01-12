@@ -24,7 +24,7 @@
       >
       </activity-loading>
       <activity
-        show-name="false"
+        show-name.bind="false"
         if.bind="activityService.isLoaded && !isLoadingEntry"
         repeat.for="[id, detail] of workingCopy.activities"
         class="align-top cursor-pointer"
