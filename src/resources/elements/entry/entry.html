@@ -25,13 +25,17 @@
     <h3 class="font-semibold">Note</h3>
     <div class="break-words whitespace-pre-line">${entry.note}</div>
   </div>
-  <button click.trigger="editEntry(entry.id)">edit</button>
-  <p if.bind="showCreatedDate" class="text-sm opacity-60">
-    Entered on ${formatLib.secondsToDate(entry.created)} at
-    ${formatLib.secondsToTime(entry.created)}
-  </p>
-  <p if.bind="showUpdatedDate" class="text-sm opacity-60">
-    Updated on ${formatLib.secondsToDate(entry.updated)} at
-    ${formatLib.secondsToTime(entry.updated)}
-  </p>
+  <div class="flex items-center justify-between">
+    <button click.trigger="editEntry(entry.id)">edit</button>
+    <div class="inline-block text-right">
+      <p if.bind="showCreatedDate" class="text-xs opacity-60">
+        Entered ${formatLib.secondsToDate(entry.created)},
+        ${formatLib.secondsToTime(entry.created)}
+      </p>
+      <p if.bind="showUpdatedDate" class="text-xs opacity-60">
+        Updated ${formatLib.secondsToDate(entry.updated)},
+        ${formatLib.secondsToTime(entry.updated)}
+      </p>
+    </div>
+  </div>
 </template>
