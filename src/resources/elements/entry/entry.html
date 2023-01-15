@@ -10,13 +10,13 @@
       ${currentMood.emoji}
     </span>
   </div>
-  <div>
-    <h3 class="font-semibold">Activities</h3>
+  <h3 class="font-semibold">Activities</h3>
+  <div class="flex flex-wrap items-center">
     <activity
       show-name.bind="false"
       repeat.for="activity of entry.activitiesArray | map: activityService.activitiesMap | sort: 'name'"
       id.bind="activity.id"
-      class="align-top cursor-pointer"
+      class="items-center cursor-pointer"
       detail.bind="entry.activities.get(activity.id)"
       click.trigger="showActivityInfo(activity.id)"
     ></activity>
