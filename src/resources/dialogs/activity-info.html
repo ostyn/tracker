@@ -32,6 +32,7 @@
             <span
               class="inline-flex items-center text-center justify-center m-0.5 px-2 py-0.5 text-xs text-white bg-blue-600 rounded-md"
               if.bind="isArray(value.activities.get(activityId))"
+              click.trigger="selectTextItem(textItem)"
               repeat.for="textItem of value.activities.get(activityId)"
               >${textItem}</span
             >
@@ -66,13 +67,13 @@
         </div>
         <div if.bind="showLists" class="inline-block w-1/2 select-none">
           <div
-            click.trigger="onDateSelect(detail.dates[0])"
+            click.trigger="onDateSelect(detail.dates[0].date)"
             repeat.for="detail of mruDetails"
             class="p-3 cursor-pointer"
           >
             <span
               class="inline-flex items-center justify-center px-2 py-0 mr-2 text-xs text-white bg-black border-black rounded-full border-1"
-              >${detail.dates[0]}</span
+              >${detail.dates[0].date}</span
             >${detail.text}
           </div>
         </div>

@@ -22,6 +22,7 @@ export class ActivityInfo {
   month: number;
   year: number;
   day: number;
+  selectedTextItem: string;
   constructor(
     public controller: DialogController,
     private router: Router,
@@ -94,11 +95,16 @@ export class ActivityInfo {
     return format(date, "yyyy/MM/dd");
   }
   public onMonthChange(month, year) {
-    const entryDates = this.statsService.activityStats
-      .get(this.activityId)
-      .dates.filter(
-        (date) => date.entry.month === month && date.entry.year === year
-      );
+    this.month = month;
+    this.year = year;
+    let affectedDates = this.statsService.activityStats.get(this.activityId);
+    if (this.selectedTextItem)
+      affectedDates = this.statsService.activityStats
+        .get(this.activityId)
+        .detailsUsed.get(this.selectedTextItem);
+    const entryDates = affectedDates.dates.filter(
+      (date) => date.entry.month === month && date.entry.year === year
+    );
     const newEntryMap = new Map();
     this.totalActivity = 0;
     for (let entryDate of entryDates) {
@@ -115,6 +121,11 @@ export class ActivityInfo {
     this.percentOfDays = this.daysElapsed
       ? ((this.daysWithActivity / this.daysElapsed) * 100).toFixed(2)
       : "0.00";
+  }
+  public selectTextItem(textItem) {
+    this.selectedTextItem =
+      textItem === this.selectedTextItem ? undefined : textItem;
+    this.onMonthChange(this.month, this.year);
   }
   isArray(array) {
     return array?.constructor === Array;
