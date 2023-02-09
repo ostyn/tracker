@@ -14,7 +14,7 @@ export class ActivityDetailDialog {
   @bindable newItem: string = "";
   inputBox: Element;
   mfuDetails: IStatsDetailEntry[];
-  mruDetails: any[];
+  mruDetails: IStatsDetailEntry[];
   editingNumber = false;
 
   constructor(
@@ -64,9 +64,13 @@ export class ActivityDetailDialog {
           .toLowerCase()
           .includes(this.newItem.toLowerCase())
     );
-    this.mruDetails = this.mruDetails.sort((a, b) => {
-      return b.dates[0].localeCompare(a.dates[0]) || b.count - a.count;
-    });
+    this.mruDetails = this.mruDetails.sort(
+      (a: IStatsDetailEntry, b: IStatsDetailEntry) => {
+        return (
+          b.dates[0].date.localeCompare(a.dates[0].date) || b.count - a.count
+        );
+      }
+    );
     this.mruDetails = this.mruDetails.slice(
       0,
       Math.min(7, this.mruDetails.length)
