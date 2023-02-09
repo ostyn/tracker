@@ -48,16 +48,16 @@ export class StatsService {
       const startProcessing = new Date().getTime();
       console.log("Collection: ", startProcessing - start);
 
-      let dates = [];
+      let dates: { date: string; entry: IEntry }[] = [];
       entries.forEach((entry: IEntry) => {
-        dates.push(parseISO(entry.date));
+        dates.push({ date: entry.date, entry });
         for (let [activityId, detail] of entry.activities.entries()) {
           if (!this.activityStats.has(activityId)) {
             this.activityStats.set(activityId, { count: 0, dates: [] });
           }
           let activity = this.activityStats.get(activityId);
           activity.count++;
-          activity.dates.push(entry.date);
+          activity.dates.push({ date: entry.date, entry });
           if (Array.isArray(detail)) {
             if (!activity.detailsUsed) {
               activity.detailsUsed = new Map();
@@ -72,12 +72,13 @@ export class StatsService {
                 });
               let currentDetailItem = currentActivityDetails.get(detailItem);
               currentDetailItem.count++;
-              currentDetailItem.dates.push(entry.date);
+              currentDetailItem.dates.push({ date: entry.date, entry });
             });
           }
         }
       });
-      this.streakSummary = summary({ dates });
+
+      this.streakSummary = summary({ dates: dates.map((date) => date.date) });
       this.pending = false;
       console.log("Processing: ", new Date().getTime() - startProcessing);
       this.notifyListeners();

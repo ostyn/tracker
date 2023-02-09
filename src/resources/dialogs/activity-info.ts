@@ -1,6 +1,5 @@
 import { EventAggregator } from "aurelia-event-aggregator";
 import { Router } from "aurelia-router";
-import { EntryDao } from "resources/dao/EntryDao";
 import { autoinject, bindable } from "aurelia-framework";
 import { DialogController } from "aurelia-dialog";
 import { IEntry } from "resources/elements/entry/entry.interface";
@@ -12,7 +11,6 @@ import { StatsService } from "resources/services/statsService";
 export class ActivityInfo {
   relatedEntryMap: Map<string, IEntry> = new Map();
   activityId: string;
-  loading = true;
   daysElapsed: number;
   daysWithActivity: number;
   totalActivity = 0;
@@ -26,7 +24,6 @@ export class ActivityInfo {
   day: number;
   constructor(
     public controller: DialogController,
-    private entryDao: EntryDao,
     private router: Router,
     private statsService: StatsService,
     private ea: EventAggregator
@@ -44,9 +41,7 @@ export class ActivityInfo {
     this.year = year;
     this.day = day;
     this.activityId = id;
-    this.onMonthChange(month, year).finally(() => {
-      this.loading = false;
-    });
+    this.onMonthChange(month, year);
     this.ea.subscribe("statsUpdated", this.loadMru.bind(this));
     this.loadMru();
   }
@@ -74,9 +69,13 @@ export class ActivityInfo {
     this.mruDetails = Array.from(map.values()).filter((recentlyUsedDetail) =>
       recentlyUsedDetail.text.toLowerCase().includes(this.filter.toLowerCase())
     );
-    this.mruDetails = this.mruDetails.sort((a, b) => {
-      return b.dates[0].localeCompare(a.dates[0]) || b.count - a.count;
-    });
+    this.mruDetails = this.mruDetails.sort(
+      (a: IStatsDetailEntry, b: IStatsDetailEntry) => {
+        return (
+          b.dates[0].date.localeCompare(a.dates[0].date) || b.count - a.count
+        );
+      }
+    );
     this.mruDetails = this.mruDetails.slice(
       0,
       Math.min(7, this.mruDetails.length)
@@ -95,26 +94,27 @@ export class ActivityInfo {
     return format(date, "yyyy/MM/dd");
   }
   public onMonthChange(month, year) {
-    return this.entryDao
-      .getEntriesWithSpecificActivityAndDate(this.activityId, month, year)
-      .then((entries) => {
-        const newEntryMap = new Map();
-        this.totalActivity = 0;
-        for (let entry of entries) {
-          newEntryMap.set(entry.date, entry);
-          this.totalActivity += this.isArray(
-            entry.activities.get(this.activityId)
-          )
-            ? entry.activities.get(this.activityId).length
-            : entry.activities.get(this.activityId);
-        }
-        this.relatedEntryMap = newEntryMap;
-        this.daysElapsed = this.getDaysElapsedInMonth(month, year);
-        this.daysWithActivity = this.relatedEntryMap.size;
-        this.percentOfDays = this.daysElapsed
-          ? ((this.daysWithActivity / this.daysElapsed) * 100).toFixed(2)
-          : "0.00";
-      });
+    const entryDates = this.statsService.activityStats
+      .get(this.activityId)
+      .dates.filter(
+        (date) => date.entry.month === month && date.entry.year === year
+      );
+    const newEntryMap = new Map();
+    this.totalActivity = 0;
+    for (let entryDate of entryDates) {
+      newEntryMap.set(entryDate.date, entryDate.entry);
+      this.totalActivity += this.isArray(
+        entryDate.entry.activities.get(this.activityId)
+      )
+        ? entryDate.entry.activities.get(this.activityId).length
+        : entryDate.entry.activities.get(this.activityId);
+    }
+    this.relatedEntryMap = newEntryMap;
+    this.daysElapsed = this.getDaysElapsedInMonth(month, year);
+    this.daysWithActivity = this.relatedEntryMap.size;
+    this.percentOfDays = this.daysElapsed
+      ? ((this.daysWithActivity / this.daysElapsed) * 100).toFixed(2)
+      : "0.00";
   }
   isArray(array) {
     return array?.constructor === Array;
