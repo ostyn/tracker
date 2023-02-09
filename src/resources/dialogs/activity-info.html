@@ -55,7 +55,7 @@
       <div if.bind="showLists" class="flex">
         <div class="inline-block w-1/2 select-none">
           <div
-            click.trigger="onDateSelect(detail.dates[0])"
+            click.trigger="onDateSelect(detail.dates[0].date)"
             repeat.for="detail of mfuDetails"
             class="p-3 cursor-pointer"
           >
