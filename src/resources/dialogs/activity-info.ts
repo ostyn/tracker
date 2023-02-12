@@ -1,3 +1,4 @@
+import { IActivityDetail } from "./../elements/entry/entry.interface";
 import { EventAggregator } from "aurelia-event-aggregator";
 import { Router } from "aurelia-router";
 import { autoinject, bindable } from "aurelia-framework";
@@ -23,6 +24,7 @@ export class ActivityInfo {
   year: number;
   day: number;
   selectedTextItem: string;
+  isArray = Array.isArray;
   constructor(
     public controller: DialogController,
     private router: Router,
@@ -109,11 +111,12 @@ export class ActivityInfo {
     this.totalActivity = 0;
     for (let entryDate of entryDates) {
       newEntryMap.set(entryDate.date, entryDate.entry);
-      this.totalActivity += this.isArray(
-        entryDate.entry.activities.get(this.activityId)
-      )
-        ? entryDate.entry.activities.get(this.activityId).length
-        : entryDate.entry.activities.get(this.activityId);
+      const activityDetail: IActivityDetail = entryDate.entry.activities.get(
+        this.activityId
+      );
+      this.totalActivity += Array.isArray(activityDetail)
+        ? activityDetail.length
+        : activityDetail;
     }
     this.relatedEntryMap = newEntryMap;
     this.daysElapsed = this.getDaysElapsedInMonth(month, year);
@@ -126,9 +129,6 @@ export class ActivityInfo {
     this.selectedTextItem =
       textItem === this.selectedTextItem ? undefined : textItem;
     this.onMonthChange(this.month, this.year);
-  }
-  isArray(array) {
-    return array?.constructor === Array;
   }
   private getDaysElapsedInMonth(month: number, year: number): number {
     const currentDate = new Date();

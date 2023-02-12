@@ -48,7 +48,9 @@ export class CalendarWrapper {
         const entry: IEntry = this.dates.get(key);
         if (entry) {
           const activityDetail = entry.activities.get(this.activityId);
-          const activityNumber = activityDetail.length || activityDetail;
+          const activityNumber = Array.isArray(activityDetail)
+            ? activityDetail.length
+            : activityDetail;
           dayElem.innerHTML += `<div class="rounded-full bg-green-300 text-xs">${
             this.moodService.getMood(entry.mood).emoji
           }${activityNumber > 1 ? activityNumber : ""} </div>`;

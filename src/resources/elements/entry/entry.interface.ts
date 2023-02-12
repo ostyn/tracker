@@ -9,6 +9,7 @@ export interface IEntry {
   id?: string;
   date: string;
   mood: string;
-  activities: Map<string, any>; //number or []
+  activities: Map<string, IActivityDetail>;
   note: string;
 }
+export type IActivityDetail = number | string[];

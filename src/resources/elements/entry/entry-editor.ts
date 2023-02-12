@@ -1,3 +1,4 @@
+import { IActivityDetail } from "./entry.interface";
 import { EntryDao } from "./../../dao/EntryDao";
 import { Router } from "aurelia-router";
 import { ActivityService } from "resources/services/activityService";
@@ -91,7 +92,7 @@ export class EntryEditor {
       this.addActivity(id);
     }
   }
-  editActivityDetail(id, detail = []) {
+  editActivityDetail(id, detail: IActivityDetail = []) {
     const editingNumber = this.isNumeric(detail);
     this.dialogService
       .open({
@@ -103,9 +104,12 @@ export class EntryEditor {
         },
       })
       .whenClosed(
-        ((response) => {
+        ((response: {
+          output: { detail: IActivityDetail };
+          wasCancelled: boolean;
+        }) => {
           if (!response.wasCancelled) {
-            if (this.isArray(response.output.detail)) {
+            if (Array.isArray(response.output.detail)) {
               if (response.output.detail.length > 0) {
                 this.workingCopy.activities.set(id, response.output.detail);
               } else if (response.output.detail.length === 0) {
@@ -129,17 +133,18 @@ export class EntryEditor {
     ); // ...and ensure strings of whitespace fail
   }
   addActivity(id) {
-    if (!this.isArray(this.workingCopy.activities.get(id))) {
+    const activityDetail: IActivityDetail = this.workingCopy.activities.get(id);
+    if (!Array.isArray(activityDetail)) {
       navigator.vibrate(50);
       if (this.workingCopy.activities.has(id))
         this.workingCopy.activities.set(
           id,
-          Number((this.workingCopy.activities.get(id) + 1).toPrecision(12))
+          Number((activityDetail + 1).toPrecision(12))
         );
       else this.workingCopy.activities.set(id, 1);
     } else {
       navigator.vibrate(100);
-      this.editActivityDetail(id, [...this.workingCopy.activities.get(id)]);
+      this.editActivityDetail(id, [...activityDetail]);
     }
     this.checkpointIfDraft();
   }
@@ -155,12 +160,13 @@ export class EntryEditor {
     }
   }
   removeActivity(id) {
+    const activityDetail: IActivityDetail = this.workingCopy.activities.get(id);
     navigator.vibrate(50);
-    if (!this.isArray(this.workingCopy.activities.get(id))) {
+    if (!Array.isArray(activityDetail)) {
       if (this.workingCopy.activities.get(id) > 1)
         this.workingCopy.activities.set(
           id,
-          Number((this.workingCopy.activities.get(id) - 1).toPrecision(12))
+          Number((activityDetail - 1).toPrecision(12))
         );
       else this.workingCopy.activities.delete(id);
     } else {
