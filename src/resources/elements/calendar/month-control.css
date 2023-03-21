@@ -1,0 +1,15 @@
+.month-control {
+  @apply flex;
+}
+.next-prev-button {
+  @apply w-16 text-2xl text-center cursor-pointer select-none grayscale;
+}
+.month-header-container {
+  @apply self-center flex-auto text-center;
+}
+.month-header {
+  @apply relative inline-block;
+}
+.streak-stats {
+  @apply absolute w-16 left-full top-0.5 grayscale text-sm font-bold;
+}

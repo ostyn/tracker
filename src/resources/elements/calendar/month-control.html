@@ -1,18 +1,15 @@
-<template class="flex">
-  <span
-    class="w-16 text-2xl text-center cursor-pointer select-none grayscale"
-    click.trigger="prev()"
-    >◀</span
-  >
-  <span class="self-center flex-auto text-center">
-    <div class="relative inline-block">
+<template class="month-control">
+  <require from="./month-control.css"></require>
+  <span class="next-prev-button" click.trigger="prev()">◀</span>
+  <span class="month-header-container">
+    <div class="month-header">
       <span
         class="cursor-pointer select-none"
         click.trigger="triggerMonthClick()"
         >${monthName} ${year}</span
       >
       <span
-        class="absolute w-16 left-full top-0.5 grayscale text-sm font-bold"
+        class="streak-stats"
         if.bind="showStreakMessage && stats.todayInStreak"
       >
         ↗️ ${stats.currentStreak}
@@ -20,9 +17,5 @@
     </div>
   </span>
 
-  <span
-    class="w-16 text-2xl text-center cursor-pointer select-none grayscale"
-    click.trigger="next()"
-    >▶</span
-  >
+  <span class="next-prev-button" click.trigger="next()">▶</span>
 </template>

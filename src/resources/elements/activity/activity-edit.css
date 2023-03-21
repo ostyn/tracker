@@ -1,0 +1,6 @@
+.activity-edit-buttons {
+  @apply text-center;
+}
+.delete-button {
+  @apply bg-red-500;
+}

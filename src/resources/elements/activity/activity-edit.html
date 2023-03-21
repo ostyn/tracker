@@ -1,4 +1,5 @@
 <template>
+  <require from="./activity-edit.css"></require>
   <form>
     <input type="text" value.bind="workingCopy.name" placeholder="name" />
     <input type="text" value.bind="workingCopy.emoji" placeholder="emoji" />
@@ -16,7 +17,7 @@
         placeholder="category"
       />
     </span>
-    <div class="text-center">
+    <div class="activity-edit-buttons">
       <button type="button" click.trigger="newActivity()">new</button>
 
       <button if.bind="workingCopy.id" click.trigger="openInfo(activity.id)">
@@ -32,7 +33,7 @@
       </button>
       <button
         type="button"
-        class="bg-red-500"
+        class="delete-button"
         if.bind="workingCopy.id"
         click.trigger="deleteActivity()"
       >
