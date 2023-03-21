@@ -1,12 +1,10 @@
-<template
-  class="inline-flex items-start p-1 text-center select-none activity-wide"
->
+<template class="activity">
   <require from="./activity.css"></require>
   <span>
-    <span class="relative inline-block mx-2 mt-0 mb-2 text-3xl">
+    <span class="emoji">
       ${activity.emoji}
       <span
-        class="absolute -bottom-1.5 -right-1.5 inline-flex items-center justify-center px-1.5 py-0 text-xs text-white bg-black border-black rounded-full border-1"
+        class="activity-detail-number"
         if.bind="(isNumeric(detail) && detail != 1) || (isArray(detail) && detail.length > 1)"
         >${isArray(detail)? detail.length: detail}</span
       >
@@ -14,12 +12,10 @@
     <div if.bind="showName" class="text-sm break-words">${activity.name}</div>
   </span>
   <span
-    class="flex flex-wrap text-left select-text justify-center self-center ${(!isWide) ? 'activity-narrow' : ''}"
+    class="activity-detail-list ${(!isWide) ? 'activity-narrow' : ''}"
     if.bind="isArray(detail) && detail.length>0"
   >
-    <span
-      class="whitespace-pre-wrap inline-flex items-center text-center justify-center m-0.5 px-2 py-0.5 text-xs text-white bg-blue-600 rounded-md"
-      repeat.for="textItem of detail"
+    <span class="activity-detail-item" repeat.for="textItem of detail"
       >${textItem}</span
     >
   </span>

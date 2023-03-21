@@ -1,0 +1,18 @@
+.grid-controls {
+  @apply text-center;
+}
+.search-button {
+  @apply w-2;
+}
+.search-box {
+  @apply bg-white;
+}
+.group-header {
+  @apply mt-3 uppercase opacity-60;
+}
+.disabled {
+  @apply filter grayscale;
+}
+.clickable {
+  @apply cursor-pointer;
+}

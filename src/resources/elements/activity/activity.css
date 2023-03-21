@@ -1,5 +1,18 @@
-.activity-wide {
+.activity {
   max-width: 66%;
+  @apply inline-flex items-start p-1 text-center select-none;
+}
+.emoji {
+  @apply relative inline-block mx-2 mt-0 mb-2 text-3xl;
+}
+.activity-detail-number {
+  @apply absolute -bottom-1.5 -right-1.5 inline-flex items-center justify-center px-1.5 py-0 text-xs text-white bg-black border-black rounded-full;
+}
+.activity-detail-list {
+  @apply flex flex-wrap text-left select-text justify-center self-center;
+}
+.activity-detail-item {
+  @apply whitespace-pre-wrap inline-flex items-center text-center justify-center m-0.5 px-2 py-0.5 text-xs text-white bg-blue-600 rounded-md;
 }
 .activity-narrow {
   flex-flow: column;
