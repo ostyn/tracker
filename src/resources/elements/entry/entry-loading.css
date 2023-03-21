@@ -1,0 +1,24 @@
+.entry-loading {
+  @apply block p-4 mb-3 bg-gray-100 rounded-md dark:bg-gray-800;
+}
+.activity-loading-icon {
+  @apply inline-block w-12 h-16 mb-4 mr-4 bg-gray-300 rounded-sm;
+}
+.text-line-loading {
+  @apply self-center w-11/12 h-4 mb-4 bg-gray-300 rounded-sm;
+}
+.emoji-loading {
+  @apply inline-block w-12 h-12 m-1 ml-auto bg-gray-300 rounded-full;
+}
+.width-4rem {
+  width: 4rem;
+}
+.width-33 {
+  width: 33%;
+}
+.width-66 {
+  width: 66%;
+}
+.width-80 {
+  width: 80%;
+}

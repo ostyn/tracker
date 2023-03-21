@@ -1,11 +1,12 @@
 <template>
+  <require from="./entry-editor.css"></require>
   <require from="resources/elements/activity/activity-grid"></require>
   <require
     from="resources/elements/activity/activity-grid-loading.html"
   ></require>
   <require from="resources/elements/activity/activity-loading.html"></require>
   <require from="resources/elements/activity/activity"></require>
-  <div class="m-3">
+  <div class="entry-editor-body">
     <activity-grid-loading
       if.bind="!activityService.isLoaded"
     ></activity-grid-loading>
@@ -17,7 +18,7 @@
     ></activity-grid>
   </div>
   <footer>
-    <div class="mb-2 overflow-x-auto whitespace-nowrap">
+    <div class="activity-drawer">
       <activity-loading
         if.bind="isLoadingEntry || !activityService.isLoaded"
         repeat.for="1 of 10"
@@ -27,21 +28,18 @@
         show-name.bind="false"
         if.bind="activityService.isLoaded && !isLoadingEntry"
         repeat.for="[id, detail] of workingCopy.activities"
-        class="align-top cursor-pointer"
+        class="drawer-activity"
         click.trigger="removeActivity(id)"
         long-click.trigger="longPress(id)"
         id.bind="id"
         detail.bind="detail"
       ></activity>
     </div>
-    <div
-      class="relative flex p-3 mb-3 overflow-auto whitespace-pre-line align-middle border border-black border-dashed place-content-center max-h-24"
-      click.trigger="openTextPrompt()"
-    >
-      <span class="absolute top-0 right-0 m-2">📝</span>
+    <div class="note-preview" click.trigger="openTextPrompt()">
+      <span class="note-icon">📝</span>
       <span>${workingCopy.note || "enter note here..." }</span>
     </div>
-    <span class="text-3xl cursor-pointer" click.trigger="openMoodPrompt()">
+    <span class="mood-icon" click.trigger="openMoodPrompt()">
       ${getMood(workingCopy.mood).emoji}
     </span>
     <input type="date" value.bind="workingCopy.date" max.bind="date" name="" />
@@ -51,7 +49,11 @@
     >
       submit
     </button>
-    <button class="bg-red-500" if.bind="entry.id" click.trigger="deleteEntry()">
+    <button
+      class="delete-button"
+      if.bind="entry.id"
+      click.trigger="deleteEntry()"
+    >
       delete
     </button>
   </footer>

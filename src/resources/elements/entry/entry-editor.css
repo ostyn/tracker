@@ -1,0 +1,21 @@
+.entry-editor-body {
+  @apply m-3;
+}
+.activity-drawer {
+  @apply mb-2 overflow-x-auto whitespace-nowrap;
+}
+.drawer-activity {
+  @apply align-top cursor-pointer;
+}
+.note-preview {
+  @apply relative flex p-3 mb-3 overflow-auto whitespace-pre-line align-middle border border-black border-dashed place-content-center max-h-24;
+}
+.note-icon {
+  @apply absolute top-0 right-0 m-2;
+}
+.mood-icon {
+  @apply text-3xl cursor-pointer;
+}
+.delete-button {
+  @apply bg-red-500;
+}

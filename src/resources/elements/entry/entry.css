@@ -1,0 +1,36 @@
+.entry {
+  @apply block p-4 bg-gray-100 rounded-md dark:bg-gray-800;
+}
+.entry-header {
+  @apply flex align-middle;
+}
+.entry-header-text {
+  @apply self-center;
+}
+.entry-header-emoji {
+  @apply m-1 ml-auto text-4xl;
+}
+.activities-header {
+  @apply font-semibold;
+}
+.entry-activities {
+  @apply flex flex-wrap items-center;
+}
+.entry-activity {
+  @apply items-center cursor-pointer;
+}
+.entry-note-header {
+  @apply font-semibold;
+}
+.entry-note {
+  @apply break-words whitespace-pre-line;
+}
+.entry-footer {
+  @apply flex items-center justify-between;
+}
+.entry-footer-dates {
+  @apply inline-block text-right;
+}
+.entry-footer-dates > p {
+  @apply text-xs opacity-60;
+}
