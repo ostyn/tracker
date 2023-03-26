@@ -7,6 +7,9 @@
 .drawer-activity {
   @apply align-top cursor-pointer;
 }
+.drawer-activity-loading {
+  padding-bottom: 12px;
+}
 .note-preview {
   @apply relative flex p-3 mb-3 overflow-auto whitespace-pre-line align-middle border border-black border-dashed place-content-center max-h-24;
 }

@@ -20,6 +20,7 @@
   <footer>
     <div class="activity-drawer">
       <activity-loading
+        class="drawer-activity-loading"
         if.bind="isLoadingEntry || !activityService.isLoaded"
         repeat.for="1 of 10"
       >
