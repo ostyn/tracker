@@ -1,7 +1,7 @@
 .entry-loading {
   @apply block p-4 mb-3 bg-gray-100 rounded-md dark:bg-gray-800;
 }
-.activity-loading-icon {
+.entry-loading-activity-icon {
   @apply inline-block w-12 h-16 mb-4 mr-4 bg-gray-300 rounded-sm;
 }
 .text-line-loading {
