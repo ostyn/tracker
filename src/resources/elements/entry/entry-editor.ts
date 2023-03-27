@@ -32,6 +32,7 @@ export class EntryEditor {
     this.entry = this.newEntry();
   }
   entryChanged(newEntry, oldEntry) {
+    console.log(newEntry);
     if (newEntry === "") {
       this.entry = oldEntry;
     }
@@ -186,12 +187,23 @@ export class EntryEditor {
       ...this.workingCopy,
       ...dateFields,
     };
+    this.logToAppBadge();
+
     this.entryService.addEntry(splitTimestampEntry);
     localStorage.removeItem("checkpoint");
     this.router.navigateToRoute("entries", {
       ...dateFields,
     });
   }
+  private logToAppBadge() {
+    const hoursOfSleep = Math.round(
+      (this.workingCopy.activities.get("5e0c60d9cf1e8c6c5257980b") as number) ||
+        0
+    );
+    console.log(hoursOfSleep);
+    (navigator as any).setAppBadge(hoursOfSleep);
+  }
+
   newEntry(): IEntry {
     var date = new Date();
     return {
