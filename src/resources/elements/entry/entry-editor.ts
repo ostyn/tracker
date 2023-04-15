@@ -1,4 +1,4 @@
-import { IActivityDetail } from "./entry.interface";
+import { EditTools, IActivityDetail } from "./entry.interface";
 import { EntryDao } from "./../../dao/EntryDao";
 import { Router } from "aurelia-router";
 import { ActivityService } from "resources/services/activityService";
@@ -182,9 +182,10 @@ export class EntryEditor {
       month: Number.parseInt(parts[1]),
       day: Number.parseInt(parts[2]),
     };
-    let splitTimestampEntry = {
+    let splitTimestampEntry: IEntry = {
       ...this.workingCopy,
       ...dateFields,
+      lastUpdatedBy: EditTools.WEB,
     };
     this.entryService.addEntry(splitTimestampEntry);
     localStorage.removeItem("checkpoint");
@@ -204,6 +205,7 @@ export class EntryEditor {
         this.padValue(date.getMonth() + 1, 2) +
         "-" +
         this.padValue(date.getDate(), 2),
+      createdBy: EditTools.WEB,
     };
   }
   padValue(value, width) {

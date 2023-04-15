@@ -91,6 +91,13 @@ export class App {
         nav: false,
         name: "entry",
       },
+      {
+        route: ["import"],
+        moduleId: PLATFORM.moduleName("./resources/routes/import.route"),
+        nav: true,
+        title: "import",
+        name: "import",
+      },
     ]);
 
     this.router = router;

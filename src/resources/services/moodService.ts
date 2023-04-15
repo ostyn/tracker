@@ -18,7 +18,7 @@ export class MoodService {
   public init() {
     this.moodDao.setupCacheAndUpdateListener(this.notifyListeners.bind(this));
   }
-  moodsCache = [];
+  moodsCache: IMood[] = [];
   constructor(private moodDao: MoodDao, private ea: EventAggregator) {}
   notifyListeners() {
     this.fetchMoods().then((moods) => {
@@ -32,11 +32,11 @@ export class MoodService {
     });
   }
 
-  saveMood(mood) {
+  saveMood(mood: IMood) {
     this.moodDao.saveItem(mood);
   }
 
-  fetchMoods() {
+  fetchMoods(): Promise<IMood[]> {
     return this.moodDao.getItems().then((moods: IMood[]) => {
       moods.push();
       return moods;
@@ -50,7 +50,7 @@ export class MoodService {
   getAllMoods(): IMood[] {
     return [].concat(this.moodsCache, this.presetMoods);
   }
-  getAllUserCreatedMoods() {
+  getAllUserCreatedMoods(): IMood[] {
     return this.moodsCache;
   }
 

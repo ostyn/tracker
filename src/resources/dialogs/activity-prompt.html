@@ -1,0 +1,15 @@
+<template>
+  <require from="resources/elements/activity/activity-grid"></require>
+
+  <ux-dialog>
+    <ux-dialog-body class="text-center">
+      <activity-grid
+        activities.bind="activities"
+        on-activity-click.call="clickActivity(activity.id)"
+      ></activity-grid>
+    </ux-dialog-body>
+    <ux-dialog-footer>
+      <button click.trigger="controller.cancel()">Close</button>
+    </ux-dialog-footer>
+  </ux-dialog>
+</template>

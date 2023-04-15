@@ -1,0 +1,34 @@
+<template>
+  <require from="resources/elements/entry/entry"></require>
+  <textarea class="text-white" value.bind="csv"></textarea>
+  <button click.trigger="parse()">parse</button>
+  <div if.bind="moodsToMap.length > 0">
+    <h2>Moods</h2>
+    <span
+      repeat.for="mood of moodsToMap"
+      class="cursor-pointer"
+      click.trigger="openMoodPrompt(moodMappings[mood], mood)"
+    >
+      ${mood} =>
+      <span if.bind="moodMappings[mood]" class="mood-icon">
+        ${getMood(moodMappings[mood]).emoji}
+      </span>
+      <span class="mood-icon" else>⁉️</span>
+    </span>
+  </div>
+  <div if.bind="activitiesToMap.length > 0">
+    <h2>Activities</h2>
+    <span
+      repeat.for="activity of activitiesToMap"
+      class="cursor-pointer"
+      click.trigger="openActivityPrompt(activitiesToMap[activity], activity)"
+    >
+      ${activity} =>
+      <span if.bind="activityMappings[activity]" class="mood-icon">
+        ${getActivity(activityMappings[activity]).emoji}
+      </span>
+      <span class="mood-icon" else>⁉️</span>
+    </span>
+  </div>
+  <entry class="mb-3" repeat.for="e of entries" entry.bind="e"></entry>
+</template>
