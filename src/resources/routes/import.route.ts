@@ -18,8 +18,8 @@ export class ImportRoute {
   moodsToMap = [];
   activitiesToMap = [];
   entries: IEntry[];
-  moodMappings = { rad: "5a695fa7cf1e8c095b05cfa0" };
-  activityMappings = { "discussion...": "5a7337b9cf1e8c1756bfbcd9" };
+  moodMappings = {};
+  activityMappings = {};
 
   constructor(
     private moodService: MoodService,
