@@ -7,6 +7,7 @@ export function configure(aurelia: Aurelia): void {
   eval(nightwind.init());
   PLATFORM.moduleName("./resources/dialogs/text-prompt");
   PLATFORM.moduleName("./resources/dialogs/mood-prompt");
+  PLATFORM.moduleName("./resources/dialogs/activity-prompt");
   PLATFORM.moduleName("./resources/dialogs/activity-info");
   PLATFORM.moduleName("./resources/dialogs/activity-detail-prompt");
   aurelia.use
