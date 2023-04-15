@@ -1,3 +1,4 @@
+import { IEntry } from "resources/elements/entry/entry.interface";
 import { DialogService } from "aurelia-dialog";
 import { MoodService } from "./../services/moodService";
 import { autoinject } from "aurelia-framework";
@@ -6,6 +7,7 @@ import { EventAggregator } from "aurelia-event-aggregator";
 import { ActivityService } from "resources/services/activityService";
 import { MoodDialog } from "resources/dialogs/mood-prompt";
 import { ActivityPromptDialog } from "resources/dialogs/activity-prompt";
+import { EntryService } from "resources/services/entryService";
 
 @autoinject
 export class ImportRoute {
@@ -15,7 +17,7 @@ export class ImportRoute {
   activities;
   moodsToMap = [];
   activitiesToMap = [];
-  entries;
+  entries: IEntry[];
   moodMappings = { rad: "5a695fa7cf1e8c095b05cfa0" };
   activityMappings = { "discussion...": "5a7337b9cf1e8c1756bfbcd9" };
 
@@ -23,7 +25,8 @@ export class ImportRoute {
     private moodService: MoodService,
     private activityService: ActivityService,
     private ea: EventAggregator,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private entryService: EntryService
   ) {}
 
   getMoods = () => {
@@ -55,6 +58,11 @@ export class ImportRoute {
     this.entries = resp.entries;
     this.moodsToMap = resp.moodsToMap;
     this.activitiesToMap = resp.activitiesToMap;
+  }
+  import() {
+    this.entries.forEach((entry) => {
+      this.entryService.addEntry(entry);
+    });
   }
   getMood(moodId) {
     return this.moodService.getMood(moodId);

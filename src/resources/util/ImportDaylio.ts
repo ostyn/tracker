@@ -16,17 +16,20 @@ export class ImportDaylio {
     const data: any[] = Papa.parse(csvString, {
       header: true,
     }).data;
-    let activitiesToMap = new Map();
-    let moodsToMap = new Map();
+    let activitiesToMap = new Set<string>();
+    let moodsToMap = new Set<string>();
     for (const row of data) {
       const daylioActivities =
         row.activities !== "" ? row.activities.split(" | ") : [];
       let mappedActivities = new Map();
-      moodsToMap.set(row.mood, 1);
+      moodsToMap.add(row.mood);
 
       daylioActivities.forEach((activity) => {
-        activitiesToMap.set(activity, 1);
-        if (activityMappings.has(activity)) {
+        activitiesToMap.add(activity);
+        if (
+          activityMappings.has(activity) &&
+          activityMappings.get(activity) !== undefined
+        ) {
           let mapping = activityMappings.get(activity);
           if (!mappedActivities.has(mapping)) mappedActivities.set(mapping, 0);
           mappedActivities.set(mapping, mappedActivities.get(mapping) + 1);
@@ -34,7 +37,10 @@ export class ImportDaylio {
       });
 
       const full_date = row.full_date.trim();
-      const [year, month, day] = full_date.split("-");
+      let [year, month, day] = full_date.split("-");
+      year = Number.parseInt(year);
+      month = Number.parseInt(month);
+      day = Number.parseInt(day);
       const dateTimeString = full_date + " " + row.time;
       const parsedDate = parse(dateTimeString, "yyyy-MM-dd HH:mm", new Date());
       const timeZone = "America/Denver";
@@ -51,13 +57,14 @@ export class ImportDaylio {
         note: row.note_title ? row.note_title + "\n\n" + row.note : row.note,
         created: zonedDate,
         createdBy: EditTools.DAYLIO_IMPORT,
+        lastUpdatedBy: EditTools.DAYLIO_IMPORT,
       };
       results.push(entry);
     }
     return {
       entries: results,
-      moodsToMap: Array.from(moodsToMap.keys()),
-      activitiesToMap: Array.from(activitiesToMap.keys()),
+      moodsToMap: Array.from(moodsToMap),
+      activitiesToMap: Array.from(activitiesToMap),
     };
   }
 }

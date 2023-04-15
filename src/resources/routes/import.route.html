@@ -2,14 +2,15 @@
   <require from="resources/elements/entry/entry"></require>
   <textarea class="text-white" value.bind="csv"></textarea>
   <button click.trigger="parse()">parse</button>
+  <button click.trigger="import()">import</button>
   <div if.bind="moodsToMap.length > 0">
     <h2>Moods</h2>
     <span
       repeat.for="mood of moodsToMap"
-      class="cursor-pointer"
+      class="inline-block p-1 mb-1 mr-1 rounded-sm cursor-pointer bg-slate-100"
       click.trigger="openMoodPrompt(moodMappings[mood], mood)"
     >
-      ${mood} =>
+      ${mood} ➡️
       <span if.bind="moodMappings[mood]" class="mood-icon">
         ${getMood(moodMappings[mood]).emoji}
       </span>
@@ -20,10 +21,10 @@
     <h2>Activities</h2>
     <span
       repeat.for="activity of activitiesToMap"
-      class="cursor-pointer"
+      class="inline-block p-1 mb-1 mr-1 rounded-sm cursor-pointer bg-slate-100"
       click.trigger="openActivityPrompt(activitiesToMap[activity], activity)"
     >
-      ${activity} =>
+      ${activity} ➡️
       <span if.bind="activityMappings[activity]" class="mood-icon">
         ${getActivity(activityMappings[activity]).emoji}
       </span>

@@ -39,6 +39,7 @@
         Updated ${formatLib.secondsToDate(entry.updated)},
         ${formatLib.secondsToTime(entry.updated)}
       </p>
+      <p if.bind="entry.createdBy === 'DAYLIO_IMPORT'">Imported from Daylio</p>
     </div>
   </div>
 </template>
