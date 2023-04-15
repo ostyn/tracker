@@ -94,7 +94,7 @@ export class App {
       {
         route: ["import"],
         moduleId: PLATFORM.moduleName("./resources/routes/import.route"),
-        nav: true,
+        nav: false,
         title: "import",
         name: "import",
       },
