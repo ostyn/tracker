@@ -3,53 +3,30 @@ import { DialogService } from "aurelia-dialog";
 import { MoodService } from "./../services/moodService";
 import { autoinject } from "aurelia-framework";
 import { ImportDaylio } from "resources/util/ImportDaylio";
-import { EventAggregator } from "aurelia-event-aggregator";
 import { ActivityService } from "resources/services/activityService";
 import { MoodDialog } from "resources/dialogs/mood-prompt";
 import { ActivityPromptDialog } from "resources/dialogs/activity-prompt";
 import { EntryService } from "resources/services/entryService";
+import { IMood } from "resources/elements/mood/mood.interface";
+import { IActivity } from "resources/elements/activity/activity.interface";
 
 @autoinject
 export class ImportRoute {
-  csv = "";
-  subscribers = [];
-  moods;
-  activities;
-  moodsToMap = [];
-  activitiesToMap = [];
-  entries: IEntry[];
-  moodMappings = {};
-  activityMappings = {};
+  public csv = "";
+  public moodsToMap: string[] = [];
+  public activitiesToMap: string[] = [];
+  public entries: IEntry[] = [];
+  public moodMappings: { [n: string]: string } = {};
+  public activityMappings: { [n: string]: string } = {};
 
   constructor(
     private moodService: MoodService,
     private activityService: ActivityService,
-    private ea: EventAggregator,
     private dialogService: DialogService,
     private entryService: EntryService
   ) {}
 
-  getMoods = () => {
-    this.moods = this.moodService.getAllUserCreatedMoods();
-  };
-  getActivities = () => {
-    this.activities = this.activityService.getActivities();
-  };
-
-  attached() {
-    this.subscribers.push(this.ea.subscribe("moodsUpdated", this.getMoods));
-    this.subscribers.push(
-      this.ea.subscribe("activitiesUpdated", this.getActivities)
-    );
-
-    this.getMoods();
-    this.getActivities();
-  }
-
-  detached() {
-    this.subscribers.forEach((sub) => this.subscribers.pop().dispose());
-  }
-  parse() {
+  public parse(): void {
     let resp = ImportDaylio.parseCsv(
       this.csv,
       new Map(Object.entries(this.moodMappings)),
@@ -59,18 +36,18 @@ export class ImportRoute {
     this.moodsToMap = resp.moodsToMap;
     this.activitiesToMap = resp.activitiesToMap;
   }
-  import() {
+  public import(): void {
     this.entries.forEach((entry) => {
       this.entryService.addEntry(entry);
     });
   }
-  getMood(moodId) {
+  public getMood(moodId): IMood {
     return this.moodService.getMood(moodId);
   }
-  getActivity(activityId) {
+  public getActivity(activityId): IActivity {
     return this.activityService.getActivity(activityId);
   }
-  openMoodPrompt(mood, original) {
+  public openMoodPrompt(mood, original): void {
     this.dialogService
       .open({
         viewModel: MoodDialog,
@@ -83,7 +60,7 @@ export class ImportRoute {
         }
       });
   }
-  openActivityPrompt(activity, original) {
+  public openActivityPrompt(activity, original): void {
     this.dialogService
       .open({
         viewModel: ActivityPromptDialog,
