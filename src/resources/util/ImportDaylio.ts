@@ -10,13 +10,13 @@ export class ImportDaylio {
     moodMappings: Map<string, string>,
     activityMappings: Map<string, string>
   ): { entries: IEntry[]; moodsToMap: string[]; activitiesToMap: string[] } {
-    const results: IEntry[] = [];
-    const data: any[] = Papa.parse(csvString, {
+    const entries: IEntry[] = [];
+    const rows: any[] = Papa.parse(csvString, {
       header: true,
     }).data;
     let activitiesToMap = new Set<string>();
     let moodsToMap = new Set<string>();
-    for (const row of data) {
+    for (const row of rows) {
       const daylioActivities = row.activities.split(" | ");
       const mappedActivities = new Map();
       moodsToMap.add(row.mood);
@@ -56,10 +56,10 @@ export class ImportDaylio {
         createdBy: EditTools.DAYLIO_IMPORT,
         lastUpdatedBy: EditTools.DAYLIO_IMPORT,
       };
-      results.push(entry);
+      entries.push(entry);
     }
     return {
-      entries: results,
+      entries: entries,
       moodsToMap: Array.from(moodsToMap),
       activitiesToMap: Array.from(activitiesToMap),
     };
