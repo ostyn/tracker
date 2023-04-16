@@ -7,11 +7,9 @@ import { utcToZonedTime } from "date-fns-tz";
 export class ImportDaylio {
   static parseCsv(
     csvString: string,
-    m_Mappings: Map<string, string>,
-    a_Mappings: Map<string, string>
+    moodMappings: Map<string, string>,
+    activityMappings: Map<string, string>
   ): { entries: IEntry[]; moodsToMap: string[]; activitiesToMap: string[] } {
-    let moodMappings = new Map(m_Mappings);
-    let activityMappings = new Map(a_Mappings);
     const results: IEntry[] = [];
     const data: any[] = Papa.parse(csvString, {
       header: true,
@@ -19,9 +17,8 @@ export class ImportDaylio {
     let activitiesToMap = new Set<string>();
     let moodsToMap = new Set<string>();
     for (const row of data) {
-      const daylioActivities =
-        row.activities !== "" ? row.activities.split(" | ") : [];
-      let mappedActivities = new Map();
+      const daylioActivities = row.activities.split(" | ");
+      const mappedActivities = new Map();
       moodsToMap.add(row.mood);
 
       daylioActivities.forEach((activity) => {
@@ -38,20 +35,20 @@ export class ImportDaylio {
 
       const full_date = row.full_date.trim();
       let [year, month, day] = full_date.split("-");
-      year = Number.parseInt(year);
-      month = Number.parseInt(month);
-      day = Number.parseInt(day);
-      const dateTimeString = full_date + " " + row.time;
-      const parsedDate = parse(dateTimeString, "yyyy-MM-dd HH:mm", new Date());
+      const parsedDate = parse(
+        `${full_date} ${row.time}`,
+        "yyyy-MM-dd HH:mm",
+        new Date()
+      );
       const timeZone = "America/Denver";
       const zonedDate = utcToZonedTime(parsedDate, timeZone);
 
       const entry: IEntry = {
         activitiesArray: Array.from(mappedActivities.keys()),
         activities: mappedActivities,
-        day,
-        month,
-        year,
+        day: Number.parseInt(day),
+        month: Number.parseInt(month),
+        year: Number.parseInt(year),
         date: full_date,
         mood: moodMappings.get(row.mood),
         note: row.note_title ? row.note_title + "\n\n" + row.note : row.note,
