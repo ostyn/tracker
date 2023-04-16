@@ -66,4 +66,11 @@ export class Entry {
       },
     });
   }
+  goToSelf() {
+    this.router.navigateToRoute("entries", {
+      year: this.entry.year,
+      month: this.entry.month,
+      day: this.entry.day,
+    });
+  }
 }

@@ -2,7 +2,7 @@
   <require from="./entry.css"></require>
   <require from="resources/elements/activity/activity"></require>
   <div class="entry-header">
-    <h2 class="entry-header-text">
+    <h2 class="entry-header-text" click.trigger="goToSelf()">
       ${formatLib.selectorDateToJsDate(entry.date)}
     </h2>
     <span

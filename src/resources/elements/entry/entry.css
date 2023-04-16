@@ -5,7 +5,7 @@
   @apply flex align-middle;
 }
 .entry-header-text {
-  @apply self-center;
+  @apply self-center cursor-pointer;
 }
 .entry-header-emoji {
   @apply m-1 ml-auto text-4xl;
