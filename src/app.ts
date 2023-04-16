@@ -98,6 +98,13 @@ export class App {
         title: "import",
         name: "import",
       },
+      {
+        route: ["search"],
+        moduleId: PLATFORM.moduleName("./resources/routes/search.route"),
+        nav: true,
+        title: "🔍",
+        name: "search",
+      },
     ]);
 
     this.router = router;

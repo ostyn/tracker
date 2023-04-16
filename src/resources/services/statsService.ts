@@ -4,7 +4,8 @@ import { autoinject } from "aurelia-framework";
 import { EventAggregator } from "aurelia-event-aggregator";
 import { IEntry } from "resources/elements/entry/entry.interface";
 import { IStatsActivityEntry } from "./activity-stats.interface";
-import { parseISO } from "date-fns";
+import { ActivityService } from "./activityService";
+import { MoodService } from "./moodService";
 
 @autoinject
 export class StatsService {
@@ -23,8 +24,8 @@ export class StatsService {
   }
   constructor(
     private entryDao: EntryDao,
-    private activityService,
-    private moodService,
+    private activityService: ActivityService,
+    private moodService: MoodService,
     private ea: EventAggregator
   ) {}
   notifyListeners() {
@@ -43,48 +44,49 @@ export class StatsService {
 
   private processStats() {
     let start = new Date().getTime();
-    return this.entryDao.getEntriesFromYearAndMonth().then((entries) => {
-      this.activityStats = new Map<string, IStatsActivityEntry>();
-      const startProcessing = new Date().getTime();
-      console.log("Collection: ", startProcessing - start);
+    return this.entryDao
+      .getEntriesFromYearAndMonth()
+      .then((entries: IEntry[]) => {
+        this.activityStats = new Map<string, IStatsActivityEntry>();
+        const startProcessing = new Date().getTime();
+        console.log("Collection: ", startProcessing - start);
 
-      let dates: { date: string; entry: IEntry }[] = [];
-      entries.forEach((entry: IEntry) => {
-        dates.push({ date: entry.date, entry });
-        for (let [activityId, detail] of entry.activities.entries()) {
-          if (!this.activityStats.has(activityId)) {
-            this.activityStats.set(activityId, { count: 0, dates: [] });
-          }
-          let activity = this.activityStats.get(activityId);
-          activity.count++;
-          activity.dates.push({ date: entry.date, entry });
-          if (Array.isArray(detail)) {
-            if (!activity.detailsUsed) {
-              activity.detailsUsed = new Map();
+        let dates: { date: string; entry: IEntry }[] = [];
+        entries.forEach((entry: IEntry) => {
+          dates.push({ date: entry.date, entry });
+          for (let [activityId, detail] of entry.activities.entries()) {
+            if (!this.activityStats.has(activityId)) {
+              this.activityStats.set(activityId, { count: 0, dates: [] });
             }
-            let currentActivityDetails = activity.detailsUsed;
-            detail.forEach((detailItem) => {
-              if (!currentActivityDetails.has(detailItem))
-                currentActivityDetails.set(detailItem, {
-                  count: 0,
-                  text: detailItem,
-                  dates: [],
-                });
-              let currentDetailItem = currentActivityDetails.get(detailItem);
-              currentDetailItem.count++;
-              currentDetailItem.dates.push({ date: entry.date, entry });
-            });
+            let activity = this.activityStats.get(activityId);
+            activity.count++;
+            activity.dates.push({ date: entry.date, entry });
+            if (Array.isArray(detail)) {
+              if (!activity.detailsUsed) {
+                activity.detailsUsed = new Map();
+              }
+              let currentActivityDetails = activity.detailsUsed;
+              detail.forEach((detailItem) => {
+                if (!currentActivityDetails.has(detailItem))
+                  currentActivityDetails.set(detailItem, {
+                    count: 0,
+                    text: detailItem,
+                    dates: [],
+                  });
+                let currentDetailItem = currentActivityDetails.get(detailItem);
+                currentDetailItem.count++;
+                currentDetailItem.dates.push({ date: entry.date, entry });
+              });
+            }
           }
-        }
+        });
+
+        this.streakSummary = summary({ dates: dates.map((date) => date.date) });
+        this.pending = false;
+        console.log("Processing: ", new Date().getTime() - startProcessing);
+        this.notifyListeners();
       });
-
-      this.streakSummary = summary({ dates: dates.map((date) => date.date) });
-      this.pending = false;
-      console.log("Processing: ", new Date().getTime() - startProcessing);
-      this.notifyListeners();
-    });
   }
-
   getStreakSummary() {
     return this.streakSummary;
   }

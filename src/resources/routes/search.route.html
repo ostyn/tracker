@@ -1,0 +1,9 @@
+<template>
+  <require from="resources/elements/entry/entry"></require>
+  <form submit.trigger="search()">
+    <input class="text-white" value.bind="needle" />
+    <button disabled.bind="needle === undefined">search</button>
+  </form>
+  <i if.bind="entries">${entries.length} result(s)</i>
+  <entry class="my-3" repeat.for="e of entries" entry.bind="e"></entry>
+</template>
