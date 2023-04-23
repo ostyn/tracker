@@ -1,13 +1,11 @@
 <template>
   <require from="./moods.route.css"></require>
   <require from="resources/elements/mood/mood-edit"></require>
-  <div class="m-3">
-    <span
-      class="text-3xl cursor-pointer"
-      click.trigger="setCurrentMood(mood)"
-      repeat.for="mood of moods"
-      >${mood.emoji}</span
-    >
-    <mood-edit mood.two-way="mood"></mood-edit>
-  </div>
+  <span
+    class="moods-mood"
+    click.trigger="setCurrentMood(mood)"
+    repeat.for="mood of moods"
+    >${mood.emoji}</span
+  >
+  <mood-edit mood.two-way="mood"></mood-edit>
 </template>
