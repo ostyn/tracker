@@ -1,32 +1,29 @@
 <template>
   <require from="./search.route.css"></require>
   <require from="resources/elements/entry/entry"></require>
-  <div class="mx-3">
-    <div class="sticky top-0 z-50 py-1 my-2 space-x-1 bg-white">
-      <input
-        class="w-24 p-1 bg-white"
-        focus="true"
-        value.bind="needle & debounce"
-      />
-      <button
-        class="w-7"
-        disabled.bind="currentPage === 0"
-        click.trigger="prevPage()"
-      >
-        prev
-      </button>
-      <button
-        class="w-7"
-        disabled.bind="currentPage === lastPageIndex"
-        click.trigger="nextPage()"
-      >
-        next
-      </button>
-      <span if.bind="entries.length"
-        >Results ${firstEntryIndex+1}-${lastEntryIndex} of
-        ${entries.length}</span
-      >
-    </div>
-    <entry class="mb-3" repeat.for="e of entryPage" entry.bind="e"></entry>
+  <div class="search-bar">
+    <input class="search-input" focus="true" value.bind="needle & debounce" />
+    <button
+      class="search-button"
+      disabled.bind="currentPage === 0"
+      click.trigger="prevPage()"
+    >
+      prev
+    </button>
+    <button
+      class="search-button"
+      disabled.bind="currentPage === lastPageIndex"
+      click.trigger="nextPage()"
+    >
+      next
+    </button>
+    <span if.bind="entries.length"
+      >Results ${firstEntryIndex+1}-${lastEntryIndex} of ${entries.length}</span
+    >
   </div>
+  <entry
+    class="search-entries"
+    repeat.for="e of entryPage"
+    entry.bind="e"
+  ></entry>
 </template>

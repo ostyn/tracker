@@ -1,0 +1,12 @@
+.search-bar {
+  @apply sticky top-0 z-50 py-1 my-2 space-x-1 bg-white;
+}
+.search-input {
+  @apply w-24 p-1 bg-white;
+}
+.search-button {
+  @apply w-7;
+}
+.search-entries {
+  @apply mb-3;
+}
