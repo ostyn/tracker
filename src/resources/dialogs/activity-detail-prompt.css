@@ -1,0 +1,21 @@
+.activity-detail-prompt-input {
+  @apply inline-block align-top;
+}
+.width-64 {
+  @apply w-64;
+}
+.width-12 {
+  @apply w-12;
+}
+.stats-block {
+  @apply flex;
+}
+.stats-column {
+  @apply inline-block w-1/2 select-none;
+}
+.stats-entry {
+  @apply p-3;
+}
+.stats-entry-datapoint {
+  @apply inline-flex items-center justify-center px-2 py-0 mr-2 text-xs text-white bg-black border-black rounded-full;
+}

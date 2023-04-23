@@ -6,7 +6,7 @@
       <div>
         <activity id.bind="activity.id"></activity>
       </div>
-      <div if.bind="editingNumber" class="inline-block align-top">
+      <div if.bind="editingNumber" class="activity-detail-prompt-input">
         <input
           ref="inputBox"
           focus="true"
@@ -15,14 +15,14 @@
           placeholder="enter number"
         />
       </div>
-      <div if.bind="!editingNumber" class="inline-block align-top">
+      <div if.bind="!editingNumber" class="activity-detail-prompt-input">
         <div repeat.for="item of detail">
           <input
-            class="w-64"
+            class="width-64"
             type="text"
             blur.trigger="loadMru()"
             value.bind="detail[$index]"
-          /><button class="w-12" click.trigger="removeItem(detail, $index)">
+          /><button class="width-12" click.trigger="removeItem(detail, $index)">
             ❌
           </button>
         </div>
@@ -31,7 +31,7 @@
       <div if.bind="!editingNumber">
         <form submit.trigger="addItemOrSubmit()">
           <input
-            class="w-64"
+            class="width-64"
             ref="inputBox"
             focus="true"
             type="text"
@@ -41,28 +41,24 @@
           <button if.bind="newItem" click.trigger="addItemOrSubmit()">▶</button>
         </form>
       </div>
-      <div class="flex">
-        <div class="inline-block w-1/2 select-none">
+      <div class="stats-block">
+        <div class="stats-column">
           <div
             repeat.for="detail of mfuDetails"
             click.trigger="addDetail(detail.text)"
-            class="p-3"
+            class="stats-entry"
           >
-            <span
-              class="inline-flex items-center justify-center px-2 py-0 mr-2 text-xs text-white bg-black border-black rounded-full border-1"
-              >${detail.count}</span
+            <span class="stats-entry-datapoint">${detail.count}</span
             >${detail.text}
           </div>
         </div>
-        <div class="inline-block w-1/2 select-none">
+        <div class="stats-column">
           <div
             repeat.for="detail of mruDetails"
             click.trigger="addDetail(detail.text)"
-            class="p-3"
+            class="stats-entry"
           >
-            <span
-              class="inline-flex items-center justify-center px-2 py-0 mr-2 text-xs text-white bg-black border-black rounded-full border-1"
-              >${detail.dates[0].date}</span
+            <span class="stats-entry-datapoint">${detail.dates[0].date}</span
             >${detail.text}
           </div>
         </div>
