@@ -1,22 +1,19 @@
 <template>
-  <require from="./activities.route.css"></require>
   <require from="resources/elements/activity/activity-edit"></require>
   <require from="resources/elements/activity/activity-grid"></require>
   <require
     from="resources/elements/activity/activity-grid-loading.html"
   ></require>
-  <div class="m-3">
-    <activity-grid-loading
-      if.bind="!activityService.isLoaded"
-    ></activity-grid-loading>
-    <activity-grid
-      if.bind="activityService.isLoaded"
-      activities.bind="activities"
-      on-activity-click.call="setCurrentActivity(activity)"
-      on-activity-long-click.call="showActivityInfo(activity.id)"
-      filter-archived="false"
-    ></activity-grid>
-  </div>
+  <activity-grid-loading
+    if.bind="!activityService.isLoaded"
+  ></activity-grid-loading>
+  <activity-grid
+    if.bind="activityService.isLoaded"
+    activities.bind="activities"
+    on-activity-click.call="setCurrentActivity(activity)"
+    on-activity-long-click.call="showActivityInfo(activity.id)"
+    filter-archived="false"
+  ></activity-grid>
   <footer>
     <activity-edit activity.two-way="activity"></activity-edit>
   </footer>
