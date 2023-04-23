@@ -1,0 +1,3 @@
+.text-prompt-input {
+  @apply w-full h-48 text-black bg-white;
+}
