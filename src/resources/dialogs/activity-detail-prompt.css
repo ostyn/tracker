@@ -14,7 +14,7 @@
   @apply inline-block w-1/2 select-none;
 }
 .stats-entry {
-  @apply p-3;
+  @apply p-3 cursor-pointer;
 }
 .stats-entry-datapoint {
   @apply inline-flex items-center justify-center px-2 py-0 mr-2 text-xs text-white bg-black border-black rounded-full;

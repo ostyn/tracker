@@ -1,0 +1,21 @@
+.activity-info-recent {
+  @apply my-2 cursor-pointer;
+}
+.activity-info-recent-date {
+  @apply inline-flex items-center justify-center px-2 py-0 mr-2 text-xs text-white bg-black border-black rounded-full;
+}
+.activity-info-recent-detail {
+  @apply inline-flex items-center text-center justify-center m-0.5 px-2 py-0.5 text-xs text-white bg-blue-600 rounded-md;
+}
+.stats-block {
+  @apply flex;
+}
+.stats-column {
+  @apply inline-block w-1/2 select-none;
+}
+.stats-entry {
+  @apply p-3 cursor-pointer;
+}
+.stats-entry-datapoint {
+  @apply inline-flex items-center justify-center px-2 py-0 mr-2 text-xs text-white bg-black border-black rounded-full;
+}

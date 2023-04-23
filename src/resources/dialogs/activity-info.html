@@ -22,25 +22,19 @@
       <div>
         <ul>
           <li
-            class="my-2 cursor-pointer"
+            class="activity-info-recent"
             click.trigger="onDateSelect(key)"
             repeat.for="[key, value] of relatedEntryMap"
           >
+            <span class="activity-info-recent-date">${key}</span>
             <span
-              class="inline-flex items-center justify-center px-2 py-0 mr-2 text-xs text-white bg-black border-black rounded-full border-1"
-              >${key}</span
-            >
-            <span
-              class="inline-flex items-center text-center justify-center m-0.5 px-2 py-0.5 text-xs text-white bg-blue-600 rounded-md"
+              class="activity-info-recent-detail"
               if.bind="isArray(value.activities.get(activityId))"
               click.trigger="selectTextItem(textItem)"
               repeat.for="textItem of value.activities.get(activityId)"
               >${textItem}</span
             >
-            <span
-              class="inline-flex items-center text-center justify-center m-0.5 px-2 py-0.5 text-xs text-white bg-blue-600 rounded-md"
-              else
-            >
+            <span class="activity-info-recent-detail" else>
               ${value.activities.get(activityId)}
             </span>
           </li>
@@ -53,28 +47,24 @@
         value.bind="filter"
         placeholder="search..."
       />
-      <div if.bind="showLists" class="flex">
-        <div class="inline-block w-1/2 select-none">
+      <div if.bind="showLists" class="stats-block">
+        <div class="stats-column">
           <div
             click.trigger="onDateSelect(detail.dates[0].date)"
             repeat.for="detail of mfuDetails"
-            class="p-3 cursor-pointer"
+            class="stats-entry"
           >
-            <span
-              class="inline-flex items-center justify-center px-2 py-0 mr-2 text-xs text-white bg-black border-black rounded-full border-1"
-              >${detail.count}</span
+            <span class="stats-entry-datapoint">${detail.count}</span
             >${detail.text}
           </div>
         </div>
-        <div if.bind="showLists" class="inline-block w-1/2 select-none">
+        <div if.bind="showLists" class="stats-column">
           <div
             click.trigger="onDateSelect(detail.dates[0].date)"
             repeat.for="detail of mruDetails"
-            class="p-3 cursor-pointer"
+            class="stats-entry"
           >
-            <span
-              class="inline-flex items-center justify-center px-2 py-0 mr-2 text-xs text-white bg-black border-black rounded-full border-1"
-              >${detail.dates[0].date}</span
+            <span class="stats-entry-datapoint">${detail.dates[0].date}</span
             >${detail.text}
           </div>
         </div>
