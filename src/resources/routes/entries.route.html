@@ -3,30 +3,25 @@
   <require from="resources/elements/calendar/month-control"></require>
   <require from="resources/elements/entry/entry"></require>
   <require from="resources/elements/entry/entry-loading.html"></require>
-  <div class="mx-3">
-    <month-control
-      class="sticky z-50 py-1.5 my-2 bg-white -top-px"
-      month.bind="currentMonth"
-      year.bind="currentYear"
-      on-month-change.call="onMonthChange(month, year)"
-      on-month-click.call="onMonthClick()"
-    ></month-control>
-    <entry
-      class="mb-3"
-      if.bind="isLoaded"
-      repeat.for="e of entries"
-      scroll-to-self.bind="shouldScrollToSelf(e)"
-      entry.bind="e"
-    ></entry>
-    <div
-      if.bind="isLoaded && !entries.length"
-      class="block p-4 mb-3 text-center bg-gray-100 rounded-md dark:bg-gray-800"
-    >
-      <p>no entries</p>
-      <button click.trigger="router.navigateToRoute('entry')">
-        📝 log entry
-      </button>
-    </div>
-    <entry-loading if.bind="!isLoaded"></entry-loading>
+  <month-control
+    class="month-control-bar"
+    month.bind="currentMonth"
+    year.bind="currentYear"
+    on-month-change.call="onMonthChange(month, year)"
+    on-month-click.call="onMonthClick()"
+  ></month-control>
+  <entry
+    class="entries-entry"
+    if.bind="isLoaded"
+    repeat.for="e of entries"
+    scroll-to-self.bind="shouldScrollToSelf(e)"
+    entry.bind="e"
+  ></entry>
+  <div if.bind="isLoaded && !entries.length" class="no-entries">
+    <p>no entries</p>
+    <button click.trigger="router.navigateToRoute('entry')">
+      📝 log entry
+    </button>
   </div>
+  <entry-loading if.bind="!isLoaded"></entry-loading>
 </template>

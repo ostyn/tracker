@@ -1,0 +1,9 @@
+.month-control-bar {
+  @apply sticky z-50 py-1.5 my-2 bg-white -top-px;
+}
+.entries-entry {
+  @apply mb-3;
+}
+.no-entries {
+  @apply block p-4 mb-3 text-center bg-gray-100 rounded-md dark:bg-gray-800;
+}
