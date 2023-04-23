@@ -1,0 +1,12 @@
+.import-input {
+  @apply text-white;
+}
+.mood-mappings {
+  @apply inline-block p-1 mb-1 mr-1 rounded-sm cursor-pointer bg-slate-100;
+}
+.activity-mappings {
+  @apply inline-block p-1 mb-1 mr-1 rounded-sm cursor-pointer bg-slate-100;
+}
+.import-entry {
+  @apply mb-3;
+}
