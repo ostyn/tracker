@@ -1,26 +1,17 @@
 <template>
   <require from="./activity-grid-loading.css"></require>
-  <div class="text-center animate-pulse">
-    <div
-      class="inline-block w-12 h-8 mx-0.5 mt-2 mb-5 bg-gray-300 rounded-sm"
-    ></div>
-    <div
-      class="inline-block w-20 h-8 mx-0.5 mt-2 mb-5 bg-gray-300 rounded-sm"
-    ></div>
-    <div
-      class="inline-block w-20 h-8 mx-0.5 mt-2 mb-5 bg-gray-300 rounded-sm"
-    ></div>
+  <div class="activity-grid-loading-buttons">
+    <div class="activity-grid-loading-button"></div>
+    <div class="activity-grid-loading-button"></div>
+    <div class="activity-grid-loading-button"></div>
   </div>
-  <div repeat.for="1 of 4" class="mb-4 animate-pulse">
+  <div repeat.for="1 of 4" class="activity-grid-loading-groups">
     <div
-      class.bind="`self-center w-1/${[6,4,5,3][$index]} h-5 bg-gray-300 rounded-sm`"
+      class.bind="`w-1-${[6,4,5,3][$index]} activity-grid-loading-text`"
     ></div>
     <div
       repeat.for="1 of [8,3,7,17][$index]"
-      class="inline-block w-12 h-16 mt-3 mr-3 bg-gray-300 rounded-sm"
+      class="activity-grid-loading-icon"
     ></div>
-    <span
-      class="invisible w-1/3 w-1/4 w-1/5 w-1/6 element-added-so-tailwind-does-not-prune"
-    ></span>
   </div>
 </template>
