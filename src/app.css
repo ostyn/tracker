@@ -52,3 +52,11 @@ ux-dialog {
 ux-dialog-footer {
   @apply sticky bottom-0 text-center bg-white;
 }
+
+/* tailwind*/
+.floating-button {
+  @apply fixed w-12 h-12 p-2.5 text-xl rounded-full bottom-2 right-2 z-50;
+}
+.main-route {
+  @apply block max-w-xl m-auto;
+}

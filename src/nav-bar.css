@@ -1,0 +1,15 @@
+.nav-bar {
+  @apply flex border-b border-black;
+}
+.menu-links {
+  @apply flex items-center ml-auto mr-auto;
+}
+.menu-link {
+  @apply inline-block p-2 pl-4 pr-4;
+}
+.menu-link-inactive {
+  @apply opacity-60;
+}
+.night-mode-button {
+  @apply cursor-pointer;
+}

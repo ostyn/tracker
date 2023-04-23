@@ -1,15 +1,15 @@
-<template class="flex border-b border-black">
+<template class="nav-bar">
   <require from="./nav-bar.css"></require>
-  <div class="flex items-center ml-auto mr-auto">
+  <div class="menu-links">
     <div
       repeat.for="row of router.navigation"
-      class="inline-block p-2 pl-4 pr-4 ${row.isActive ? '' : 'opacity-60'}"
+      class="menu-link ${row.isActive ? '' : 'menu-link-inactive'}"
     >
       <a href.bind="row.href">${row.title}</a>
     </div>
     <!-- ${FirestoreCounter.count}/${FirestoreCounter.cacheHitCount} -->
     <span
-      class="select-none"
+      class="night-mode-button"
       click.trigger="toggleNightMode()"
       long-click.trigger="toggleShowArchived()"
       >🌓</span
