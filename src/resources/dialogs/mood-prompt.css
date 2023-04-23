@@ -1,0 +1,9 @@
+.center {
+  @apply text-center;
+}
+.unselected-mood {
+  @apply text-3xl opacity-60 cursor-pointer;
+}
+.selected-mood {
+  @apply text-4xl cursor-pointer;
+}

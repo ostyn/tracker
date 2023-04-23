@@ -1,9 +1,9 @@
 <template>
   <require from="./mood-prompt.css"></require>
   <ux-dialog>
-    <ux-dialog-body class="text-center">
+    <ux-dialog-body class="center">
       <label
-        class.bind="m.id === currentMoodId ? 'text-4xl cursor-pointer' : 'text-3xl opacity-60 cursor-pointer'"
+        class.bind="m.id === currentMoodId ? 'selected-mood' : 'unselected-mood'"
         repeat.for="m of moods"
       >
         ${m.emoji}
