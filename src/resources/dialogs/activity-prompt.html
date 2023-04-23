@@ -1,8 +1,7 @@
 <template>
   <require from="resources/elements/activity/activity-grid"></require>
-  <require from="./activity-prompt.css"></require>
   <ux-dialog>
-    <ux-dialog-body class="text-center">
+    <ux-dialog-body>
       <activity-grid
         activities.bind="activities"
         on-activity-click.call="clickActivity(activity.id)"
