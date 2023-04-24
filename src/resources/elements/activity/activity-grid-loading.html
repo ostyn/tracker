@@ -1,11 +1,11 @@
 <template>
   <require from="./activity-grid-loading.css"></require>
-  <div class="activity-grid-loading-buttons">
+  <div class="activity-grid-loading-buttons activity-grid-loading-pulse">
     <div class="activity-grid-loading-button"></div>
     <div class="activity-grid-loading-button"></div>
     <div class="activity-grid-loading-button"></div>
   </div>
-  <div repeat.for="1 of 4" class="activity-grid-loading-groups">
+  <div repeat.for="1 of 4" class="activity-grid-loading-pulse">
     <div
       class.bind="`w-1-${[6,4,5,3][$index]} activity-grid-loading-text`"
     ></div>

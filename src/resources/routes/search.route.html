@@ -2,7 +2,12 @@
   <require from="./search.route.css"></require>
   <require from="resources/elements/entry/entry"></require>
   <div class="search-bar">
-    <input class="search-input" focus="true" value.bind="needle & debounce" />
+    <input
+      class="search-input"
+      focus="true"
+      value.bind="needle & debounce"
+      placeholder="search..."
+    />
     <button
       class="search-button"
       disabled.bind="currentPage === 0"
@@ -21,9 +26,11 @@
       >Results ${firstEntryIndex+1}-${lastEntryIndex} of ${entries.length}</span
     >
   </div>
-  <entry
-    class="search-entries"
-    repeat.for="e of entryPage"
-    entry.bind="e"
-  ></entry>
+  <div class="search-entries-container">
+    <entry
+      class="search-entries"
+      repeat.for="e of entryPage"
+      entry.bind="e"
+    ></entry>
+  </div>
 </template>

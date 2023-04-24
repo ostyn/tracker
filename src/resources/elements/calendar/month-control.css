@@ -1,15 +1,31 @@
 .month-control {
-  @apply flex;
+  display: flex;
 }
 .next-prev-button {
-  @apply w-16 text-2xl text-center cursor-pointer select-none grayscale;
+  font-size: 1.5rem;
+  line-height: 2rem;
+  text-align: center;
+  width: 4rem;
+  cursor: pointer;
+  user-select: none;
+  filter: grayscale(1);
 }
 .month-header-container {
-  @apply self-center flex-auto text-center;
+  text-align: center;
+  flex: 1 1 auto;
+  align-self: center;
 }
 .month-header {
-  @apply relative inline-block;
+  display: inline-block;
+  position: relative;
 }
 .streak-stats {
-  @apply absolute w-16 left-full top-0.5 grayscale text-sm font-bold;
+  position: absolute;
+  top: 0.125rem;
+  left: 100%;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 700;
+  width: 4rem;
+  filter: grayscale(1);
 }

@@ -1,18 +1,20 @@
 .grid-controls {
-  @apply text-center;
+  text-align: center;
 }
 .search-button {
-  @apply w-2;
+  width: 0.5rem;
 }
 .search-box {
-  @apply bg-white;
+  background-color: rgba(0, 0, 0, 1);
 }
 .group-header {
-  @apply mt-3 uppercase opacity-60;
+  margin-top: 0.75rem;
+  text-transform: uppercase;
+  opacity: 0.6;
 }
 .disabled {
-  @apply filter grayscale;
+  filter: grayscale(1);
 }
 .clickable {
-  @apply cursor-pointer;
+  cursor: pointer;
 }

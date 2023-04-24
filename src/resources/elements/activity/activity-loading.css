@@ -1,6 +1,22 @@
 .activity-loading {
-  @apply inline-block animate-pulse;
+  display: inline-block;
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
 }
 .activity-loading-icon {
-  @apply w-8 h-8 mx-4 mt-2 bg-gray-300 rounded-sm;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  margin-top: 0.5rem;
+  background-color: rgba(75, 85, 99, 1);
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.125rem;
 }

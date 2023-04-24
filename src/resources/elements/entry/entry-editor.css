@@ -1,24 +1,43 @@
 .entry-editor-body {
-  @apply m-3;
+  margin: 0.75rem;
 }
 .activity-drawer {
-  @apply mb-2 overflow-x-auto whitespace-nowrap;
+  overflow-x: auto;
+  margin-bottom: 0.5rem;
+  white-space: nowrap;
 }
 .drawer-activity {
-  @apply align-top cursor-pointer;
+  vertical-align: top;
+  cursor: pointer;
 }
 .drawer-activity-loading {
   padding-bottom: 12px;
 }
 .note-preview {
-  @apply relative flex p-3 mb-3 overflow-auto whitespace-pre-line align-middle border border-black border-dashed place-content-center max-h-24;
+  display: flex;
+  overflow: auto;
+  position: relative;
+  padding: 0.75rem;
+  margin-bottom: 0.75rem;
+  vertical-align: middle;
+  white-space: pre-line;
+  place-content: center;
+  max-height: 6rem;
+  border-width: 1px;
+  border-color: #ffffff;
+  border-style: dashed;
 }
 .note-icon {
-  @apply absolute top-0 right-0 m-2;
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0.5rem;
 }
 .mood-icon {
-  @apply text-3xl cursor-pointer;
+  font-size: 1.875rem;
+  line-height: 2.25rem;
+  cursor: pointer;
 }
 .delete-button {
-  @apply bg-red-500;
+  background-color: rgba(248, 113, 113, 1);
 }

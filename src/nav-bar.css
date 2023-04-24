@@ -1,15 +1,25 @@
 .nav-bar {
-  @apply flex border-b border-black;
+  border-bottom-width: 1px;
+  display: flex;
 }
+
 .menu-links {
-  @apply flex items-center ml-auto mr-auto;
+  align-items: center;
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
 }
+
 .menu-link {
-  @apply inline-block p-2 pl-4 pr-4;
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  color: white;
 }
+
 .menu-link-inactive {
-  @apply opacity-60;
+  opacity: 0.6;
 }
+
 .night-mode-button {
-  @apply cursor-pointer;
+  cursor: pointer;
 }
