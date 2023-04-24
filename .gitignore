@@ -36,3 +36,5 @@ node_modules
 /src/secrets.json
 /dist
 /test/coverage-jest
+
+/src/secrets.json
