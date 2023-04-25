@@ -3,26 +3,13 @@
   top: 0;
   left: 0;
   z-index: 50;
-  padding-top: 0.25rem;
-  padding-bottom: 0.25rem;
-  margin-left: 0.75rem;
-  margin-right: 0.75rem;
-  background-color: #000000;
-}
-.search-input {
-  padding: 0.25rem;
-  background-color: #000000;
-  width: 6rem;
-  border: white 1px solid;
-  border-radius: 4px;
-}
-.search-button {
-  width: 1.75rem;
-}
-.search-entries {
-  margin-bottom: 0.75rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+  background-color: var(--background-color);
 }
 .search-entries-container {
-  margin-left: 0.75rem;
-  margin-right: 0.75rem;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
 }

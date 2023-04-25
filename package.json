@@ -8,6 +8,7 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@picocss/pico": "^1.5.10",
     "aurelia-animator-css": "^1.0.4",
     "aurelia-bootstrapper": "^2.4.0",
     "aurelia-dialog": "^2.0.0",

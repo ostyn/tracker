@@ -1,24 +1,17 @@
 .month-control-bar {
   position: sticky;
   z-index: 50;
+  top: 0;
+  background-color: var(--background-color);
   padding-top: 0.375rem;
   padding-bottom: 0.375rem;
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
-  background-color: #000000;
-}
-.entries-entry {
-  margin-bottom: 0.75rem;
+
+  margin: 0.5rem;
 }
 .no-entries {
-  display: block;
-  padding: 1rem;
-  margin-bottom: 0.75rem;
-  background-color: rgba(31, 41, 55, 1);
   text-align: center;
-  border-radius: 0.375rem;
 }
 .entries-container {
-  margin-left: 0.75rem;
-  margin-right: 0.75rem;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
 }

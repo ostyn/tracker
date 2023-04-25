@@ -1,5 +1,5 @@
 .nav-bar {
-  border-bottom-width: 1px;
+  border-bottom: white 1px solid;
   display: flex;
 }
 

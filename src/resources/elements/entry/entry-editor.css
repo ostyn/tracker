@@ -3,7 +3,6 @@
 }
 .activity-drawer {
   overflow-x: auto;
-  margin-bottom: 0.5rem;
   white-space: nowrap;
 }
 .drawer-activity {
@@ -18,7 +17,6 @@
   overflow: auto;
   position: relative;
   padding: 0.75rem;
-  margin-bottom: 0.75rem;
   vertical-align: middle;
   white-space: pre-line;
   place-content: center;
@@ -38,6 +36,10 @@
   line-height: 2.25rem;
   cursor: pointer;
 }
-.delete-button {
-  background-color: rgba(248, 113, 113, 1);
+.entry-edit-footer {
+  position: sticky;
+  bottom: 0;
+  padding: 0.75rem;
+  background-color: var(--background-color);
+  border-top: 1px var(--contrast) solid;
 }

@@ -1,0 +1,6 @@
+.calendar-day {
+  background-color: rgba(22, 163, 74, 1);
+  font-size: 0.75rem;
+  line-height: 1rem;
+  border-radius: 9999px;
+}

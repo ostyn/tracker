@@ -6,6 +6,7 @@ import { format } from "date-fns";
 import { DialogController } from "aurelia-dialog";
 import flatpickr from "flatpickr";
 import "flatpickr/dist/themes/dark.css";
+import "./calendar-wrapper.css";
 
 @autoinject
 export class CalendarWrapper {
@@ -51,7 +52,7 @@ export class CalendarWrapper {
           const activityNumber = Array.isArray(activityDetail)
             ? activityDetail.length
             : activityDetail;
-          dayElem.innerHTML += `<div class="rounded-full bg-green-300 text-xs">${
+          dayElem.innerHTML += `<div class="calendar-day">${
             this.moodService.getMood(entry.mood).emoji
           }${activityNumber > 1 ? activityNumber : ""} </div>`;
         }

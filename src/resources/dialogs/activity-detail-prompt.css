@@ -27,12 +27,11 @@
   padding-left: 0.5rem;
   padding-right: 0.5rem;
   margin-right: 0.5rem;
-  color: #000000;
-  background-color: #ffffff;
+  color: var(--contrast-inverse);
+  background-color: var(--contrast);
   font-size: 0.75rem;
   line-height: 1rem;
   justify-content: center;
   align-items: center;
   border-radius: 9999px;
-  border-color: #000000;
 }

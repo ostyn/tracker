@@ -14,6 +14,9 @@ import {
 import firebase from "firebase";
 import { StatsService } from "resources/services/statsService";
 
+import "@picocss/pico/pico.min.css";
+import "./app.css";
+
 @autoinject
 export class App {
   showNewEntryButton = false;

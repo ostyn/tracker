@@ -1,45 +1,48 @@
-<template class="entry">
+<template>
   <require from="./entry.css"></require>
   <require from="resources/elements/activity/activity"></require>
-  <div class="entry-header">
-    <h2 class="entry-header-text" click.trigger="goToSelf()">
-      ${formatLib.selectorDateToJsDate(entry.date)}
-    </h2>
-    <span
-      class="entry-header-emoji"
-      alt-text.bind="currentMood.name"
-      title.bind="currentMood.name"
-    >
-      ${currentMood.emoji}
-    </span>
-  </div>
-  <h3 class="activities-header">Activities</h3>
-  <div class="entry-activities">
-    <activity
-      show-name.bind="false"
-      repeat.for="activity of entry.activitiesArray | map: activityService.activitiesMap | sort: 'name'"
-      id.bind="activity.id"
-      class="entry-activity"
-      detail.bind="entry.activities.get(activity.id)"
-      click.trigger="showActivityInfo(activity.id)"
-    ></activity>
-  </div>
-  <div if.bind="entry.note != ''">
-    <h3 class="entry-note-header">Note</h3>
-    <div class="entry-note">${entry.note}</div>
-  </div>
-  <div class="entry-footer">
-    <button click.trigger="editEntry(entry.id)">edit</button>
-    <div class="entry-footer-dates">
-      <p if.bind="showCreatedDate">
-        Entered ${formatLib.secondsToDate(entry.created)},
-        ${formatLib.secondsToTime(entry.created)}
-      </p>
-      <p if.bind="showUpdatedDate">
-        Updated ${formatLib.secondsToDate(entry.updated)},
-        ${formatLib.secondsToTime(entry.updated)}
-      </p>
-      <p if.bind="entry.createdBy === 'DAYLIO_IMPORT'">Imported from Daylio</p>
-    </div>
-  </div>
+  <article>
+    <section class="entry-header">
+      <h2 class="entry-header-text" click.trigger="goToSelf()">
+        ${formatLib.selectorDateToJsDate(entry.date)}
+      </h2>
+      <span
+        class="entry-header-emoji"
+        alt-text.bind="currentMood.name"
+        title.bind="currentMood.name"
+      >
+        ${currentMood.emoji}
+      </span>
+    </section>
+    <section class="entry-activities">
+      <activity
+        show-name.bind="false"
+        repeat.for="activity of entry.activitiesArray | map: activityService.activitiesMap | sort: 'name'"
+        id.bind="activity.id"
+        class="entry-activity"
+        detail.bind="entry.activities.get(activity.id)"
+        click.trigger="showActivityInfo(activity.id)"
+      ></activity>
+    </section>
+    <section if.bind="entry.note != ''">
+      <h3 class="entry-note-header">Note</h3>
+      <p class="entry-note">${entry.note}</p>
+    </section>
+    <section class="entry-footer">
+      <button class="inline" click.trigger="editEntry(entry.id)">edit</button>
+      <div class="entry-footer-dates">
+        <span if.bind="showCreatedDate">
+          Entered ${formatLib.secondsToDate(entry.created)},
+          ${formatLib.secondsToTime(entry.created)}<br />
+        </span>
+        <span if.bind="showUpdatedDate">
+          Updated ${formatLib.secondsToDate(entry.updated)},
+          ${formatLib.secondsToTime(entry.updated)}<br />
+        </span>
+        <span if.bind="entry.createdBy === 'DAYLIO_IMPORT'"
+          >Imported from Daylio<br
+        /></span>
+      </div>
+    </section>
+  </article>
 </template>

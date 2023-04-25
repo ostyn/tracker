@@ -1,30 +1,57 @@
 <template>
   <require from="./activity-edit.css"></require>
   <form>
-    <input type="text" value.bind="workingCopy.name" placeholder="name" />
-    <input type="text" value.bind="workingCopy.emoji" placeholder="emoji" />
-    <label
-      >Archived<input type="checkbox" checked.bind="workingCopy.isArchived"
-    /></label>
-    <span>
-      <select value.bind="workingCopy.category" matcher.bind="categoryComparer">
+    <section>
+      <input
+        class="inline"
+        type="text"
+        value.bind="workingCopy.name"
+        placeholder="name"
+      />
+      <input
+        class="inline"
+        type="text"
+        value.bind="workingCopy.emoji"
+        placeholder="emoji"
+      />
+      <label
+        ><input
+          type="checkbox"
+          checked.bind="workingCopy.isArchived"
+        />Archived</label
+      >
+    </section>
+    <section>
+      <select
+        class="inline"
+        value.bind="workingCopy.category"
+        matcher.bind="categoryComparer"
+      >
         <option value="">Choose...</option>
         <option repeat.for="category of categories">${category}</option>
       </select>
       <input
+        class="inline"
         type="text"
         value.bind="workingCopy.category"
         placeholder="category"
       />
-    </span>
-    <div class="activity-edit-buttons">
-      <button type="button" click.trigger="newActivity()">new</button>
+    </section>
+    <section class="activity-edit-buttons">
+      <button class="inline" type="button" click.trigger="newActivity()">
+        new
+      </button>
 
-      <button if.bind="workingCopy.id" click.trigger="openInfo(activity.id)">
+      <button
+        class="inline"
+        if.bind="workingCopy.id"
+        click.trigger="openInfo(activity.id)"
+      >
         info
       </button>
 
       <button
+        class="inline"
         type="button"
         disabled.bind="!workingCopy.name || !workingCopy.emoji"
         click.trigger="submitActivity()"
@@ -32,13 +59,13 @@
         save
       </button>
       <button
+        class="inline contrast"
         type="button"
-        class="delete-button"
         if.bind="workingCopy.id"
         click.trigger="deleteActivity()"
       >
         delete
       </button>
-    </div>
+    </section>
   </form>
 </template>

@@ -2,13 +2,9 @@
   <require from="./activity-grid.css"></require>
   <require from="resources/elements/activity/activity"></require>
   <div class="grid-controls">
-    <button
-      class="search-button"
-      if.bind="!search"
-      click.trigger="search = !search"
-    >
+    <span role="button" if.bind="!search" click.trigger="search = !search">
       🔎 ${searchTerm?'"'+searchTerm+'"':""}
-    </button>
+    </span>
     <input
       class="search-box"
       value.bind="searchTerm"
@@ -17,14 +13,14 @@
       placeholder="search"
       focus.bind="search"
     />
-    <button click.trigger="toggleShowArchived()">
+    <span role="button" click.trigger="toggleShowArchived()">
       ${filterArchived? "📘": "📖"}
-    </button>
-    <button click.trigger="toggleGroup()">
+    </span>
+    <span role="button" click.trigger="toggleGroup()">
       ${groupActivities? "🤝": "👐"}
-    </button>
+    </span>
   </div>
-  <div repeat.for="header of getSortedHeaders(categoryToActivityList)">
+  <article repeat.for="header of getSortedHeaders(categoryToActivityList)">
     <h2 class="group-header">${header}</h2>
     <activity
       repeat.for="activity of categoryToActivityList.get(header)"
@@ -33,8 +29,8 @@
       id.bind="activity.id"
       class.bind="`clickable ${activity.isArchived ? 'disabled':''}`"
     ></activity>
-  </div>
-  <div if.bind="uncategorized.length > 0">
+  </article>
+  <article if.bind="uncategorized.length > 0">
     <activity
       repeat.for="activity of uncategorized"
       click.trigger="onActivityClick({event: $event, activity: activity})"
@@ -42,5 +38,5 @@
       id.bind="activity.id"
       class.bind="`clickable ${activity.isArchived ? 'disabled':''}`"
     ></activity>
-  </div>
+  </article>
 </template>

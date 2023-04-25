@@ -1,6 +1,7 @@
 <template>
   <require from="resources/elements/activity/activity-edit"></require>
   <require from="resources/elements/activity/activity-grid"></require>
+  <require from="./activities.route.css"></require>
   <require
     from="resources/elements/activity/activity-grid-loading.html"
   ></require>
@@ -14,7 +15,7 @@
     on-activity-long-click.call="showActivityInfo(activity.id)"
     filter-archived="false"
   ></activity-grid>
-  <footer>
+  <div class="activity-edit-footer">
     <activity-edit activity.two-way="activity"></activity-edit>
-  </footer>
+  </div>
 </template>

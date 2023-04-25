@@ -1,10 +1,10 @@
 <template>
   <require from="./import.route.css"></require>
   <require from="resources/elements/entry/entry"></require>
-  <textarea class="import-input" value.bind="csv"></textarea>
+  <textarea value.bind="csv"></textarea>
   <button click.trigger="parse()">parse</button>
   <button click.trigger="import()">import</button>
-  <div if.bind="moodsToMap.length > 0">
+  <article if.bind="moodsToMap.length > 0">
     <h2>Moods</h2>
     <span
       repeat.for="mood of moodsToMap"
@@ -17,8 +17,8 @@
       </span>
       <span else>⁉️</span>
     </span>
-  </div>
-  <div if.bind="activitiesToMap.length > 0">
+  </article>
+  <article if.bind="activitiesToMap.length > 0">
     <h2>Activities</h2>
     <span
       repeat.for="activity of activitiesToMap"
@@ -31,6 +31,6 @@
       </span>
       <span else>⁉️</span>
     </span>
-  </div>
+  </article>
   <entry class="import-entry" repeat.for="e of entries" entry.bind="e"></entry>
 </template>

@@ -9,7 +9,7 @@
         >${isArray(detail)? detail.length: detail}</span
       >
     </span>
-    <div if.bind="showName" class="text-sm break-words">${activity.name}</div>
+    <div if.bind="showName" class="activity-name">${activity.name}</div>
   </span>
   <span
     class="activity-detail-list ${(!isWide) ? 'activity-narrow' : ''}"

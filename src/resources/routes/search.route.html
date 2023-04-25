@@ -3,24 +3,24 @@
   <require from="resources/elements/entry/entry"></require>
   <div class="search-bar">
     <input
-      class="search-input"
+      class="inline"
       focus="true"
       value.bind="needle & debounce"
       placeholder="search..."
     />
     <button
-      class="search-button"
+      class="inline"
       disabled.bind="currentPage === 0"
       click.trigger="prevPage()"
     >
-      prev
+      ⬅️
     </button>
     <button
-      class="search-button"
+      class="inline"
       disabled.bind="currentPage === lastPageIndex"
       click.trigger="nextPage()"
     >
-      next
+      ➡️
     </button>
     <span if.bind="entries.length"
       >Results ${firstEntryIndex+1}-${lastEntryIndex} of ${entries.length}</span

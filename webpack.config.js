@@ -32,7 +32,7 @@ const cssRules = [
     options: {
       postcssOptions: {
         plugins: [
-          require("tailwindcss")("tailwind.config.js"),
+          // require("tailwindcss")("tailwind.config.js"),
           "autoprefixer",
           "cssnano",
         ],

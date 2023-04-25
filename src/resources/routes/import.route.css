@@ -1,6 +1,3 @@
-.import-input {
-  color: rgba(0, 0, 0, 1);
-}
 .mood-mappings,
 .activity-mappings {
   display: inline-block;
@@ -10,8 +7,4 @@
   border-radius: 0.125rem;
   cursor: pointer;
   background-color: rgba(30, 41, 59, 1);
-}
-
-.import-entry {
-  margin-bottom: 0.75rem;
 }

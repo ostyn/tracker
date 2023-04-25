@@ -1,48 +1,63 @@
 <template>
   <require from="./mood-edit.css"></require>
   <form action="#">
-    <label
-      >😁<input
-        type="radio"
-        name="moodRatingGroup"
-        value="5"
-        checked.bind="workingCopy.rating"
-    /></label>
-    <label
-      >😊<input
-        type="radio"
-        name="moodRatingGroup"
-        value="4"
-        checked.bind="workingCopy.rating"
-    /></label>
-    <label
-      >😐<input
-        type="radio"
-        name="moodRatingGroup"
-        value="3"
-        checked.bind="workingCopy.rating"
-    /></label>
-    <label
-      >😟<input
-        type="radio"
-        name="moodRatingGroup"
-        value="2"
-        checked.bind="workingCopy.rating"
-    /></label>
-    <label
-      >😢<input
-        type="radio"
-        name="moodRatingGroup"
-        value="1"
-        checked.bind="workingCopy.rating"
-    /></label>
-    <div>
-      <input type="text" value.bind="workingCopy.name" placeholder="name" />
-      <input type="text" value.bind="workingCopy.emoji" placeholder="emoji" />
-    </div>
-    <div>
-      <button type="button" click.trigger="newMood()">new</button>
+    <section>
+      <label
+        >😁<input
+          type="radio"
+          name="moodRatingGroup"
+          value="5"
+          checked.bind="workingCopy.rating"
+      /></label>
+      <label
+        >😊<input
+          type="radio"
+          name="moodRatingGroup"
+          value="4"
+          checked.bind="workingCopy.rating"
+      /></label>
+      <label
+        >😐<input
+          type="radio"
+          name="moodRatingGroup"
+          value="3"
+          checked.bind="workingCopy.rating"
+      /></label>
+      <label
+        >😟<input
+          type="radio"
+          name="moodRatingGroup"
+          value="2"
+          checked.bind="workingCopy.rating"
+      /></label>
+      <label
+        >😢<input
+          type="radio"
+          name="moodRatingGroup"
+          value="1"
+          checked.bind="workingCopy.rating"
+      /></label>
+    </section>
+    <section>
+      <input
+        class="inline"
+        type="text"
+        value.bind="workingCopy.name"
+        placeholder="name"
+      />
+      <input
+        class="inline"
+        type="text"
+        value.bind="workingCopy.emoji"
+        placeholder="emoji"
+      />
+    </section>
+    <section>
+      <button class="inline" type="button" click.trigger="newMood()">
+        new
+      </button>
       <button
+        class="inline"
         disabled.bind="!workingCopy.rating || !workingCopy.name || !workingCopy.emoji"
         type="button"
         click.trigger="submitMood()"
@@ -51,12 +66,12 @@
       </button>
       <button
         type="button"
-        class="delete-button"
+        class="inline contrast"
         if.bind="workingCopy.id"
         click.trigger="deleteMood()"
       >
         delete
       </button>
-    </div>
+    </section>
   </form>
 </template>
