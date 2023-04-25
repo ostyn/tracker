@@ -31,11 +31,7 @@ const cssRules = [
     loader: "postcss-loader",
     options: {
       postcssOptions: {
-        plugins: [
-          // require("tailwindcss")("tailwind.config.js"),
-          "autoprefixer",
-          "cssnano",
-        ],
+        plugins: ["autoprefixer", "cssnano"],
       },
     },
   },
