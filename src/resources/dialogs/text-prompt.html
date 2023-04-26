@@ -1,16 +1,18 @@
 <template>
   <require from="./text-prompt.css"></require>
-  <ux-dialog>
-    <ux-dialog-body>
+  <dialog open>
+    <article>
       <textarea
         attach-focus
         class="text-prompt-input"
         value.bind="text"
       ></textarea>
-    </ux-dialog-body>
-    <ux-dialog-footer>
-      <button click.trigger="controller.cancel()">Cancel</button>
-      <button click.trigger="controller.ok(text)">Ok</button>
-    </ux-dialog-footer>
-  </ux-dialog>
+      <footer>
+        <button class="inline" click.trigger="controller.cancel()">
+          Cancel
+        </button>
+        <button class="inline" click.trigger="controller.ok(text)">Ok</button>
+      </footer>
+    </article>
+  </dialog>
 </template>

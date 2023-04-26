@@ -11,31 +11,9 @@
   height: 0.25rem;
   border-radius: 9999px;
 }
-
-/*
-ux-dialog {
-  @apply bg-white border border-black;
+dialog {
+  background-color: var(--background-color);
 }
-ux-dialog-body,
-ux-dialog-footer {
-  @apply block max-w-xl m-auto;
-}
-ux-dialog-overlay.active {
-  @apply bg-white opacity-80;
-}
-ux-dialog-container > div {
-  @apply h-full p-0;
-  margin: unset !important;
-}
-ux-dialog-container > div > div {
-  @apply w-full h-full;
-}
-ux-dialog {
-  @apply w-full h-full border-none;
-}
-ux-dialog-footer {
-  @apply sticky bottom-0 text-center bg-white;
-} */
 
 .floating-button {
   position: fixed;
