@@ -3,5 +3,5 @@
   bottom: 0;
   padding: 0.75rem;
   background-color: var(--background-color);
-  border-top: 1px var(--contrast) solid;
+  border-top: 1px var(--color) solid;
 }
