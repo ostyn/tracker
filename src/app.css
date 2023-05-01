@@ -46,7 +46,7 @@ input.inline {
 section {
   margin-bottom: 0.75rem;
 }
-article {
+article:not(dialog article) {
   padding: 1rem;
 }
 form {
