@@ -14,7 +14,7 @@
 dialog {
   background-color: var(--background-color);
   color: var(--color);
-  
+  border: none;  
 }
 
 .floating-button {
