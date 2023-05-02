@@ -8,10 +8,10 @@
         value.bind="text"
       ></textarea>
       <footer>
-        <button class="inline" click.trigger="controller.cancel()">
+        <button class="inline" click.trigger="controller.ok(text)">Ok</button>
+        <button class="inline secondary" click.trigger="controller.cancel()">
           Cancel
         </button>
-        <button class="inline" click.trigger="controller.ok(text)">Ok</button>
       </footer>
     </article>
   </dialog>
