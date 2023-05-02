@@ -2,35 +2,35 @@
   <require from="./mood-edit.css"></require>
   <form action="#">
     <section>
-      <label
+      <label class="inline"
         >😁<input
           type="radio"
           name="moodRatingGroup"
           value="5"
           checked.bind="workingCopy.rating"
       /></label>
-      <label
+      <label class="inline"
         >😊<input
           type="radio"
           name="moodRatingGroup"
           value="4"
           checked.bind="workingCopy.rating"
       /></label>
-      <label
+      <label class="inline"
         >😐<input
           type="radio"
           name="moodRatingGroup"
           value="3"
           checked.bind="workingCopy.rating"
       /></label>
-      <label
+      <label class="inline"
         >😟<input
           type="radio"
           name="moodRatingGroup"
           value="2"
           checked.bind="workingCopy.rating"
       /></label>
-      <label
+      <label class="inline"
         >😢<input
           type="radio"
           name="moodRatingGroup"
@@ -53,7 +53,7 @@
       />
     </section>
     <section>
-      <button class="inline" type="button" click.trigger="newMood()">
+      <button class="inline secondary" type="button" click.trigger="newMood()">
         new
       </button>
       <button
