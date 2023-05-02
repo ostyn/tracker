@@ -1,13 +1,14 @@
 <template>
   <require from="./activity-detail-prompt.css"></require>
   <require from="resources/elements/activity/activity"></require>
-  <ux-dialog>
-    <ux-dialog-body>
+  <dialog open>
+    <article>
       <div>
         <activity id.bind="activity.id"></activity>
       </div>
       <div if.bind="editingNumber" class="activity-detail-prompt-input">
         <input
+          class="inline"
           ref="inputBox"
           focus="true"
           type="text"
@@ -18,11 +19,14 @@
       <div if.bind="!editingNumber" class="activity-detail-prompt-input">
         <div repeat.for="item of detail">
           <input
-            class="width-64"
+            class="width-64 inline"
             type="text"
             blur.trigger="loadMru()"
             value.bind="detail[$index]"
-          /><button class="width-12" click.trigger="removeItem(detail, $index)">
+          /><button
+            class="width-12 inline"
+            click.trigger="removeItem(detail, $index)"
+          >
             ❌
           </button>
         </div>
@@ -31,14 +35,20 @@
       <div if.bind="!editingNumber">
         <form submit.trigger="addItemOrSubmit()">
           <input
-            class="width-64"
+            class="width-64 inline"
             ref="inputBox"
             focus="true"
             type="text"
             value.bind="newItem"
             placeholder="add item"
           />
-          <button if.bind="newItem" click.trigger="addItemOrSubmit()">▶</button>
+          <button
+            class="inline"
+            if.bind="newItem"
+            click.trigger="addItemOrSubmit()"
+          >
+            ▶
+          </button>
         </form>
       </div>
       <div class="stats-block">
@@ -63,15 +73,18 @@
           </div>
         </div>
       </div>
-    </ux-dialog-body>
-    <ux-dialog-footer>
-      <button
-        disabled.bind="editingNumber && !isNumeric(detail)"
-        click.trigger="submitForm()"
-      >
-        done
-      </button>
-      <button click.trigger="controller.cancel()">cancel</button>
-    </ux-dialog-footer>
-  </ux-dialog>
+      <footer>
+        <button
+          class="inline"
+          disabled.bind="editingNumber && !isNumeric(detail)"
+          click.trigger="submitForm()"
+        >
+          done
+        </button>
+        <button class="inline" click.trigger="controller.cancel()">
+          cancel
+        </button>
+      </footer>
+    </article>
+  </dialog>
 </template>

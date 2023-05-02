@@ -1,13 +1,4 @@
-.activity-detail-prompt-input {
-  display: inline-block;
-  vertical-align: top;
-}
-.width-64 {
-  width: 16rem;
-}
-.width-12 {
-  width: 3rem;
-}
+
 .stats-block {
   display: flex;
 }
