@@ -1,8 +1,8 @@
 <template>
   <require from="./activity-detail-prompt.css"></require>
   <require from="resources/elements/activity/activity"></require>
-  <dialog>
-    <article>
+  <ux-dialog>
+    <ux-dialog-body>
       <div>
         <activity id.bind="activity.id"></activity>
       </div>
@@ -63,15 +63,15 @@
           </div>
         </div>
       </div>
-      <footer>
-        <button
-          disabled.bind="editingNumber && !isNumeric(detail)"
-          click.trigger="submitForm()"
-        >
-          done
-        </button>
-        <button click.trigger="controller.cancel()">cancel</button>
-      </footer>
-    </article>
-  </dialog>
+    </ux-dialog-body>
+    <ux-dialog-footer>
+      <button
+        disabled.bind="editingNumber && !isNumeric(detail)"
+        click.trigger="submitForm()"
+      >
+        done
+      </button>
+      <button click.trigger="controller.cancel()">cancel</button>
+    </ux-dialog-footer>
+  </ux-dialog>
 </template>
