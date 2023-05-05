@@ -1,20 +1,20 @@
 <template>
   <require from="./entry-loading.css"></require>
   <article>
-    <div class="header-container animate-pulse">
+    <section class="header-container">
       <div class="width-33 text-line-loading"></div>
       <div class="emoji-loading"></div>
-    </div>
-    <div class="animate-pulse">
+    </section>
+    <section>
       <div repeat.for="1 of 13" class="entry-loading-activity-icon"></div>
-    </div>
-    <div class="animate-pulse">
+    </section>
+    <section>
       <div class="width-4rem text-line-loading"></div>
       <div class="text-line-loading"></div>
       <div class="width-80 text-line-loading"></div>
       <div class="text-line-loading"></div>
       <div class="width-33 text-line-loading"></div>
       <div class="width-66 text-line-loading"></div>
-    </div>
+    </section>
   </article>
 </template>

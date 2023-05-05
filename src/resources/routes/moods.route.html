@@ -2,12 +2,14 @@
   <require from="./moods.route.css"></require>
   <require from="resources/elements/mood/mood-edit"></require>
   <article>
-    <span
-      class="moods-mood"
-      click.trigger="setCurrentMood(mood)"
-      repeat.for="mood of moods"
-      >${mood.emoji}</span
-    >
+    <section>
+      <span
+        class="moods-mood"
+        click.trigger="setCurrentMood(mood)"
+        repeat.for="mood of moods"
+        >${mood.emoji}</span
+      >
+    </section>
     <mood-edit mood.two-way="mood"></mood-edit>
   </article>
 </template>
