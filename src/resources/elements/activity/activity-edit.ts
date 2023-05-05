@@ -21,9 +21,6 @@ export class ActivityEdit {
   getCategories = () => {
     this.categories = this.activityService.getCategories();
   };
-  categoryComparer = (categoryA, categoryB) => {
-    return categoryA === categoryB;
-  };
   attached() {
     this.subscribers.push(
       this.ea.subscribe("activitiesUpdated", this.getCategories)
@@ -74,4 +71,12 @@ export class ActivityEdit {
     this.activity = this.workingCopy = undefined;
     this.relatedEntries = [];
   }
+  selectCategory(value) {
+    this.workingCopy.category = value;
+    this.isCustom = false;
+  }
+  selectCustom() {
+    this.isCustom = true;
+  }
+  isCustom = false;
 }

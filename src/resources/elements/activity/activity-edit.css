@@ -4,3 +4,17 @@
 .activity-inputs input {
   width: 33%;
 }
+.category-control{
+  width: 33%;
+}
+input.custom-category{
+  width: calc(100% - 20px)
+}
+.selected-category{
+  background-color: var(--contrast);
+  color: var(--contrast-inverse);
+}
+.radio-button{
+  position: absolute;
+  opacity: 0;
+}

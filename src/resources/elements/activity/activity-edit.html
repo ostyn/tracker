@@ -23,20 +23,47 @@
       >
     </section>
     <section>
-      <select
-        class="inline"
-        value.bind="workingCopy.category"
-        matcher.bind="categoryComparer"
-      >
-        <option value="">Choose...</option>
-        <option repeat.for="category of categories">${category}</option>
-      </select>
-      <input
-        class="inline"
-        type="text"
-        value.bind="workingCopy.category"
-        placeholder="category"
-      />
+      <details class="inline category-control" role="list">
+        <summary aria-haspopup="listbox">
+          ${workingCopy.category || "category"}
+        </summary>
+        <ul role="listbox">
+          <li
+            repeat.for="category of categories"
+            class.bind="workingCopy.category == category?'selected-category':''"
+          >
+            <label>
+              <input
+                type="radio"
+                name="category"
+                onchange.call="selectCategory($event.target.value)"
+                value.bind="category"
+                class="radio-button"
+              />
+              ${category}
+            </label>
+          </li>
+          <li>
+            <label>
+              <input
+                class="radio-button"
+                type="radio"
+                name="category"
+                onchange.call="selectCustom()"
+              />
+              <input
+                if.bind="isCustom"
+                class="custom-category"
+                type="text"
+                value.bind="workingCopy.category"
+                placeholder="category"
+                focus="true"
+              />
+              <span else>new category</span></label
+            >
+          </li>
+        </ul>
+      </details>
     </section>
     <section class="activity-edit-buttons">
       <button class="inline" type="button" click.trigger="newActivity()">
