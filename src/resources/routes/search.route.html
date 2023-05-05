@@ -1,8 +1,9 @@
 <template>
   <require from="./search.route.css"></require>
   <require from="resources/elements/entry/entry"></require>
-  <div class="search-bar">
+  <section class="search-bar">
     <input
+      type="search"
       class="inline"
       focus="true"
       value.bind="needle & debounce"
@@ -25,12 +26,12 @@
     <span if.bind="entries.length"
       >Results ${firstEntryIndex+1}-${lastEntryIndex} of ${entries.length}</span
     >
-  </div>
-  <div class="search-entries-container">
+  </section>
+  <section>
     <entry
       class="search-entries"
       repeat.for="e of entryPage"
       entry.bind="e"
     ></entry>
-  </div>
+  </section>
 </template>

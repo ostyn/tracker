@@ -1,6 +1,6 @@
 .search-bar {
   position: sticky;
-  top: -0.1;
+  top: -0.1px;
   left: 0;
   z-index: 50;
   padding-top: 0.5rem;
@@ -8,8 +8,4 @@
   margin-left: 0.5rem;
   margin-right: 0.5rem;
   background-color: var(--background-color);
-}
-.search-entries-container {
-  margin-left: 0.5rem;
-  margin-right: 0.5rem;
 }
