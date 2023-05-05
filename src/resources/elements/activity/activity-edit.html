@@ -1,7 +1,7 @@
 <template>
   <require from="./activity-edit.css"></require>
   <form>
-    <section>
+    <section class="activity-inputs">
       <input
         class="inline"
         type="text"
@@ -14,9 +14,10 @@
         value.bind="workingCopy.emoji"
         placeholder="emoji"
       />
-      <label
+      <label class="inline"
         ><input
           type="checkbox"
+          role="switch"
           checked.bind="workingCopy.isArchived"
         />Archived</label
       >

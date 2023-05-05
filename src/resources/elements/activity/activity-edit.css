@@ -1,3 +1,6 @@
 .activity-edit-buttons {
   text-align: center;
 }
+.activity-inputs input {
+  width: 33%;
+}
