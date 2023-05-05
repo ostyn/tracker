@@ -51,3 +51,7 @@
 .width-80 {
   width: 80%;
 }
+.header-container{
+  display: flex;
+  vertical-align: middle;
+}

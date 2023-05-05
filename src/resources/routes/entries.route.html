@@ -24,8 +24,6 @@
         📝 log entry
       </button>
     </article>
-    <article if.bind="!isLoaded">
-      <entry-loading></entry-loading>
-    </article>
+    <entry-loading if.bind="!isLoaded"></entry-loading>
   </section>
 </template>
