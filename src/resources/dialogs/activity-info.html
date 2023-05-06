@@ -2,8 +2,8 @@
   <require from="./activity-info.css"></require>
   <require from="resources/elements/activity/activity"></require>
   <require from="resources/elements/calendar/calendar-wrapper"></require>
-  <ux-dialog>
-    <ux-dialog-body>
+  <dialog open>
+    <article>
       <activity id.bind="activityId"></activity>
       <div>This month: ${daysWithActivity}</div>
       <div>Percent of days: ${percentOfDays}%</div>
@@ -11,6 +11,7 @@
       <div>Average per day: ${(totalActivity/daysWithActivity).toFixed(2)}</div>
       <calendar-wrapper
         if.bind="!loading"
+        class="inline"
         dates.bind="relatedEntryMap"
         year.bind="year"
         month.bind="month"
@@ -43,7 +44,7 @@
       <input
         if.bind="showLists"
         ref="inputBox"
-        type="text"
+        type="search"
         value.bind="filter"
         placeholder="search..."
       />
@@ -60,7 +61,7 @@
         </div>
         <div if.bind="showLists" class="stats-column">
           <div
-            click.trigger="onDateSelect(detail.dates[0].date)"
+            click.trigger="onDateSelect(detail.dates[0].entry.year,detail.dates[0].entry.month,detail.dates[0].entry.day)"
             repeat.for="detail of mruDetails"
             class="stats-entry"
           >
@@ -69,9 +70,11 @@
           </div>
         </div>
       </div>
-    </ux-dialog-body>
-    <ux-dialog-footer>
-      <button click.trigger="controller.cancel()">Close</button>
-    </ux-dialog-footer>
-  </ux-dialog>
+      <footer>
+        <button class="inline" click.trigger="controller.cancel()">
+          Close
+        </button>
+      </footer>
+    </article>
+  </dialog>
 </template>

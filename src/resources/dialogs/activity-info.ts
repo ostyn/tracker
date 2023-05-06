@@ -17,7 +17,7 @@ export class ActivityInfo {
   totalActivity = 0;
   percentOfDays: string;
   mfuDetails: IStatsDetailEntry[];
-  mruDetails: any[];
+  mruDetails: IStatsDetailEntry[];
   @bindable filter: string = "";
   showLists: boolean = true;
   month: number;
@@ -53,7 +53,7 @@ export class ActivityInfo {
       this.showLists = false;
       return;
     }
-    const map =
+    const map: Map<string, IStatsDetailEntry> =
       this.statsService.activityStats.get(this.activityId).detailsUsed ||
       new Map();
     this.mfuDetails = Array.from(map.values()).filter((frequentlyUsedDetail) =>
@@ -69,8 +69,11 @@ export class ActivityInfo {
       Math.min(7, this.mfuDetails.length)
     );
 
-    this.mruDetails = Array.from(map.values()).filter((recentlyUsedDetail) =>
-      recentlyUsedDetail.text.toLowerCase().includes(this.filter.toLowerCase())
+    this.mruDetails = Array.from(map.values()).filter(
+      (recentlyUsedDetail: IStatsDetailEntry) =>
+        recentlyUsedDetail.text
+          .toLowerCase()
+          .includes(this.filter.toLowerCase())
     );
     this.mruDetails = this.mruDetails.sort(
       (a: IStatsDetailEntry, b: IStatsDetailEntry) => {
@@ -84,12 +87,11 @@ export class ActivityInfo {
       Math.min(7, this.mruDetails.length)
     );
   }
-  public onDateSelect(date: Date | string) {
-    date = new Date(date);
+  public onDateSelect(year, month, day) {
     this.router.navigateToRoute("entries", {
-      year: date.getFullYear(),
-      month: date.getMonth() + 1,
-      day: date.getDate(),
+      year,
+      month,
+      day,
     });
     this.controller.cancel();
   }
