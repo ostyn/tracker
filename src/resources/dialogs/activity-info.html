@@ -35,16 +35,15 @@
             repeat.for="[key, value] of relatedEntryMap"
           >
             <span class="activity-info-recent-date">${key}</span>
-            <span
-              class="activity-info-recent-detail"
+            <activity-detail
               if.bind="isArray(value.activities.get(activityId))"
               click.trigger="selectTextItem(textItem)"
               repeat.for="textItem of value.activities.get(activityId)"
-              >${textItem}</span
+              >${textItem}</activity-detail
             >
-            <span class="activity-info-recent-detail" else>
-              ${value.activities.get(activityId)}
-            </span>
+            <activity-detail else
+              >${value.activities.get(activityId)}</activity-detail
+            >
           </li>
         </ul>
       </div>
