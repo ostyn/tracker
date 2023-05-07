@@ -1,6 +1,9 @@
 .activity-info-header{
   display: flex;
 }
+.activity-info-recent-list{
+  list-style: none;
+}
 .activity-info-recent {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;

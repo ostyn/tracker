@@ -27,26 +27,24 @@
         on-date-select.call="onDateSelect(date)"
         on-month-change.call="onMonthChange(month, year)"
       ></calendar-wrapper>
-      <div>
-        <ul>
-          <li
-            class="activity-info-recent"
-            click.trigger="onDateSelect(key)"
-            repeat.for="[key, value] of relatedEntryMap"
+      <ul class="activity-info-recent-list">
+        <li
+          class="activity-info-recent"
+          click.trigger="onDateSelect(key)"
+          repeat.for="[key, value] of relatedEntryMap"
+        >
+          <span class="activity-info-recent-date">${key}</span>
+          <activity-detail
+            if.bind="isArray(value.activities.get(activityId))"
+            click.trigger="selectTextItem(textItem)"
+            repeat.for="textItem of value.activities.get(activityId)"
+            >${textItem}</activity-detail
           >
-            <span class="activity-info-recent-date">${key}</span>
-            <activity-detail
-              if.bind="isArray(value.activities.get(activityId))"
-              click.trigger="selectTextItem(textItem)"
-              repeat.for="textItem of value.activities.get(activityId)"
-              >${textItem}</activity-detail
-            >
-            <activity-detail else
-              >${value.activities.get(activityId)}</activity-detail
-            >
-          </li>
-        </ul>
-      </div>
+          <activity-detail else
+            >${value.activities.get(activityId)}</activity-detail
+          >
+        </li>
+      </ul>
       <input
         if.bind="showLists"
         ref="inputBox"
