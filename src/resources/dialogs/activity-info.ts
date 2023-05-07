@@ -87,7 +87,8 @@ export class ActivityInfo {
       Math.min(7, this.mruDetails.length)
     );
   }
-  public onDateSelect(year, month, day) {
+  public onDateSelect(date) {
+    const [year, month, day] = date.split("-");
     this.router.navigateToRoute("entries", {
       year,
       month,

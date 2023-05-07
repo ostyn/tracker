@@ -61,7 +61,7 @@ export class CalendarWrapper {
       onYearChange: this.onMonthYearChange.bind(this),
       onChange: ((selectedDates, dateStr, instance) => {
         if (this.onDateSelect)
-          this.onDateSelect({ date: new Date(selectedDates[0]) });
+          this.onDateSelect({ date: format(selectedDates[0], "yyyy-MM-dd") });
       }).bind(this),
     });
   }

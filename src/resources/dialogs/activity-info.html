@@ -68,7 +68,7 @@
         </div>
         <div if.bind="showLists" class="stats-column">
           <div
-            click.trigger="onDateSelect(detail.dates[0].entry.year,detail.dates[0].entry.month,detail.dates[0].entry.day)"
+            click.trigger="onDateSelect(detail.dates[0].entry.date)"
             repeat.for="detail of mruDetails"
             class="stats-entry"
           >
