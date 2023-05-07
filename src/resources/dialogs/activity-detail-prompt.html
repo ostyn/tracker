@@ -1,6 +1,7 @@
 <template>
   <require from="./activity-detail-prompt.css"></require>
   <require from="resources/elements/activity/activity"></require>
+  <require from="resources/elements/activity/activity-detail.html"></require>
   <dialog open>
     <article>
       <div>
@@ -16,19 +17,23 @@
           placeholder="enter number"
         />
       </div>
-      <div if.bind="!editingNumber" class="activity-detail-prompt-input">
+      <div if.bind="!editingNumber" class="activity-details">
         <div repeat.for="item of detail">
-          <input
-            class="width-64 inline"
-            type="text"
-            blur.trigger="loadMru()"
-            value.bind="detail[$index]"
-          /><button
-            class="width-12 inline"
-            click.trigger="removeItem(detail, $index)"
+          <activity-detail
+            if.bind="$index !== currentEditDetail"
+            click.trigger="editDetail($index)"
+            >${item}</activity-detail
           >
-            ❌
-          </button>
+          <span else
+            ><input
+              class="inline"
+              type="text"
+              blur.trigger="loadMru()"
+              value.bind="detail[$index]"
+            /><button class="inline" click.trigger="removeItem(detail, $index)">
+              ❌
+            </button></span
+          >
         </div>
       </div>
       <hr />

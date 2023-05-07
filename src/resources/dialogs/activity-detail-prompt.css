@@ -26,3 +26,7 @@
   align-items: center;
   border-radius: 9999px;
 }
+.activity-details{
+  display: flex;
+  flex-wrap: wrap;  
+}

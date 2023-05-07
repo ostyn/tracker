@@ -1,6 +1,7 @@
 <template>
   <require from="./activity-info.css"></require>
   <require from="resources/elements/activity/activity"></require>
+  <require from="resources/elements/activity/activity-detail.html"></require>
   <require from="resources/elements/calendar/calendar-wrapper"></require>
   <dialog open>
     <article>
@@ -56,7 +57,7 @@
             class="stats-entry"
           >
             <span class="stats-entry-datapoint">${detail.count}</span
-            >${detail.text}
+            ><activity-detail>${detail.text}</activity-detail>
           </div>
         </div>
         <div if.bind="showLists" class="stats-column">
@@ -66,7 +67,7 @@
             class="stats-entry"
           >
             <span class="stats-entry-datapoint">${detail.dates[0].date}</span
-            >${detail.text}
+            ><activity-detail>${detail.text}</activity-detail>
           </div>
         </div>
       </div>

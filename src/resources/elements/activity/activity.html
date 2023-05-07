@@ -1,5 +1,6 @@
 <template class="activity">
   <require from="./activity.css"></require>
+  <require from="./activity-detail.html"></require>
   <span>
     <span title.bind="activity.name" class="emoji">
       ${activity.emoji}
@@ -15,8 +16,8 @@
     class="activity-detail-list ${(!isWide) ? 'activity-narrow' : ''}"
     if.bind="isArray(detail) && detail.length>0"
   >
-    <span class="activity-detail-item" repeat.for="textItem of detail"
-      >${textItem}</span
+    <activity-detail repeat.for="textItem of detail"
+      >${textItem}</activity-detail
     >
   </span>
 </template>
