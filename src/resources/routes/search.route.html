@@ -1,6 +1,7 @@
 <template>
   <require from="./search.route.css"></require>
   <require from="resources/elements/entry/entry"></require>
+  <require from="resources/elements/entry/entry-loading.html"></require>
   <section class="search-bar">
     <input
       type="search"
@@ -11,21 +12,19 @@
     />
     <button
       class="inline"
-      disabled.bind="currentPage === 0"
+      disabled.bind="disablePrev"
       click.trigger="prevPage()"
     >
       ⬅️
     </button>
     <button
       class="inline"
-      disabled.bind="currentPage === lastPageIndex"
+      disabled.bind="disableNext"
       click.trigger="nextPage()"
     >
       ➡️
     </button>
-    <span if.bind="entries.length"
-      >Results ${firstEntryIndex+1}-${lastEntryIndex} of ${entries.length}</span
-    >
+    <span if.bind="showResultsText">${resultsText}</span>
   </section>
   <section>
     <entry
@@ -33,5 +32,6 @@
       repeat.for="e of entryPage"
       entry.bind="e"
     ></entry>
+    <entry-loading if.bind="showLoader"></entry-loading>
   </section>
 </template>

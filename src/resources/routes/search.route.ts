@@ -6,19 +6,25 @@ import { EntryDao } from "resources/dao/EntryDao";
 @autoinject
 export class SearchRoute {
   @bindable public needle: string;
-  public entries: IEntry[];
   public entryPage: IEntry[];
-  public currentPage = 0;
-  private pageSize = 20;
-  public lastPageIndex = 0;
-  public firstEntryIndex = 0;
-  public lastEntryIndex = 0;
+  public disableNext = true;
+  public disablePrev = true;
+  public resultsText = "";
+  public showLoader = false;
+  public showResultsText = false;
+
+  private entries: IEntry[];
+  private currentPage = 0;
+  private pageSize = 2;
+  private lastPageIndex = 0;
+  private firstEntryIndex = 0;
+  private lastEntryIndex = 0;
 
   constructor(
     private entryDao: EntryDao,
     private activityService: ActivityService
   ) {}
-  resetState() {
+  private resetState() {
     this.entries = undefined;
     this.entryPage = undefined;
     this.currentPage = 0;
@@ -26,27 +32,27 @@ export class SearchRoute {
     this.lastPageIndex = 0;
     this.firstEntryIndex = 0;
     this.lastEntryIndex = 0;
+    this.updateVisibility();
   }
-  needleChanged() {
+  public needleChanged() {
     this.currentPage = 0;
     this.search();
   }
-  nextPage() {
+  public nextPage() {
     if (this.currentPage < this.lastPageIndex) {
       this.currentPage++;
       this.resliceEntries();
-      console.log(this.lastPageIndex, this.currentPage);
     }
   }
-  prevPage() {
+  public prevPage() {
     if (this.currentPage > 0) {
       this.currentPage--;
       this.resliceEntries();
-      console.log(this.lastPageIndex, this.currentPage);
     }
   }
 
   public search(): void {
+    this.showLoader = true;
     this.entryDao.getEntriesFromYearAndMonth().then((entries: IEntry[]) => {
       if (!this.needle) {
         this.resetState();
@@ -67,17 +73,19 @@ export class SearchRoute {
               )
             ) ||
           entry.activitiesArray.some((activityId) =>
-            regex.test(this.activityService.activitiesMap?.get(activityId).name)
+            regex.test(
+              this.activityService.activitiesMap?.get(activityId)?.name
+            )
           ) ||
           regex.test(entry.date)
         );
       });
-      this.lastPageIndex = Math.ceil(this.entries.length / this.pageSize) - 1;
       this.resliceEntries();
     });
   }
   private resliceEntries() {
     if (this.entries.length) {
+      this.lastPageIndex = Math.ceil(this.entries.length / this.pageSize) - 1;
       this.firstEntryIndex = this.currentPage * this.pageSize;
       this.lastEntryIndex = Math.min(
         (this.currentPage + 1) * this.pageSize,
@@ -88,10 +96,29 @@ export class SearchRoute {
         this.lastEntryIndex
       );
       window.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      this.entryPage = [];
+      this.currentPage = 0;
+      this.firstEntryIndex = 0;
+      this.lastEntryIndex = 0;
+      this.lastPageIndex = 0;
     }
+    this.updateVisibility();
   }
 
-  isNumeric(str) {
+  private updateVisibility() {
+    this.disableNext = this.currentPage === this.lastPageIndex;
+    this.disablePrev = this.currentPage === 0;
+    this.showLoader = false;
+    this.showResultsText = !!this.needle;
+    this.resultsText = !!this.entries?.length
+      ? `Results ${this.firstEntryIndex + 1}-${this.lastEntryIndex} of ${
+          this.entries.length
+        }`
+      : "No results";
+  }
+
+  private isNumeric(str) {
     if (typeof str == "number") return true;
     if (typeof str !== "string") return false; // we only process strings!
     return (
