@@ -14,6 +14,9 @@ export class NavBar2 {
       document.documentElement.setAttribute("data-theme", "dark");
     }
   }
+  goTo(href) {
+    this.router.navigate(href);
+  }
   toggleNightMode() {
     let theme = localStorage.getItem("theme");
     if (theme === "light") {

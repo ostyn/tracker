@@ -9,12 +9,13 @@
     </div> -->
 
     <article>
-      <a
+      <span
         repeat.for="row of router.navigation"
-        class.bind="row.isActive ? '' : 'menu-link2-inactive'"
-        href.bind="row.href"
+        class.bind="row.isActive ? 'menu-link2-active' : 'menu-link2-inactive'"
+        click.trigger="goTo(row.href)"
         ><feather-icon name.bind="row.settings.iconName"></feather-icon
-      ></a>
+        >${(row.isActive)?row.title:''}</span
+      >
       <!-- <a href="/#/moods"><feather-icon name="smile"></feather-icon></a>
       <a href="/#/activities"><feather-icon name="activity"></feather-icon></a>
       <a href="/#/entry"><feather-icon name="plus-circle"></feather-icon></a>
@@ -22,12 +23,12 @@
       <a href="/#/"><feather-icon name="settings"></feather-icon></a> -->
       <!-- 📃🚲🎭➕🔍⚙ -->
       <!-- ${FirestoreCounter.count}/${FirestoreCounter.cacheHitCount} -->
-      <a
+      <span
         click.trigger="toggleNightMode()"
         long-click.trigger="toggleShowArchived()"
       >
         <feather-icon name="moon"></feather-icon>
-      </a>
+      </span>
     </article>
   </footer>
 </template>

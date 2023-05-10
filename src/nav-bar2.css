@@ -7,8 +7,11 @@
 }
 nav-bar2 article {
   line-height: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-nav-bar2 a {
+nav-bar2 span {
   margin: 0px 16px;
   padding: 0.5rem 1rem;
   display: inline-block;
@@ -21,4 +24,19 @@ nav-bar2 svg {
 
 .menu-link2-inactive {
   opacity: 0.6;
+}
+.menu-link2-active {
+  display: inline-flex;
+  flex-flow: column;
+  gap: 4px;
+  align-items: center;
+  line-height: 1.25rem;
+  font-size: 16px;
+  font-weight: bold;
+}
+.menu-link2-active feather-icon {
+  background: var(--secondary);
+  color: var(--primary-inverse);
+  border-radius: 20px;
+  padding: 4px 20px;
 }

@@ -95,6 +95,7 @@ export class App {
         nav: true,
         settings: { iconName: "plus-circle" },
         name: "entry",
+        title: "new entry",
       },
       {
         route: ["import"],
@@ -111,7 +112,7 @@ export class App {
         nav: true,
         settings: { iconName: "search" },
 
-        title: "🔍",
+        title: "search",
         name: "search",
       },
     ]);
