@@ -10,61 +10,62 @@
     <activity-grid-loading
       if.bind="!activityService.isLoaded"
     ></activity-grid-loading>
+
+    <div class="entry-edit-footer">
+      <section class="activity-drawer">
+        <activity-loading
+          class="drawer-activity-loading"
+          if.bind="isLoadingEntry || !activityService.isLoaded"
+          repeat.for="1 of 10"
+        >
+        </activity-loading>
+        <activity
+          show-name.bind="false"
+          if.bind="activityService.isLoaded && !isLoadingEntry"
+          repeat.for="[id, detail] of workingCopy.activities"
+          class="drawer-activity"
+          click.trigger="removeActivity(id)"
+          long-click.trigger="longPress(id)"
+          id.bind="id"
+          detail.bind="detail"
+        ></activity>
+      </section>
+      <section class="note-preview" click.trigger="openTextPrompt()">
+        <span class="note-icon">📝</span>
+        <span>${workingCopy.note || "enter note here..." }</span>
+      </section>
+      <section>
+        <span class="mood-icon" click.trigger="openMoodPrompt()">
+          ${getMood(workingCopy.mood).emoji}
+        </span>
+        <input
+          type="date"
+          class="inline"
+          value.bind="workingCopy.date"
+          max.bind="date"
+          name=""
+        />
+        <button
+          class="inline"
+          disabled.bind="workingCopy.mood === undefined"
+          click.trigger="submitEntry()"
+        >
+          submit
+        </button>
+        <button
+          class="inline contrast"
+          if.bind="entry.id"
+          click.trigger="deleteEntry()"
+        >
+          delete
+        </button>
+      </section>
+    </div>
     <activity-grid
       if.bind="activityService.isLoaded"
       activities.bind="activities"
       on-activity-click.call="addActivity(activity.id)"
       on-activity-long-click.call="longPress(activity.id)"
     ></activity-grid>
-  </div>
-  <div class="entry-edit-footer">
-    <section class="activity-drawer">
-      <activity-loading
-        class="drawer-activity-loading"
-        if.bind="isLoadingEntry || !activityService.isLoaded"
-        repeat.for="1 of 10"
-      >
-      </activity-loading>
-      <activity
-        show-name.bind="false"
-        if.bind="activityService.isLoaded && !isLoadingEntry"
-        repeat.for="[id, detail] of workingCopy.activities"
-        class="drawer-activity"
-        click.trigger="removeActivity(id)"
-        long-click.trigger="longPress(id)"
-        id.bind="id"
-        detail.bind="detail"
-      ></activity>
-    </section>
-    <section class="note-preview" click.trigger="openTextPrompt()">
-      <span class="note-icon">📝</span>
-      <span>${workingCopy.note || "enter note here..." }</span>
-    </section>
-    <section>
-      <span class="mood-icon" click.trigger="openMoodPrompt()">
-        ${getMood(workingCopy.mood).emoji}
-      </span>
-      <input
-        type="date"
-        class="inline"
-        value.bind="workingCopy.date"
-        max.bind="date"
-        name=""
-      />
-      <button
-        class="inline"
-        disabled.bind="workingCopy.mood === undefined"
-        click.trigger="submitEntry()"
-      >
-        submit
-      </button>
-      <button
-        class="inline contrast"
-        if.bind="entry.id"
-        click.trigger="deleteEntry()"
-      >
-        delete
-      </button>
-    </section>
   </div>
 </template>

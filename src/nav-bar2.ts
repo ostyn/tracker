@@ -6,27 +6,25 @@ import { Router } from "aurelia-router";
 export class NavBar2 {
   toStr = console.log;
   FirestoreCounter = FirestoreCounter;
+  darkModeIcon: string;
+  theme: string;
   constructor(public router: Router, private activityService: ActivityService) {
     let theme = localStorage.getItem("theme");
-    if (theme === "light") {
-      document.documentElement.setAttribute("data-theme", "light");
-    } else {
-      document.documentElement.setAttribute("data-theme", "dark");
-    }
+    this.setTheme(theme);
   }
   goTo(href) {
     this.router.navigate(href);
   }
   toggleNightMode() {
-    let theme = localStorage.getItem("theme");
-    if (theme === "light") {
-      document.documentElement.setAttribute("data-theme", "dark");
-      localStorage.setItem("theme", "dark");
-    } else {
-      document.documentElement.setAttribute("data-theme", "light");
-      localStorage.setItem("theme", "light");
-    }
+    let newTheme = localStorage.getItem("theme") === "light" ? "dark" : "light";
+    this.setTheme(newTheme);
   }
+  private setTheme(theme: string) {
+    this.theme = theme;
+    document.documentElement.setAttribute("data-theme", theme);
+    localStorage.setItem("theme", theme);
+  }
+
   toggleShowArchived() {
     this.activityService.toggleArchivedActivitiesThenNotify();
   }

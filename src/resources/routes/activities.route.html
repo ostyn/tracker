@@ -8,6 +8,9 @@
   <activity-grid-loading
     if.bind="!activityService.isLoaded"
   ></activity-grid-loading>
+  <div class="activity-edit-footer">
+    <activity-edit activity.two-way="activity"></activity-edit>
+  </div>
   <activity-grid
     if.bind="activityService.isLoaded"
     activities.bind="activities"
@@ -15,7 +18,4 @@
     on-activity-long-click.call="showActivityInfo(activity.id)"
     filter-archived="false"
   ></activity-grid>
-  <div class="activity-edit-footer">
-    <activity-edit activity.two-way="activity"></activity-edit>
-  </div>
 </template>

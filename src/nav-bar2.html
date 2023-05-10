@@ -16,19 +16,14 @@
         ><feather-icon name.bind="row.settings.iconName"></feather-icon
         >${(row.isActive)?row.title:''}</span
       >
-      <!-- <a href="/#/moods"><feather-icon name="smile"></feather-icon></a>
-      <a href="/#/activities"><feather-icon name="activity"></feather-icon></a>
-      <a href="/#/entry"><feather-icon name="plus-circle"></feather-icon></a>
-      <a href="/#/search"><feather-icon name="search"></feather-icon></a>
-      <a href="/#/"><feather-icon name="settings"></feather-icon></a> -->
-      <!-- 📃🚲🎭➕🔍⚙ -->
       <!-- ${FirestoreCounter.count}/${FirestoreCounter.cacheHitCount} -->
       <span
         class="menu-link2-inactive"
         click.trigger="toggleNightMode()"
         long-click.trigger="toggleShowArchived()"
       >
-        <feather-icon name="moon"></feather-icon>
+        <feather-icon if.bind="theme == 'dark'" name="sun"></feather-icon>
+        <feather-icon if.bind="theme == 'light'" name="moon"></feather-icon>
       </span>
     </article>
   </footer>
