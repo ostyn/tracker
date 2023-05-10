@@ -1,32 +1,18 @@
-.menu-links2 {
+nav-bar2 footer {
   text-align: center;
   width: 100%;
   position: fixed;
   bottom: 0;
-  background-color: var(--background-color);
-}
-nav-bar2 article {
+  background-color: var(--card-background-color);
+  box-shadow: var(--card-box-shadow);
   line-height: 0;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-nav-bar2 span {
+.menu-bar-icon {
+  width: 4rem;
   padding: 0.25rem 0.5rem;
-  display: inline-block;
-}
-nav-bar2 svg {
-  --color: var(--contrast);
-  height: 1.5rem;
-  width: 1.5rem;
-}
-
-.menu-link2-inactive {
-  opacity: 0.6;
-  width: 4rem;
-}
-.menu-link2-active {
-  width: 4rem;
   display: inline-flex;
   flex-flow: column;
   gap: 4px;
@@ -35,7 +21,16 @@ nav-bar2 svg {
   font-size: 12px;
   font-weight: bold;
 }
-.menu-link2-active feather-icon {
+nav-bar2 svg {
+  --color: var(--contrast);
+  height: 1.5rem;
+  width: 1.5rem;
+}
+
+.menu-bar-icon-inactive {
+  opacity: 0.6;
+}
+.menu-bar-icon-active feather-icon {
   background: var(--secondary);
   color: var(--primary-inverse);
   border-radius: 20px;

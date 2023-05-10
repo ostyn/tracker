@@ -1,30 +1,21 @@
 <template>
   <require from="./nav-bar2.css"></require>
-  <footer class="menu-links2">
-    <!-- <div
+  <footer>
+    <span
       repeat.for="row of router.navigation"
-      class="menu-link ${row.isActive ? '' : 'menu-link-inactive'}"
+      class.bind="'menu-bar-icon ' + (row.isActive ? 'menu-bar-icon-active' : 'menu-bar-icon-inactive')"
+      click.trigger="goTo(row.href)"
+      ><feather-icon name.bind="row.settings.iconName"></feather-icon
+      >${(row.isActive)?row.title:''}</span
     >
-      <a href.bind="row.href">${row.title}</a>
-    </div> -->
-
-    <article>
-      <span
-        repeat.for="row of router.navigation"
-        class.bind="row.isActive ? 'menu-link2-active' : 'menu-link2-inactive'"
-        click.trigger="goTo(row.href)"
-        ><feather-icon name.bind="row.settings.iconName"></feather-icon
-        >${(row.isActive)?row.title:''}</span
-      >
-      <!-- ${FirestoreCounter.count}/${FirestoreCounter.cacheHitCount} -->
-      <span
-        class="menu-link2-inactive"
-        click.trigger="toggleNightMode()"
-        long-click.trigger="toggleShowArchived()"
-      >
-        <feather-icon if.bind="theme == 'dark'" name="sun"></feather-icon>
-        <feather-icon if.bind="theme == 'light'" name="moon"></feather-icon>
-      </span>
-    </article>
+    <!-- ${FirestoreCounter.count}/${FirestoreCounter.cacheHitCount} -->
+    <span
+      class="menu-bar-icon menu-bar-icon-inactive"
+      click.trigger="toggleNightMode()"
+      long-click.trigger="toggleShowArchived()"
+    >
+      <feather-icon if.bind="theme == 'dark'" name="sun"></feather-icon>
+      <feather-icon if.bind="theme == 'light'" name="moon"></feather-icon>
+    </span>
   </footer>
 </template>
