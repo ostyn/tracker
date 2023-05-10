@@ -1,14 +1,9 @@
 <template>
-  <require from="./nav-bar"></require>
+  <require from="./nav-bar2"></require>
   <require from="resources/elements/login/login"></require>
-  <header><nav-bar></nav-bar></header>
-  <button
-    class="floating-button"
-    if.bind="showNewEntryButton && router.currentInstruction.fragment != '/entry'"
-    click.trigger="router.navigateToRoute('entry')"
-  >
-    📝
-  </button>
   <login if.bind="loadedAndNotLoggedIn"></login>
   <router-view if.bind="!loadedAndNotLoggedIn"></router-view>
+  <footer class="footer-nav-bar">
+    <nav-bar2></nav-bar2>
+  </footer>
 </template>

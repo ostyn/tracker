@@ -19,7 +19,6 @@ import "./app.css";
 
 @autoinject
 export class App {
-  showNewEntryButton = false;
   loadedAndNotLoggedIn = false;
   constructor(
     private dialogService: DialogService,
@@ -36,7 +35,6 @@ export class App {
         this.moodService.init();
         this.entryService.init();
         this.statsService.init();
-        this.showNewEntryButton = true;
       } else {
         this.loadedAndNotLoggedIn = true;
       }
@@ -68,6 +66,7 @@ export class App {
         route: ["", "entries"],
         moduleId: PLATFORM.moduleName("./resources/routes/entries.route"),
         nav: true,
+        settings: { iconName: "file-text" },
         title: "entries",
         name: "entries",
         auth: true,
@@ -76,6 +75,7 @@ export class App {
         route: "moods",
         moduleId: PLATFORM.moduleName("./resources/routes/moods.route"),
         nav: true,
+        settings: { iconName: "smile" },
         title: "moods",
         name: "moods",
         auth: true,
@@ -84,6 +84,7 @@ export class App {
         route: "activities",
         moduleId: PLATFORM.moduleName("./resources/routes/activities.route"),
         nav: true,
+        settings: { iconName: "activity" },
         title: "activities",
         name: "activities",
         auth: true,
@@ -91,13 +92,16 @@ export class App {
       {
         route: ["entry"],
         moduleId: PLATFORM.moduleName("./resources/routes/entry.route"),
-        nav: false,
+        nav: true,
+        settings: { iconName: "plus-circle" },
         name: "entry",
       },
       {
         route: ["import"],
         moduleId: PLATFORM.moduleName("./resources/routes/import.route"),
         nav: false,
+        settings: { iconName: "settings" },
+
         title: "import",
         name: "import",
       },
@@ -105,6 +109,8 @@ export class App {
         route: ["search"],
         moduleId: PLATFORM.moduleName("./resources/routes/search.route"),
         nav: true,
+        settings: { iconName: "search" },
+
         title: "🔍",
         name: "search",
       },

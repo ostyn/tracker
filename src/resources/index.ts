@@ -6,6 +6,7 @@ export function configure(config: FrameworkConfiguration): void {
   config.globalResources([
     PLATFORM.moduleName("./value-converters/map"),
     PLATFORM.moduleName("./value-converters/sort"),
+    PLATFORM.moduleName("./elements/feather-icon/feather-icon"),
   ]);
 }
 

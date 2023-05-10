@@ -1,0 +1,24 @@
+.menu-links2 {
+  text-align: center;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  background-color: var(--background-color);
+}
+nav-bar2 article {
+  line-height: 0;
+}
+nav-bar2 a {
+  margin: 0px 16px;
+  padding: 0.5rem 1rem;
+  display: inline-block;
+}
+nav-bar2 svg {
+  --color: var(--contrast);
+  height: 1.5rem;
+  width: 1.5rem;
+}
+
+.menu-link2-inactive {
+  opacity: 0.6;
+}

@@ -14,20 +14,7 @@
 dialog {
   background-color: var(--background-color);
   color: var(--color);
-  border: none;  
-}
-
-.floating-button {
-  position: fixed;
-  right: 0.5rem;
-  bottom: 0.5rem;
-  z-index: 50;
-  padding: 0.625rem;
-  font-size: 1.25rem;
-  line-height: 1.75rem;
-  width: 3rem;
-  height: 3rem;
-  border-radius: 9999px;
+  border: none;
 }
 router-view {
   display: block;
@@ -49,9 +36,12 @@ input.inline {
 section {
   margin-bottom: 0.75rem;
 }
-article:not(dialog article) {
+article:not(dialog article, footer article) {
   padding: 1rem;
   margin: 0.5rem;
+}
+footer article {
+  margin: 0px;
 }
 form {
   margin-bottom: 0;
@@ -71,5 +61,16 @@ section:last-child {
   margin-bottom: 0px;
 }
 body {
+  margin-top: var(--spacing);
   overscroll-behavior-y: contain;
+}
+.footer-nav-bar {
+  height: 3rem;
+}
+a,
+a:link,
+a:hover,
+a:visited,
+a:active {
+  color: inherit;
 }

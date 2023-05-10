@@ -15,14 +15,14 @@
       disabled.bind="disablePrev"
       click.trigger="prevPage()"
     >
-      ⬅️
+      <feather-icon name="arrow-left"></feather-icon>
     </button>
     <button
       class="inline"
       disabled.bind="disableNext"
       click.trigger="nextPage()"
     >
-      ➡️
+      <feather-icon name="arrow-right"></feather-icon>
     </button>
     <span if.bind="showResultsText">${resultsText}</span>
   </section>

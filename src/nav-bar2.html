@@ -1,0 +1,33 @@
+<template>
+  <require from="./nav-bar2.css"></require>
+  <footer class="menu-links2">
+    <!-- <div
+      repeat.for="row of router.navigation"
+      class="menu-link ${row.isActive ? '' : 'menu-link-inactive'}"
+    >
+      <a href.bind="row.href">${row.title}</a>
+    </div> -->
+
+    <article>
+      <a
+        repeat.for="row of router.navigation"
+        class.bind="row.isActive ? '' : 'menu-link2-inactive'"
+        href.bind="row.href"
+        ><feather-icon name.bind="row.settings.iconName"></feather-icon
+      ></a>
+      <!-- <a href="/#/moods"><feather-icon name="smile"></feather-icon></a>
+      <a href="/#/activities"><feather-icon name="activity"></feather-icon></a>
+      <a href="/#/entry"><feather-icon name="plus-circle"></feather-icon></a>
+      <a href="/#/search"><feather-icon name="search"></feather-icon></a>
+      <a href="/#/"><feather-icon name="settings"></feather-icon></a> -->
+      <!-- 📃🚲🎭➕🔍⚙ -->
+      <!-- ${FirestoreCounter.count}/${FirestoreCounter.cacheHitCount} -->
+      <a
+        click.trigger="toggleNightMode()"
+        long-click.trigger="toggleShowArchived()"
+      >
+        <feather-icon name="moon"></feather-icon>
+      </a>
+    </article>
+  </footer>
+</template>
