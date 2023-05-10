@@ -19,7 +19,7 @@
   place-content: center;
   max-height: 6rem;
   border-width: 1px;
-  border-color: #ffffff;
+  border-color: var(--color);
   border-style: dashed;
 }
 .note-icon {
@@ -38,5 +38,10 @@
   bottom: 0;
   padding: 0.75rem;
   background-color: var(--background-color);
-  border-top: 1px var(--color) solid;
+}
+.entry-editor-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
 }
