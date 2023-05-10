@@ -72,6 +72,14 @@ export class App {
         auth: true,
       },
       {
+        route: ["entry"],
+        moduleId: PLATFORM.moduleName("./resources/routes/entry.route"),
+        nav: true,
+        settings: { iconName: "plus-circle" },
+        name: "entry",
+        title: "new",
+      },
+      {
         route: "moods",
         moduleId: PLATFORM.moduleName("./resources/routes/moods.route"),
         nav: true,
@@ -88,14 +96,6 @@ export class App {
         title: "activities",
         name: "activities",
         auth: true,
-      },
-      {
-        route: ["entry"],
-        moduleId: PLATFORM.moduleName("./resources/routes/entry.route"),
-        nav: true,
-        settings: { iconName: "plus-circle" },
-        name: "entry",
-        title: "new entry",
       },
       {
         route: ["import"],

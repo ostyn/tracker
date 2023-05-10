@@ -12,8 +12,7 @@ nav-bar2 article {
   align-items: center;
 }
 nav-bar2 span {
-  margin: 0px 16px;
-  padding: 0.5rem 1rem;
+  padding: 0.25rem 0.5rem;
   display: inline-block;
 }
 nav-bar2 svg {
@@ -24,14 +23,16 @@ nav-bar2 svg {
 
 .menu-link2-inactive {
   opacity: 0.6;
+  width: 4rem;
 }
 .menu-link2-active {
+  width: 4rem;
   display: inline-flex;
   flex-flow: column;
   gap: 4px;
   align-items: center;
   line-height: 1.25rem;
-  font-size: 16px;
+  font-size: 12px;
   font-weight: bold;
 }
 .menu-link2-active feather-icon {
