@@ -1,9 +1,9 @@
 <template>
-  <require from="./nav-bar2"></require>
+  <require from="./nav-bar"></require>
   <require from="resources/elements/login/login"></require>
   <login if.bind="loadedAndNotLoggedIn"></login>
   <router-view if.bind="!loadedAndNotLoggedIn"></router-view>
   <footer class="footer-nav-bar">
-    <nav-bar2></nav-bar2>
+    <nav-bar></nav-bar>
   </footer>
 </template>
