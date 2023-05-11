@@ -15,7 +15,7 @@ export class SearchRoute {
 
   private entries: IEntry[];
   private currentPage = 0;
-  private pageSize = 2;
+  private pageSize = 20;
   private lastPageIndex = 0;
   private firstEntryIndex = 0;
   private lastEntryIndex = 0;

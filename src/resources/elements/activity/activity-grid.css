@@ -17,3 +17,9 @@
 .clickable {
   cursor: pointer;
 }
+.grid-button {
+  padding: 0.5rem;
+  display: inline-block;
+  line-height: 0;
+  cursor: pointer;
+}

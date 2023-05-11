@@ -10,20 +10,18 @@
       value.bind="needle & debounce"
       placeholder="search..."
     />
-    <button
-      class="inline"
-      disabled.bind="disablePrev"
+    <feather-icon
+      if.bind="!disablePrev"
+      role="link"
       click.trigger="prevPage()"
-    >
-      <feather-icon name="arrow-left"></feather-icon>
-    </button>
-    <button
-      class="inline"
-      disabled.bind="disableNext"
+      name="chevron-left"
+    ></feather-icon>
+    <feather-icon
+      if.bind="!disableNext"
+      role="link"
       click.trigger="nextPage()"
-    >
-      <feather-icon name="arrow-right"></feather-icon>
-    </button>
+      name="chevron-right"
+    ></feather-icon>
     <span if.bind="showResultsText">${resultsText}</span>
   </section>
   <section>

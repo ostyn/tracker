@@ -1,6 +1,10 @@
 <template class="month-control">
   <require from="./month-control.css"></require>
-  <span class="next-prev-button" click.trigger="prev()">◀</span>
+  <feather-icon
+    class="next-prev-button"
+    click.trigger="prev()"
+    name="chevron-left"
+  ></feather-icon>
   <span class="month-header-container">
     <div class="month-header">
       <span
@@ -17,5 +21,9 @@
     </div>
   </span>
 
-  <span class="next-prev-button" click.trigger="next()">▶</span>
+  <feather-icon
+    class="next-prev-button"
+    click.trigger="next()"
+    name="chevron-right"
+  ></feather-icon>
 </template>
