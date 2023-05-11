@@ -30,10 +30,10 @@
           detail.bind="detail"
         ></activity>
       </section>
-      <section class="note-preview" click.trigger="openTextPrompt()">
-        <span class="note-icon">📝</span>
+      <article class="note-preview" click.trigger="openTextPrompt()">
+        <feather-icon class="note-icon">📝</feather-icon>
         <span>${workingCopy.note || "enter note here..." }</span>
-      </section>
+      </article>
       <section class="entry-editor-buttons">
         <span class="mood-icon" click.trigger="openMoodPrompt()">
           ${getMood(workingCopy.mood).emoji}

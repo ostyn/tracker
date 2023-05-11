@@ -18,9 +18,6 @@
   white-space: pre-line;
   place-content: center;
   max-height: 6rem;
-  border-width: 1px;
-  border-color: var(--color);
-  border-style: dashed;
 }
 .note-icon {
   position: absolute;
