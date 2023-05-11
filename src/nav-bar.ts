@@ -3,8 +3,7 @@ import { FirestoreCounter } from "./resources/dao/FirestoreCounter";
 import { autoinject } from "aurelia-framework";
 import { Router } from "aurelia-router";
 @autoinject
-export class NavBar2 {
-  toStr = console.log;
+export class NavBar {
   FirestoreCounter = FirestoreCounter;
   darkModeIcon: string;
   theme: string;
