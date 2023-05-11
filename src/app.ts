@@ -75,9 +75,9 @@ export class App {
         route: ["entry"],
         moduleId: PLATFORM.moduleName("./resources/routes/entry.route"),
         nav: true,
-        settings: { iconName: "plus-circle" },
+        settings: { iconName: "edit-3" },
         name: "entry",
-        title: "new",
+        title: "entry",
       },
       {
         route: "moods",
