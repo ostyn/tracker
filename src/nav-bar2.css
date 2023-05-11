@@ -9,6 +9,7 @@ nav-bar2 footer {
   display: flex;
   justify-content: center;
   align-items: center;
+  user-select: none;
 }
 .menu-bar-icon {
   width: 4rem;
