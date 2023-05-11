@@ -20,9 +20,7 @@
     ></entry>
     <article if.bind="isLoaded && !entries.length" class="no-entries">
       <p>no entries</p>
-      <button click.trigger="router.navigateToRoute('entry')">
-        📝 log entry
-      </button>
+      <button click.trigger="router.navigateToRoute('entry')">add entry</button>
     </article>
     <entry-loading if.bind="!isLoaded"></entry-loading>
   </section>

@@ -11,11 +11,11 @@
       class="mood-mappings"
       click.trigger="openMoodPrompt(moodMappings[mood], mood)"
     >
-      ${mood} ➡️
+      ${mood} <feather-icon name="arrow-right"></feather-icon>
       <span if.bind="moodMappings[mood]">
         ${getMood(moodMappings[mood]).emoji}
       </span>
-      <span else>⁉️</span>
+      <span else><feather-icon name="alert-triangle"></feather-icon></span>
     </span>
   </article>
   <article if.bind="activitiesToMap.length > 0">
@@ -25,11 +25,11 @@
       class="activity-mappings"
       click.trigger="openActivityPrompt(activitiesToMap[activity], activity)"
     >
-      ${activity} ➡️
+      ${activity} <feather-icon name="arrow-right"></feather-icon>
       <span if.bind="activityMappings[activity]">
         ${getActivity(activityMappings[activity]).emoji}
       </span>
-      <span else>⁉️</span>
+      <span else><feather-icon name="alert-triangle"></feather-icon></span>
     </span>
   </article>
   <entry class="import-entry" repeat.for="e of entries" entry.bind="e"></entry>

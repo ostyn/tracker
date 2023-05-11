@@ -15,11 +15,16 @@
 }
 .streak-stats {
   position: absolute;
-  top: 0.125rem;
-  left: 100%;
+  top: 0.1rem;
+  left: calc(100% + 8px);
   font-size: 0.875rem;
-  line-height: 1.25rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
   font-weight: 700;
-  width: 4rem;
   filter: grayscale(1);
+}
+.streak-stats feather-icon {
+  height: 1rem;
+  width: 1rem;
 }
