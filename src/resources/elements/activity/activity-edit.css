@@ -4,17 +4,23 @@
 .activity-inputs input {
   width: 33%;
 }
-.category-control{
+.category-control {
   width: 33%;
 }
-input.custom-category{
-  width: calc(100% - 20px)
+activity-edit .category-control .option-list {
+  position: relative;
 }
-.selected-category{
+.category-control * {
+  z-index: 50;
+}
+input.custom-category {
+  width: calc(100% - 20px);
+}
+.selected-category {
   background-color: var(--contrast);
   color: var(--contrast-inverse);
 }
-.radio-button{
+.radio-button {
   position: absolute;
   opacity: 0;
 }

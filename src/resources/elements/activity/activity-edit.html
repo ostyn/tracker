@@ -27,7 +27,7 @@
         <summary aria-haspopup="listbox">
           ${workingCopy.category || "category"}
         </summary>
-        <ul role="listbox">
+        <ul role="listbox" class="option-list">
           <li
             repeat.for="category of categories"
             class.bind="workingCopy.category == category?'selected-category':''"
