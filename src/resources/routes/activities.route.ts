@@ -30,6 +30,7 @@ export class ActivitiesRoute {
     this.subscribers.forEach((sub) => this.subscribers.pop().dispose());
   }
   setCurrentActivity(activity: IActivity) {
+    window.scrollTo(0, 0);
     this.activity = activity;
   }
   showActivityInfo(id) {
