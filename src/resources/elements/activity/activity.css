@@ -32,6 +32,7 @@
 }
 .activity-detail-list {
   display: flex;
+  gap: 2px;
   text-align: left;
   flex-wrap: wrap;
   justify-content: center;
