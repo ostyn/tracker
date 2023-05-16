@@ -98,7 +98,7 @@ export class App {
         auth: true,
       },
       {
-        route: ["import"],
+        route: ["settings/import"],
         moduleId: PLATFORM.moduleName("./resources/routes/import.route"),
         nav: false,
         settings: { iconName: "settings" },
@@ -114,6 +114,15 @@ export class App {
 
         title: "search",
         name: "search",
+      },
+      {
+        route: ["settings"],
+        moduleId: PLATFORM.moduleName("./resources/routes/settings.route"),
+        nav: true,
+        settings: { iconName: "settings" },
+
+        title: "settings",
+        name: "settings",
       },
     ]);
 

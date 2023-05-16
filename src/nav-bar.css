@@ -12,6 +12,7 @@ nav-bar footer {
   user-select: none;
 }
 .menu-bar-icon {
+  cursor: pointer;
   width: 4rem;
   padding: 0.25rem 0.5rem;
   display: inline-flex;

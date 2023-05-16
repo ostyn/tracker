@@ -5,17 +5,9 @@
       repeat.for="row of router.navigation"
       class.bind="'menu-bar-icon ' + (row.config.name === selectedRoute ? 'menu-bar-icon-active' : 'menu-bar-icon-inactive')"
       click.trigger="goTo(row.href)"
+      long-click.trigger="toggleShowArchived()"
       ><feather-icon name.bind="row.settings.iconName"></feather-icon
       >${(row.config.name === selectedRoute)?row.title:''}</span
     >
-    <!-- ${FirestoreCounter.count}/${FirestoreCounter.cacheHitCount} -->
-    <span
-      class="menu-bar-icon menu-bar-icon-inactive"
-      click.trigger="toggleNightMode()"
-      long-click.trigger="toggleShowArchived()"
-    >
-      <feather-icon if.bind="theme == 'dark'" name="sun"></feather-icon>
-      <feather-icon if.bind="theme == 'light'" name="moon"></feather-icon>
-    </span>
   </footer>
 </template>

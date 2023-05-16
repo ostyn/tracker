@@ -1,0 +1,20 @@
+.settings-route {
+  display: flex;
+  gap: 8px;
+  flex-direction: column;
+}
+
+.settings-route button {
+  display: inline-flex;
+  place-content: center;
+  align-items: center;
+  gap: 8px;
+}
+.user-icon * {
+  width: 100px;
+  height: 100px;
+  border-radius: 12px;
+}
+.user-info {
+  text-align: center;
+}

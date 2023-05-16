@@ -1,0 +1,41 @@
+<template>
+  <require from="./settings.route.css"></require>
+  <article class="settings-route">
+    <h1>Settings</h1>
+
+    <!-- ${FirestoreCounter.count}/${FirestoreCounter.cacheHitCount} -->
+    <div class="user-info">
+      <span class="user-icon">
+        <img
+          if.bind="userService.user.email"
+          width="100"
+          height="100"
+          src.bind="gravatarUrl(userService.user.email, {size:100})"
+        />
+        <feather-icon else name="user"></feather-icon>
+      </span>
+      <hgroup>
+        <h2>${userService.user.displayName}</h2>
+        <h3>${userService.user.email}</h3>
+      </hgroup>
+    </div>
+    <label class="inline"
+      ><input
+        value.bind="isDark"
+        type="checkbox"
+        role="switch"
+        checked.bind="isDark"
+      />
+      ${isDark?'Dark': 'Light'} Mode
+    </label>
+    <button click.trigger="router.navigateToRoute('import')">
+      <feather-icon name="inbox"></feather-icon>import
+    </button>
+    <button click.trigger="router.navigateToRoute('export')">
+      <feather-icon name="archive"></feather-icon>export
+    </button>
+    <button click.trigger="logout()">
+      <feather-icon name="log-out"></feather-icon>logout
+    </button>
+  </article>
+</template>
