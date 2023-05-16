@@ -63,7 +63,7 @@ export class EntryEditor {
       .whenClosed((response) => {
         if (!response.wasCancelled) {
           this.workingCopy.mood = response.output;
-          this.checkpointIfDraft();
+          this.markPendingChanges();
         }
       });
   }
@@ -76,7 +76,7 @@ export class EntryEditor {
       .whenClosed((response) => {
         if (!response.wasCancelled) {
           this.workingCopy.note = response.output;
-          this.checkpointIfDraft();
+          this.markPendingChanges();
         }
       });
   }
@@ -115,10 +115,10 @@ export class EntryEditor {
               } else if (response.output.detail.length === 0) {
                 this.workingCopy.activities.delete(id);
               }
-              this.checkpointIfDraft();
+              this.markPendingChanges();
             } else if (this.isNumeric(response.output.detail)) {
               this.workingCopy.activities.set(id, response.output.detail);
-              this.checkpointIfDraft();
+              this.markPendingChanges();
             }
           }
         }).bind(this)
@@ -146,7 +146,7 @@ export class EntryEditor {
       navigator.vibrate(100);
       this.editActivityDetail(id, [...activityDetail]);
     }
-    this.checkpointIfDraft();
+    this.markPendingChanges();
   }
   addActivityWithText(activity) {
     if (this.workingCopy.activities.has(activity.id)) {
@@ -155,7 +155,7 @@ export class EntryEditor {
       let text = prompt("Enter text");
       if (text) {
         this.workingCopy.activities.set(activity.id, [text]);
-        this.checkpointIfDraft();
+        this.markPendingChanges();
       }
     }
   }
@@ -173,7 +173,7 @@ export class EntryEditor {
       navigator.vibrate(100);
       this.editActivityDetail(id, this.workingCopy.activities.get(id));
     }
-    this.checkpointIfDraft();
+    this.markPendingChanges();
   }
   submitEntry() {
     let parts = this.workingCopy.date.split("-");
@@ -188,7 +188,7 @@ export class EntryEditor {
       lastUpdatedBy: EditTools.WEB,
     };
     this.entryService.addEntry(splitTimestampEntry);
-    localStorage.removeItem("checkpoint");
+    localStorage.removeItem("pendingChanges");
     this.router.navigateToRoute("entries", {
       ...dateFields,
     });
@@ -225,11 +225,7 @@ export class EntryEditor {
   isArray(array) {
     return array?.constructor === Array;
   }
-  checkpointIfDraft() {
-    if (!this.workingCopy.id)
-      localStorage.setItem(
-        "checkpoint",
-        JSON.stringify(this.entryDao.beforeSaveFixup(this.workingCopy))
-      );
+  markPendingChanges() {
+    localStorage.setItem("pendingChanges", "true");
   }
 }
