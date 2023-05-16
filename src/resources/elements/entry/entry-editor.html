@@ -9,8 +9,25 @@
   <activity-grid-loading
     if.bind="!activityService.isLoaded"
   ></activity-grid-loading>
-
-  <article class="activity-drawer">
+  <section class="entry-editor-buttons">
+    <article class="note-preview" click.trigger="openTextPrompt()">
+      <span>${workingCopy.note || "enter note here..." }</span>
+      <feather-icon class="note-icon" name="file-text"></feather-icon>
+    </article>
+    <div>
+      <input
+        type="date"
+        class="inline"
+        value.bind="workingCopy.date"
+        max.bind="date"
+        name=""
+      />
+      <span class="mood-icon" click.trigger="openMoodPrompt()">
+        ${getMood(workingCopy.mood).emoji}
+      </span>
+    </div>
+  </section>
+  <article class="activity-drawer" if.bind="workingCopy.activities.size">
     <activity-loading
       class="drawer-activity-loading"
       if.bind="isLoadingEntry || !activityService.isLoaded"
@@ -28,40 +45,23 @@
       detail.bind="detail"
     ></activity>
   </article>
-  <article class="note-preview" click.trigger="openTextPrompt()">
-    <span>${workingCopy.note || "enter note here..." }</span>
-    <feather-icon class="note-icon" name="file-text"></feather-icon>
-  </article>
-  <section class="entry-editor-buttons">
-    <span class="mood-icon" click.trigger="openMoodPrompt()">
-      ${getMood(workingCopy.mood).emoji}
-    </span>
-    <input
-      type="date"
-      class="inline"
-      value.bind="workingCopy.date"
-      max.bind="date"
-      name=""
-    />
-    <button
-      class="inline"
-      disabled.bind="workingCopy.mood === undefined"
-      click.trigger="submitEntry()"
-    >
-      submit
-    </button>
-    <button
-      class="inline contrast"
-      if.bind="entry.id"
-      click.trigger="deleteEntry()"
-    >
-      delete
-    </button>
-  </section>
+
   <activity-grid
     if.bind="activityService.isLoaded"
     activities.bind="activities"
     on-activity-click.call="addActivity(activity.id)"
     on-activity-long-click.call="longPress(activity.id)"
   ></activity-grid>
+  <div class="sticky-buttons">
+    <button
+      class="inline contrast"
+      click.trigger="deleteEntry()"
+      if.bind="entry.id"
+    >
+      <feather-icon name="trash-2"></feather-icon>
+    </button>
+    <button class="inline" click.trigger="submitEntry()">
+      <feather-icon name="save"></feather-icon>
+    </button>
+  </div>
 </template>

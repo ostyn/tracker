@@ -16,7 +16,6 @@ nav-bar footer {
   padding: 0.25rem 0.5rem;
   display: inline-flex;
   flex-flow: column;
-  gap: 4px;
   align-items: center;
   line-height: 1.25rem;
   font-size: 12px;
