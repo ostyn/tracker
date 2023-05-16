@@ -24,7 +24,7 @@ export class SettingsRoute {
     this.setTheme(newTheme);
   }
   logout() {
-    this.userService.logout();
+    if (confirm("Are you sure you want to logout?")) this.userService.logout();
   }
   private setTheme(theme: string) {
     this.theme = theme;
