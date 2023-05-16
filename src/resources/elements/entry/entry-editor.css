@@ -41,11 +41,11 @@
 }
 .sticky-buttons {
   position: sticky;
-  bottom: 4rem;
+  bottom: 4.2rem;
   left: 100vw;
   display: inline-flex;
-  gap: 4px;
-  margin-right: 4px;
+  gap: 8px;
+  margin-right: 8px;
   flex-flow: column;
 }
 .sticky-buttons button {
