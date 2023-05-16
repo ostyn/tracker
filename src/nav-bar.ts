@@ -1,15 +1,24 @@
 import { ActivityService } from "resources/services/activityService";
 import { FirestoreCounter } from "./resources/dao/FirestoreCounter";
-import { autoinject } from "aurelia-framework";
+import { autoinject, computedFrom } from "aurelia-framework";
 import { Router } from "aurelia-router";
 @autoinject
 export class NavBar {
   FirestoreCounter = FirestoreCounter;
   darkModeIcon: string;
   theme: string;
+  window = window;
   constructor(public router: Router, private activityService: ActivityService) {
     let theme = localStorage.getItem("theme");
     this.setTheme(theme);
+  }
+  @computedFrom("window.location.href", "router.navigation.length")
+  get selectedRoute() {
+    return (
+      this.router.navigation.find((route) => {
+        return window.location.href.includes(route.config.name);
+      })?.config?.name || "entries"
+    );
   }
   goTo(href) {
     this.router.navigate(href);

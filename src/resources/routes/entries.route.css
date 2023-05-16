@@ -11,3 +11,20 @@
 .no-entries {
   text-align: center;
 }
+.sticky-buttons {
+  position: sticky;
+  bottom: 4.2rem;
+  left: 100vw;
+  display: inline-flex;
+  gap: 8px;
+  margin-right: 8px;
+  flex-flow: column;
+}
+.sticky-buttons button {
+  border-radius: 9999px;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  place-content: center;
+  align-items: center;
+}

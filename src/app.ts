@@ -72,9 +72,9 @@ export class App {
         auth: true,
       },
       {
-        route: ["entry"],
+        route: ["entries/entry"],
         moduleId: PLATFORM.moduleName("./resources/routes/entry.route"),
-        nav: true,
+        nav: false,
         settings: { iconName: "edit-3" },
         name: "entry",
         title: "entry",
@@ -107,9 +107,9 @@ export class App {
         name: "import",
       },
       {
-        route: ["search"],
+        route: ["entries/search"],
         moduleId: PLATFORM.moduleName("./resources/routes/search.route"),
-        nav: true,
+        nav: false,
         settings: { iconName: "search" },
 
         title: "search",
