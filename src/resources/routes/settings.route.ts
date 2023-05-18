@@ -1,3 +1,4 @@
+import { LocalSettingsService } from "./../services/localSettingsService";
 import { UserService } from "./../services/userService";
 import { FirestoreCounter } from "resources/dao/FirestoreCounter";
 import { autoinject, bindable } from "aurelia-framework";
@@ -6,30 +7,22 @@ import gravatarUrl from "gravatar-url";
 @autoinject
 export class SettingsRoute {
   FirestoreCounter = FirestoreCounter;
-  @bindable isDark = false;
+  @bindable isDark = this.localSettingsService.isDark;
   theme: string;
   gravatarUrl(email, params) {
     return gravatarUrl(email, params);
   }
-  constructor(public router: Router, public userService: UserService) {
-    let theme = localStorage.getItem("theme");
-    this.setTheme(theme);
-  }
+  constructor(
+    public router: Router,
+    public userService: UserService,
+    public localSettingsService: LocalSettingsService
+  ) {}
+
   isDarkChanged() {
-    this.toggleNightMode();
+    this.localSettingsService.toggleNightMode();
   }
 
-  toggleNightMode() {
-    let newTheme = localStorage.getItem("theme") === "light" ? "dark" : "light";
-    this.setTheme(newTheme);
-  }
   logout() {
     if (confirm("Are you sure you want to logout?")) this.userService.logout();
-  }
-  private setTheme(theme: string) {
-    this.theme = theme;
-    this.isDark = theme === "dark";
-    document.documentElement.setAttribute("data-theme", theme);
-    localStorage.setItem("theme", theme);
   }
 }

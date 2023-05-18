@@ -16,6 +16,7 @@ import { StatsService } from "resources/services/statsService";
 
 import "@picocss/pico/pico.min.css";
 import "./app.css";
+import { LocalSettingsService } from "resources/services/localSettingsService";
 
 @autoinject
 export class App {
@@ -25,7 +26,8 @@ export class App {
     private activityService: ActivityService,
     private moodService: MoodService,
     private entryService: EntryService,
-    private statsService: StatsService
+    private statsService: StatsService,
+    private localSettingsService: LocalSettingsService
   ) {}
   router: Router;
   created() {
@@ -35,6 +37,7 @@ export class App {
         this.moodService.init();
         this.entryService.init();
         this.statsService.init();
+        this.localSettingsService.init();
       } else {
         this.loadedAndNotLoggedIn = true;
       }
