@@ -15,13 +15,13 @@
   height: 4rem;
   border-radius: 0.125rem;
   opacity: 0.1;
-  background-color: var(--color);
+  background-color: var(--muted-color);
   animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 .text-line-loading {
   margin-bottom: 1rem;
   opacity: 0.1;
-  background-color: var(--color);
+  background-color: var(--muted-color);
   align-self: center;
   width: 91.666667%;
   height: 1rem;
@@ -33,7 +33,7 @@
   margin: 0.25rem;
   margin-left: auto;
   opacity: 0.1;
-  background-color: var(--color);
+  background-color: var(--muted-color);
   width: 3rem;
   height: 3rem;
   border-radius: 9999px;
@@ -51,7 +51,7 @@
 .width-80 {
   width: 80%;
 }
-.header-container{
+.header-container {
   display: flex;
   vertical-align: middle;
 }

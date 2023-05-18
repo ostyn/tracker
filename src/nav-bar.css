@@ -32,7 +32,7 @@ nav-bar svg {
   opacity: 0.6;
 }
 .menu-bar-icon-active feather-icon {
-  background: var(--primary);
+  background: var(--secondary);
   color: var(--primary-inverse);
   border-radius: 20px;
   padding: 4px 20px;
