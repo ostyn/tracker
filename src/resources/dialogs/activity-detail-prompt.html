@@ -16,8 +16,15 @@
           value.bind="detail"
           placeholder="enter number"
         />
+        <section>
+          <button class="inline" click.trigger="add(100)">+100</button>
+          <button class="inline" click.trigger="add(10)">+10</button>
+          <button class="inline" click.trigger="add(1)">+1</button>
+          <button class="inline" click.trigger="add(0.5)">+0.5</button>
+          <button class="inline" click.trigger="add(0.25)">+0.25</button>
+        </section>
       </div>
-      <div if.bind="!editingNumber" class="activity-details">
+      <div else class="activity-details">
         <div repeat.for="item of detail">
           <activity-detail
             if.bind="$index !== currentEditDetail"

@@ -107,6 +107,9 @@ export class ActivityDetailDialog {
       detail: this.editingNumber ? Number(this.detail) : this.detail,
     });
   }
+  public add(value: number) {
+    this.detail = Number(this.detail) + value;
+  }
   isNumeric(str) {
     if (typeof str == "number") return true;
     if (typeof str !== "string") return false; // we only process strings!
