@@ -31,13 +31,13 @@ export class App {
   ) {}
   router: Router;
   created() {
+    this.localSettingsService.init();
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         this.activityService.init();
         this.moodService.init();
         this.entryService.init();
         this.statsService.init();
-        this.localSettingsService.init();
       } else {
         this.loadedAndNotLoggedIn = true;
       }
