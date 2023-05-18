@@ -2,7 +2,8 @@ nav-bar footer {
   text-align: center;
   width: 100%;
   position: fixed;
-  bottom: 0;
+  bottom: -1px;
+  height: 4rem;
   background-color: var(--card-background-color);
   box-shadow: var(--card-box-shadow);
   line-height: 0;
@@ -10,11 +11,16 @@ nav-bar footer {
   justify-content: center;
   align-items: center;
   user-select: none;
+  gap: 0.5rem;
 }
+nav-bar * {
+  transition: all 0.2s;
+}
+
 .menu-bar-icon {
   cursor: pointer;
-  width: 4rem;
-  padding: 0.25rem 0.5rem;
+  width: 5rem;
+  height: 3rem;
   display: inline-flex;
   flex-flow: column;
   align-items: center;
@@ -22,14 +28,14 @@ nav-bar footer {
   font-size: 12px;
   font-weight: bold;
 }
+.menu-bar-icon-inactive {
+  height: 1.5rem;
+  opacity: 0.6;
+}
 nav-bar svg {
   --color: var(--contrast);
   height: 1.5rem;
   width: 1.5rem;
-}
-
-.menu-bar-icon-inactive {
-  opacity: 0.6;
 }
 .menu-bar-icon-active feather-icon {
   background: var(--secondary);
