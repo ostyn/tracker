@@ -38,6 +38,7 @@ nav-bar svg {
   width: 1.5rem;
 }
 .menu-bar-icon-active feather-icon {
+  transition: color 0s;
   background: var(--secondary);
   color: var(--primary-inverse);
   border-radius: 20px;
