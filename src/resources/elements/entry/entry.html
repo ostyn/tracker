@@ -29,7 +29,9 @@
       <p class="entry-note">${entry.note}</p>
     </section>
     <section class="entry-footer">
-      <button class="inline" click.trigger="editEntry(entry.id)">edit</button>
+      <button class="inline outline contrast click.trigger="editEntry(entry.id)">
+        edit
+      </button>
       <div class="entry-footer-dates">
         <span if.bind="showCreatedDate">
           Entered ${formatLib.secondsToDate(entry.created)},
