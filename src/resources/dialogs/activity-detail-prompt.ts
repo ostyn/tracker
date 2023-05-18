@@ -82,17 +82,14 @@ export class ActivityDetailDialog {
   }
   addDetail(detail) {
     //@ts-ignore
-    this.detail.push(detail);
+    this.detail.push(detail.trim());
     this.newItem = "";
     this.loadMru();
   }
   addItemOrSubmit() {
     if (this.newItem !== "" && this.newItem !== undefined) {
-      //@ts-ignore
-      this.detail.push(this.newItem);
-      this.newItem = "";
+      this.addDetail(this.newItem);
       this.inputBox.scrollIntoView(true);
-      this.loadMru();
     } else {
       this.submitForm();
     }
