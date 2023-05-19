@@ -13,11 +13,9 @@ nav-bar footer {
   user-select: none;
   gap: 0.5rem;
 }
-nav-bar * {
-  transition: all 0.2s;
-}
 
 .menu-bar-icon {
+  transition: height 0.2s;
   cursor: pointer;
   width: 5rem;
   height: 3rem;
@@ -38,7 +36,7 @@ nav-bar svg {
   width: 1.5rem;
 }
 .menu-bar-icon-active feather-icon {
-  transition: color 0s;
+  transition: all 0.2s;
   background: var(--secondary);
   color: var(--primary-inverse);
   border-radius: 20px;
