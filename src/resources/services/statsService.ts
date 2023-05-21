@@ -2,10 +2,14 @@ import { summary } from "date-streaks";
 import { EntryDao } from "resources/dao/EntryDao";
 import { autoinject } from "aurelia-framework";
 import { EventAggregator } from "aurelia-event-aggregator";
-import { IEntry } from "resources/elements/entry/entry.interface";
+import {
+  IActivityDetail,
+  IEntry,
+} from "resources/elements/entry/entry.interface";
 import { IStatsActivityEntry } from "./activity-stats.interface";
 import { ActivityService } from "./activityService";
 import { MoodService } from "./moodService";
+import { IActivity } from "resources/elements/activity/activity.interface";
 
 @autoinject
 export class StatsService {
@@ -86,6 +90,47 @@ export class StatsService {
         console.log("Processing: ", new Date().getTime() - startProcessing);
         this.notifyListeners();
       });
+  }
+  exportBackup() {
+    this.entryDao.getEntriesFromYearAndMonth().then((entries: IEntry[]) => {
+      let transformedEntries = entries.map((entry) => this.processEntry(entry));
+      let backup = JSON.stringify(transformedEntries, undefined, 2);
+      this.download(`Backup ${new Date().toUTCString()}.json`, backup);
+    });
+  }
+  download(filename, text) {
+    var element = document.createElement("a");
+    element.setAttribute(
+      "href",
+      "data:text/plain;charset=utf-8," + encodeURIComponent(text)
+    );
+    element.setAttribute("download", filename);
+
+    element.style.display = "none";
+    document.body.appendChild(element);
+
+    element.click();
+
+    document.body.removeChild(element);
+  }
+  processEntry(entry: IEntry): any {
+    entry.activities = this.activityMapToObj(entry.activities);
+    entry.mood = this.moodService.getMood(entry.mood).name;
+    delete entry.day;
+    delete entry.month;
+    delete entry.year;
+    delete entry.id;
+    delete entry.userId;
+    delete entry.activitiesArray;
+    return entry;
+  }
+  activityMapToObj(activityMap: Map<string, IActivityDetail>) {
+    let obj = Object.create(null);
+    activityMap.forEach((v, k) => {
+      let x = this.activityService.getActivity(k)?.name || "MIA";
+      obj[x] = v;
+    });
+    return obj;
   }
   getStreakSummary() {
     return this.streakSummary;

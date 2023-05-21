@@ -1,3 +1,4 @@
+import { StatsService } from "resources/services/statsService";
 import { LocalSettingsService } from "./../services/localSettingsService";
 import { UserService } from "./../services/userService";
 import { FirestoreCounter } from "resources/dao/FirestoreCounter";
@@ -15,11 +16,15 @@ export class SettingsRoute {
   constructor(
     public router: Router,
     public userService: UserService,
-    public localSettingsService: LocalSettingsService
+    public localSettingsService: LocalSettingsService,
+    public statsService: StatsService
   ) {}
 
   isDarkChanged() {
     this.localSettingsService.toggleNightMode();
+  }
+  export() {
+    this.statsService.exportBackup();
   }
 
   logout() {
