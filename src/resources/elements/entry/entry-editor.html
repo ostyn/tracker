@@ -9,7 +9,10 @@
   <activity-grid-loading
     if.bind="!activityService.isLoaded"
   ></activity-grid-loading>
-  <section class="entry-editor-buttons">
+  <section
+    class="entry-editor-buttons"
+    if.bind="activityService.isLoaded && !isLoadingEntry"
+  >
     <article class="note-preview" click.trigger="openTextPrompt()">
       <span>${workingCopy.note || "enter note here..." }</span>
       <feather-icon class="note-icon" name="file-text"></feather-icon>

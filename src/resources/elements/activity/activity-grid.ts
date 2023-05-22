@@ -1,5 +1,8 @@
+import { DialogService } from "aurelia-dialog";
 import { IActivity } from "resources/elements/activity/activity.interface";
-import { bindable } from "aurelia-framework";
+import { bindable, autoinject } from "aurelia-framework";
+import { NewActivityPrompt } from "resources/dialogs/new-activity-prompt";
+@autoinject
 export class ActivityGrid {
   @bindable activities: IActivity[] = [];
   @bindable searchTerm: string = "";
@@ -10,10 +13,17 @@ export class ActivityGrid {
   categoryToActivityList = new Map();
   uncategorized: IActivity[] = [];
   groupActivities: boolean = true;
+  constructor(private dialogService: DialogService) {}
   getSortedHeaders() {
     return Array.from(this.categoryToActivityList.keys()).sort();
   }
 
+  public createNewActivity(category) {
+    this.dialogService.open({
+      viewModel: NewActivityPrompt,
+      model: { category },
+    });
+  }
   searchTermChanged(newVal) {
     this.activitiesChanged(this.activities);
   }

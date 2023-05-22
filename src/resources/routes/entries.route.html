@@ -18,16 +18,9 @@
       scroll-to-self.bind="shouldScrollToSelf(e)"
       entry.bind="e"
     ></entry>
-    <article if.bind="isLoaded && !entries.length" class="no-entries">
-      <p>no entries</p>
-      <button class="contrast" click.trigger="router.navigateToRoute('search')">
-        search
-      </button>
-      <button click.trigger="router.navigateToRoute('entry')">add entry</button>
-    </article>
     <entry-loading if.bind="!isLoaded"></entry-loading>
   </section>
-  <div if.bind="entries.length" class="sticky-buttons">
+  <div class="sticky-buttons">
     <button
       class="inline contrast"
       click.trigger="router.navigateToRoute('search')"

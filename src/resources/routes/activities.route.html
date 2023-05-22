@@ -8,7 +8,7 @@
   <activity-grid-loading
     if.bind="!activityService.isLoaded"
   ></activity-grid-loading>
-  <div class="activity-edit-footer">
+  <div else class="activity-edit-footer">
     <activity-edit activity.two-way="activity"></activity-edit>
   </div>
   <activity-grid

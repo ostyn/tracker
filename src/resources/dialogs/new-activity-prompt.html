@@ -1,0 +1,17 @@
+<template>
+  <require from="resources/elements/activity/activity-edit"></require>
+  <require from="./new-activity-prompt.css"></require>
+  <dialog open>
+    <article>
+      <activity-edit activity.bind="activity"></activity-edit>
+      <footer>
+        <button class="inline" click.trigger="controller.ok(activity)">
+          Ok
+        </button>
+        <button class="inline secondary" click.trigger="controller.cancel()">
+          Cancel
+        </button>
+      </footer>
+    </article>
+  </dialog>
+</template>

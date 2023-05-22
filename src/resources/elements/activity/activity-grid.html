@@ -36,6 +36,9 @@
       id.bind="activity.id"
       class.bind="`clickable ${activity.isArchived ? 'disabled':''}`"
     ></activity>
+    <span click.trigger="createNewActivity(header)">
+      <feather-icon name="plus-circle"></feather-icon>
+    </span>
   </article>
   <article if.bind="uncategorized.length > 0">
     <activity

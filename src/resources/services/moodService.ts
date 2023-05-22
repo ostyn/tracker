@@ -24,6 +24,7 @@ export class MoodService {
     this.fetchMoods().then((moods) => {
       this.moodsCache = moods;
       this.moodsMap = new Map();
+      this.moodsCache.sort((a, b) => b.rating - a.rating);
       this.moodsCache.concat(this.presetMoods).forEach((mood: IMood) => {
         this.moodsMap.set(mood.id, mood);
       });
