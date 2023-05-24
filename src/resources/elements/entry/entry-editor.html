@@ -54,6 +54,7 @@
     activities.bind="activities"
     on-activity-click.call="addActivity(activity.id)"
     on-activity-long-click.call="longPress(activity.id)"
+    selected-activity-info.bind="workingCopy.activities"
   ></activity-grid>
   <div class="sticky-buttons">
     <button

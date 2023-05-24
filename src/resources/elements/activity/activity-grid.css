@@ -16,10 +16,14 @@
 }
 .clickable {
   cursor: pointer;
+  margin: 0.25rem;
 }
 .grid-button {
   padding: 0.5rem;
   display: inline-block;
   line-height: 0;
   cursor: pointer;
+}
+.selected-item {
+  border: 1px solid white;
 }

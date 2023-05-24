@@ -2,6 +2,7 @@ import { DialogService } from "aurelia-dialog";
 import { IActivity } from "resources/elements/activity/activity.interface";
 import { bindable, autoinject } from "aurelia-framework";
 import { NewActivityPrompt } from "resources/dialogs/new-activity-prompt";
+import { EventAggregator } from "aurelia-event-aggregator";
 @autoinject
 export class ActivityGrid {
   @bindable activities: IActivity[] = [];
@@ -9,13 +10,33 @@ export class ActivityGrid {
   @bindable onActivityClick;
   @bindable onActivityLongClick;
   @bindable filterArchived: boolean | string = true;
+  @bindable selectedActivityInfo: Map<string, IActivity>;
+  public modCount = 0;
+
   search: boolean = false;
   categoryToActivityList = new Map();
   uncategorized: IActivity[] = [];
   groupActivities: boolean = true;
-  constructor(private dialogService: DialogService) {}
+  selectedActivities = new Map();
+  subscription;
+  constructor(
+    private dialogService: DialogService,
+    private ea: EventAggregator
+  ) {}
   getSortedHeaders() {
     return Array.from(this.categoryToActivityList.keys()).sort();
+  }
+
+  selectedActivityInfoChanged(newVal) {
+    this.modCount++;
+    if (newVal)
+      this.subscription = this.ea.subscribe(
+        "entry-editor-change",
+        () => this.modCount++
+      );
+  }
+  detached() {
+    this.subscription?.dispose();
   }
 
   public createNewActivity(category) {

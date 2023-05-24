@@ -37,6 +37,7 @@ export class EntryEditor {
     }
     this.workingCopy = Object.assign({}, this.entry);
     this.workingCopy.activities = new Map(this.entry.activities);
+    this.ea.publish("entry-editor-change");
   }
   attached() {
     this.subscribers.push(
@@ -118,6 +119,9 @@ export class EntryEditor {
               this.markPendingChanges();
             } else if (this.isNumeric(response.output.detail)) {
               this.workingCopy.activities.set(id, response.output.detail);
+              this.markPendingChanges();
+            } else {
+              this.workingCopy.activities.delete(id);
               this.markPendingChanges();
             }
           }
@@ -227,5 +231,6 @@ export class EntryEditor {
   }
   markPendingChanges() {
     localStorage.setItem("pendingChanges", "true");
+    this.ea.publish("entry-editor-change");
   }
 }

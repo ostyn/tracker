@@ -98,11 +98,20 @@ export class ActivityDetailDialog {
     detail.splice(index, 1);
     this.loadMru();
   }
-  submitForm() {
+  clear() {
+    this.detail = undefined;
     this.controller.ok({
       activityId: this.activity.id,
-      detail: this.editingNumber ? Number(this.detail) : this.detail,
     });
+  }
+  submitForm() {
+    const payload = {
+      activityId: this.activity.id,
+      detail: this.editingNumber ? Number(this.detail) : this.detail,
+    };
+    if (this.editingNumber && this.detail === undefined) delete payload.detail;
+
+    this.controller.ok(payload);
   }
   public add(value: number) {
     this.detail = Number(this.detail) + value;
