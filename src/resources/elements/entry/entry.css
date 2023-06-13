@@ -3,14 +3,12 @@
   vertical-align: middle;
 }
 .entry-header-text {
-  align-self: center;
   cursor: pointer;
 }
 .entry-header-emoji {
-  margin: 0.25rem;
   margin-left: auto;
   font-size: 2.25rem;
-  line-height: 2.5rem;
+  line-height: 2.25rem;
 }
 .entry-activities {
   display: flex;
