@@ -45,7 +45,12 @@ article:not(dialog article, footer article) {
   margin: 0.5rem;
 }
 footer article {
-  margin: 0px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+article {
+  margin-left: auto;
+  margin-right: auto;
 }
 form {
   margin-bottom: 0;
