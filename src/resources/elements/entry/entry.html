@@ -3,9 +3,12 @@
   <require from="resources/elements/activity/activity"></require>
   <article>
     <section class="entry-header">
-      <h2 class="entry-header-text" click.trigger="goToSelf()">
-        ${formatLib.selectorDateToJsDate(entry.date)}
-      </h2>
+      <hgroup>
+        <h2 class="entry-header-text" click.trigger="goToSelf()">
+          ${formatLib.selectorDateToJsDate(entry.date)}
+        </h2>
+        <h3>${formatLib.selectorDateToWeekDay(entry.date)}</h3>
+      </hgroup>
       <span
         class="entry-header-emoji"
         alt-text.bind="currentMood.name"
@@ -25,7 +28,6 @@
       ></activity>
     </section>
     <section if.bind="entry.note != ''">
-      <h3 class="entry-note-header">Note</h3>
       <p class="entry-note">${entry.note}</p>
     </section>
     <section class="entry-footer">

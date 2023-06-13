@@ -7,6 +7,9 @@ export class FormatLib {
     return format(seconds, "h:mm a");
   }
   selectorDateToJsDate(date: string) {
-    return format(parseISO(date), "EEEE - MMMM d, yyyy");
+    return format(parseISO(date), "MMMM d, yyyy");
+  }
+  selectorDateToWeekDay(date: string) {
+    return format(parseISO(date), "EEEE");
   }
 }
