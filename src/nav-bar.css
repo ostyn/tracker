@@ -12,6 +12,7 @@ nav-bar footer {
   align-items: center;
   user-select: none;
   gap: 0.5rem;
+  z-index: 100;
 }
 
 .menu-bar-icon {

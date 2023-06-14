@@ -233,4 +233,10 @@ export class EntryEditor {
     localStorage.setItem("pendingChanges", "true");
     this.ea.publish("entry-editor-change");
   }
+  activityDetailSet(activity, newValue) {
+    this.workingCopy.activities.set(activity.id, newValue);
+  }
+  activityDetailClear(activity) {
+    this.workingCopy.activities.delete(activity.id);
+  }
 }

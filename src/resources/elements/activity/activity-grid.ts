@@ -7,6 +7,8 @@ import { EventAggregator } from "aurelia-event-aggregator";
 export class ActivityGrid {
   @bindable activities: IActivity[] = [];
   @bindable searchTerm: string = "";
+  @bindable activityDetailSet;
+  @bindable activityDetailClear;
   @bindable onActivityClick;
   @bindable onActivityLongClick;
   @bindable filterArchived: boolean | string = true;
@@ -19,6 +21,7 @@ export class ActivityGrid {
   groupActivities: boolean = true;
   selectedActivities = new Map();
   subscription;
+
   constructor(
     private dialogService: DialogService,
     private ea: EventAggregator
@@ -90,5 +93,37 @@ export class ActivityGrid {
   toggleGroup() {
     this.groupActivities = !this.groupActivities;
     this.activitiesChanged(this.activities);
+  }
+  activePopoverId: string = undefined;
+  openPopover(event: Event, activity: IActivity) {
+    event.stopPropagation();
+    this.activePopoverId = activity.id;
+  }
+  activityClick(event, activity) {
+    if (this.activePopoverId !== activity.id) {
+      this.onActivityClick({ event: event, activity: activity });
+    }
+  }
+  activityLongClick(event, activity) {
+    if (this.activePopoverId === activity.id) {
+      this.activePopoverId = undefined;
+    } else {
+      this.activePopoverId = activity.id;
+    }
+  }
+  public isArray(val) {
+    return Array.isArray(val);
+  }
+  public adjust(activity, amount) {
+    const currentValue = this.selectedActivityInfo.get(activity.id);
+    if (!this.isArray(currentValue)) {
+      const newValue = Number(((currentValue || 0) + amount).toPrecision(12));
+      this.activityDetailSet({ event, activity, newValue });
+      this.modCount++;
+    }
+  }
+  public clear(activity) {
+    this.activityDetailClear({ event, activity });
+    this.modCount++;
   }
 }

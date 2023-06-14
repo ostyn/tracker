@@ -9,6 +9,7 @@
         if.bind="(isNumeric(detail) && detail != 1) || (isArray(detail) && detail.length > 1)"
         >${isArray(detail)? detail.length: detail}</span
       >
+      <slot></slot>
     </span>
     <div if.bind="showName" class="activity-name">${activity.name}</div>
   </span>

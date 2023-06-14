@@ -1,4 +1,9 @@
 <template>
+  <div
+    if.bind="activePopoverId"
+    class="overlay"
+    click.trigger="activePopoverId=undefined"
+  ></div>
   <require from="./activity-grid.css"></require>
   <require from="resources/elements/activity/activity"></require>
   <div class="grid-controls">
@@ -31,12 +36,38 @@
     <h2 class="group-header">${header}</h2>
     <activity
       repeat.for="activity of categoryToActivityList.get(header)"
-      click.trigger="onActivityClick({event: $event, activity: activity})"
-      long-click.trigger="onActivityLongClick({event: $event, activity: activity})"
+      click.trigger="activityClick($event,activity)"
+      long-click.trigger="activityLongClick($event, activity)"
       id.bind="activity.id"
       detail.bind="modCount?selectedActivityInfo.get(activity.id):undefined"
-      class.bind="`clickable ${activity.isArchived ? 'disabled':''} ${modCount&& selectedActivityInfo.has(activity.id)?'selected-item':''}`"
-    ></activity>
+      class.bind="`clickable ${activePopoverId === activity.id?'selectedActivity':''} ${activity.isArchived ? 'disabled':''} ${modCount&& selectedActivityInfo.has(activity.id)?'selected-item':''}`"
+    >
+      <div class="popover" if.bind="activePopoverId === activity.id">
+        <span class="up-arrow"></span>
+        <h2>${activity.name}</h2>
+        <button
+          class="outline contrast"
+          click.trigger="onActivityLongClick({event: $event, activity: activity})"
+        >
+          add details
+        </button>
+        <span
+          if.bind="modCount?!isArray(selectedActivityInfo.get(activity.id)): undefined"
+        >
+          <button click.trigger="adjust(activity, 1)" class="inline">+1</button>
+          <button click.trigger="adjust(activity, -1)" class="inline">
+            -1
+          </button>
+          <button click.trigger="adjust(activity, 0.5)" class="inline">
+            +0.5
+          </button>
+          <button click.trigger="adjust(activity, 0.25)" class="inline">
+            +0.25
+          </button>
+        </span>
+        <button class="contrast" click.trigger="clear(activity)">clear</button>
+      </div>
+    </activity>
     <span click.trigger="createNewActivity(header)">
       <feather-icon name="plus-circle"></feather-icon>
     </span>
@@ -45,9 +76,9 @@
     <activity
       repeat.for="activity of uncategorized"
       click.trigger="onActivityClick({event: $event, activity: activity})"
-      long-click.trigger="onActivityLongClick({event: $event, activity: activity})"
       id.bind="activity.id"
       class.bind="`clickable ${activity.isArchived ? 'disabled':''}`"
-    ></activity>
+    >
+    </activity>
   </article>
 </template>
