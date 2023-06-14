@@ -1,6 +1,10 @@
 .entry-header {
   display: flex;
   vertical-align: middle;
+  margin-bottom: 0px;
+}
+.entry-header hgroup {
+  margin-bottom: 0px;
 }
 .entry-header-text {
   cursor: pointer;
