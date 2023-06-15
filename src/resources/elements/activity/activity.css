@@ -5,7 +5,7 @@
   text-align: center;
   align-items: flex-start;
   user-select: none;
-  border: 3px solid transparent;
+  border: 2px solid transparent;
 }
 .emoji {
   display: inline-block;

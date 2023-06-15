@@ -29,7 +29,7 @@
   cursor: pointer;
 }
 .selected-item {
-  border: var(--primary) 3px solid;
+  border: var(--primary) 2px solid;
   border-radius: 12px;
 }
 .overlay {
