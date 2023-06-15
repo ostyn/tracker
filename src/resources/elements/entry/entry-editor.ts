@@ -167,7 +167,7 @@ export class EntryEditor {
     const activityDetail: IActivityDetail = this.workingCopy.activities.get(id);
     navigator.vibrate(50);
     if (!Array.isArray(activityDetail)) {
-      if (this.workingCopy.activities.get(id) > 1)
+      if (activityDetail > 1)
         this.workingCopy.activities.set(
           id,
           Number((activityDetail - 1).toPrecision(12))
@@ -175,7 +175,7 @@ export class EntryEditor {
       else this.workingCopy.activities.delete(id);
     } else {
       navigator.vibrate(100);
-      this.editActivityDetail(id, this.workingCopy.activities.get(id));
+      this.editActivityDetail(id, activityDetail);
     }
     this.markPendingChanges();
   }
