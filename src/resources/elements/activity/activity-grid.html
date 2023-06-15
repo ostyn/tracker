@@ -47,7 +47,7 @@
         <h2>${activity.name}</h2>
         <button
           class="outline contrast"
-          click.trigger="onActivityLongClick({event: $event, activity: activity})"
+          click.trigger="addDetails($event, activity)"
         >
           add details
         </button>

@@ -100,6 +100,11 @@ export class ActivityGrid {
     this.activePopoverId = activity.id;
   }
   activityClick(event, activity) {
+    //Hack to skip a click as the button-in-button nesting is messing things up
+    if (this.activePopoverId === null) {
+      this.activePopoverId = undefined;
+      return;
+    }
     if (this.activePopoverId !== activity.id) {
       this.onActivityClick({ event: event, activity: activity });
     }
@@ -119,11 +124,14 @@ export class ActivityGrid {
     if (!this.isArray(currentValue)) {
       const newValue = Number(((currentValue || 0) + amount).toPrecision(12));
       this.activityDetailSet({ event, activity, newValue });
-      this.modCount++;
     }
   }
   public clear(activity) {
     this.activityDetailClear({ event, activity });
-    this.modCount++;
+    this.activePopoverId = null;
+  }
+  public addDetails(event, activity) {
+    this.onActivityLongClick({ event, activity });
+    this.activePopoverId = null;
   }
 }

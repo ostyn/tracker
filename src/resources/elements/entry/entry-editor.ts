@@ -235,8 +235,10 @@ export class EntryEditor {
   }
   activityDetailSet(activity, newValue) {
     this.workingCopy.activities.set(activity.id, newValue);
+    this.markPendingChanges();
   }
   activityDetailClear(activity) {
     this.workingCopy.activities.delete(activity.id);
+    this.markPendingChanges();
   }
 }
