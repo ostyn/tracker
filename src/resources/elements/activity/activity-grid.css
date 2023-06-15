@@ -12,7 +12,7 @@
   opacity: 0.6;
 }
 .disabled {
-  filter: grayscale(1);
+  border: 1px var(--contrast) dashed;
 }
 .clickable {
   cursor: pointer;
