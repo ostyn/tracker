@@ -25,7 +25,11 @@
   cursor: pointer;
 }
 .selected-item {
-  border: 1px solid white;
+  background-image: radial-gradient(
+    var(--primary),
+    rgba(0, 0, 0, 0),
+    rgba(0, 0, 0, 0)
+  );
 }
 .overlay {
   position: fixed;
