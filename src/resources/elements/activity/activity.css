@@ -1,10 +1,11 @@
 .activity {
   max-width: 66%;
   display: inline-flex;
-  padding: 0.2rem;
+  padding: 0.25rem;
   text-align: center;
   align-items: flex-start;
   user-select: none;
+  border: 3px solid transparent;
 }
 .emoji {
   display: inline-block;
