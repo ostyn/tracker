@@ -17,7 +17,6 @@ export class ActivityGrid {
 
   search: boolean = false;
   categoryToActivityList = new Map();
-  uncategorized: IActivity[] = [];
   groupActivities: boolean = true;
   selectedActivities = new Map();
   subscription;
@@ -53,7 +52,6 @@ export class ActivityGrid {
   }
   activitiesChanged(newVal) {
     this.categoryToActivityList = new Map();
-    this.uncategorized = [];
     this.filterArchived =
       this.filterArchived === true || this.filterArchived === "true";
     newVal.forEach((activity: IActivity) => {
@@ -68,13 +66,12 @@ export class ActivityGrid {
         !activity.emoji.toLowerCase().includes(this.searchTerm.toLowerCase())
       )
         return;
-      if (this.groupActivities && activity.category) {
+      if (this.groupActivities) {
+        const category = activity.category || "uncategorized";
         const currentCategoryList: IActivity[] =
-          this.categoryToActivityList.get(activity.category) || [];
+          this.categoryToActivityList.get(category) || [];
         currentCategoryList.push(activity);
-        this.categoryToActivityList.set(activity.category, currentCategoryList);
-      } else {
-        this.uncategorized.push(activity);
+        this.categoryToActivityList.set(category, currentCategoryList);
       }
     });
     this.categoryToActivityList.forEach((val: IActivity[], key) => {
@@ -82,9 +79,6 @@ export class ActivityGrid {
         (a, b) => a.isArchived > b.isArchived || a.name.localeCompare(b.name)
       );
     });
-    this.uncategorized.sort(
-      (a, b) => a.isArchived > b.isArchived || a.name.localeCompare(b.name)
-    );
   }
   toggleShowArchived() {
     this.filterArchived = !this.filterArchived;

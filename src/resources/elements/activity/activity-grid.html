@@ -72,13 +72,4 @@
       <feather-icon name="plus-circle"></feather-icon>
     </span>
   </article>
-  <article if.bind="uncategorized.length > 0">
-    <activity
-      repeat.for="activity of uncategorized"
-      click.trigger="onActivityClick({event: $event, activity: activity})"
-      id.bind="activity.id"
-      class.bind="`clickable ${activity.isArchived ? 'disabled':''}`"
-    >
-    </activity>
-  </article>
 </template>
