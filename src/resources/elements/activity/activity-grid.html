@@ -40,7 +40,7 @@
       long-click.trigger="activityLongClick($event, activity)"
       id.bind="activity.id"
       detail.bind="modCount?selectedActivityInfo.get(activity.id):undefined"
-      class.bind="`clickable ${activePopoverId === activity.id?'selectedActivity':''} ${activity.isArchived ? 'disabled':''} ${modCount&& selectedActivityInfo.has(activity.id) && !isArray(selectedActivityInfo.get(activity.id))?'selected-item':''}`"
+      class.bind="`clickable ${activePopoverId === activity.id?'selectedActivity':''} ${activity.isArchived ? 'disabled':''} ${modCount&& selectedActivityInfo.has(activity.id)?'selected-item':''}`"
     >
       <div class="popover" if.bind="activePopoverId === activity.id">
         <span class="up-arrow"></span>

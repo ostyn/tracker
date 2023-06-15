@@ -12,11 +12,16 @@
   opacity: 0.6;
 }
 .disabled {
-  border: 1px var(--contrast) dashed;
+  background-image: radial-gradient(
+    var(--contrast),
+    rgba(0, 0, 0, 0),
+    rgba(0, 0, 0, 0)
+  );
 }
 .clickable {
   cursor: pointer;
   margin: 0.25rem;
+  border: rgba(255, 255, 255, 0) 3px solid;
 }
 .grid-button {
   padding: 0.5rem;
@@ -25,11 +30,8 @@
   cursor: pointer;
 }
 .selected-item {
-  background-image: radial-gradient(
-    var(--primary),
-    rgba(0, 0, 0, 0),
-    rgba(0, 0, 0, 0)
-  );
+  border: var(--primary) 3px solid;
+  border-radius: 12px;
 }
 .overlay {
   position: fixed;
