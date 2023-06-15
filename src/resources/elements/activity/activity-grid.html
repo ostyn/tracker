@@ -24,8 +24,8 @@
       focus.bind="search"
     />
     <span class="grid-button" click.trigger="toggleShowArchived()">
-      <feather-icon if.bind="filterArchived" name="minimize"></feather-icon>
-      <feather-icon else name="maximize"></feather-icon>
+      <feather-icon if.bind="filterArchived" name="eye-off"></feather-icon>
+      <feather-icon else name="eye"></feather-icon>
     </span>
     <span class="grid-button" click.trigger="toggleGroup()">
       <feather-icon if.bind="groupActivities" name="server"></feather-icon>
