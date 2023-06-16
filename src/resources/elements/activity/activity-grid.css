@@ -28,7 +28,7 @@
   line-height: 0;
   cursor: pointer;
 }
-.selected-item {
+activity.selected-item {
   border: var(--primary) 1px solid;
   border-radius: 12px;
 }
