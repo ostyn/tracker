@@ -30,25 +30,6 @@
       </span>
     </div>
   </section>
-  <article class="activity-drawer" if.bind="workingCopy.activities.size">
-    <activity-loading
-      class="drawer-activity-loading"
-      if.bind="isLoadingEntry || !activityService.isLoaded"
-      repeat.for="1 of 10"
-    >
-    </activity-loading>
-    <activity
-      show-name.bind="false"
-      if.bind="activityService.isLoaded && !isLoadingEntry"
-      repeat.for="[id, detail] of workingCopy.activities"
-      class="drawer-activity"
-      click.trigger="removeActivity(id)"
-      long-click.trigger="longPress(id)"
-      id.bind="id"
-      detail.bind="detail"
-    ></activity>
-  </article>
-
   <activity-grid
     if.bind="activityService.isLoaded"
     activities.bind="activities"
