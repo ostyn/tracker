@@ -13,6 +13,7 @@ export class ActivityGrid {
   @bindable onActivityLongClick;
   @bindable filterArchived: boolean | string = true;
   @bindable selectedActivityInfo: Map<string, IActivity>;
+  @bindable showFilterUnused = false;
   public modCount = 0;
 
   search: boolean = false;
@@ -20,6 +21,7 @@ export class ActivityGrid {
   groupActivities: boolean = true;
   selectedActivities = new Map();
   subscription;
+  filterUnused: boolean = false;
 
   constructor(
     private dialogService: DialogService,
@@ -55,7 +57,10 @@ export class ActivityGrid {
     this.filterArchived =
       this.filterArchived === true || this.filterArchived === "true";
     newVal.forEach((activity: IActivity) => {
-      if (this.filterArchived && activity.isArchived) {
+      if (
+        (this.filterArchived && activity.isArchived) ||
+        (this.filterUnused && !this.selectedActivityInfo.has(activity.id))
+      ) {
         return;
       }
       if (
@@ -88,6 +93,10 @@ export class ActivityGrid {
   }
   toggleShowArchived() {
     this.filterArchived = !this.filterArchived;
+    this.activitiesChanged(this.activities);
+  }
+  toggleFilterUnused() {
+    this.filterUnused = !this.filterUnused;
     this.activitiesChanged(this.activities);
   }
   toggleGroup() {

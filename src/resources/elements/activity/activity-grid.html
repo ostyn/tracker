@@ -21,7 +21,7 @@
       if.bind="search"
       placeholder="search"
       focus.bind="search"
-      role="search"
+      type="search"
       class="inline"
     />
     <span
@@ -38,6 +38,14 @@
     <span class="grid-button" click.trigger="toggleGroup()">
       <feather-icon if.bind="groupActivities" name="server"></feather-icon>
       <feather-icon else name="align-justify"></feather-icon>
+    </span>
+    <span
+      if.bind="showFilterUnused"
+      class="grid-button"
+      click.trigger="toggleFilterUnused()"
+    >
+      <feather-icon if.bind="filterUnused" name="minimize-2"></feather-icon>
+      <feather-icon else name="maximize-2"></feather-icon>
     </span>
   </div>
   <article repeat.for="header of getSortedHeaders(categoryToActivityList)">
