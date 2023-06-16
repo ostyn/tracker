@@ -72,6 +72,12 @@ export class ActivityGrid {
           this.categoryToActivityList.get(category) || [];
         currentCategoryList.push(activity);
         this.categoryToActivityList.set(category, currentCategoryList);
+      } else {
+        const category = "activities";
+        const currentCategoryList: IActivity[] =
+          this.categoryToActivityList.get(category) || [];
+        currentCategoryList.push(activity);
+        this.categoryToActivityList.set(category, currentCategoryList);
       }
     });
     this.categoryToActivityList.forEach((val: IActivity[], key) => {
