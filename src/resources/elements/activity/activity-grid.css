@@ -1,12 +1,6 @@
 .grid-controls {
   text-align: center;
 }
-.search-button {
-  width: 0.5rem;
-}
-.search-box {
-  background-color: rgba(0, 0, 0, 1);
-}
 .group-header {
   text-transform: uppercase;
   opacity: 0.6;
