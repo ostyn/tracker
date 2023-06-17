@@ -1,3 +1,4 @@
+import { EventAggregator, Subscription } from "aurelia-event-aggregator";
 import { IEntry } from "resources/elements/entry/entry.interface";
 import { autoinject, bindable } from "aurelia-framework";
 import { Router } from "aurelia-router";
@@ -13,6 +14,7 @@ export class SearchRoute {
   public disablePrev = true;
   public resultsText = "";
   public showLoader = false;
+  public isRequesting = false;
   public showResultsText = false;
 
   private entries: IEntry[] = [];
@@ -21,14 +23,24 @@ export class SearchRoute {
   private lastPageIndex = 0;
   private firstEntryIndex = 0;
   private lastEntryIndex = 0;
+  private subscribers: any[] = [];
   determineActivationStrategy() {
     return activationStrategy.invokeLifecycle;
   }
   constructor(
     private entryDao: EntryDao,
     private activityService: ActivityService,
-    private router: Router
+    private router: Router,
+    private ea: EventAggregator
   ) {}
+  attached() {
+    this.subscribers.push(
+      this.ea.subscribe("entriesUpdated", this.search.bind(this))
+    );
+  }
+  detached() {
+    this.subscribers.forEach((sub: Subscription) => sub.dispose());
+  }
   activate(params) {
     if (!params.q) {
       this.resetState();
@@ -82,7 +94,9 @@ export class SearchRoute {
   }
 
   public search(): void {
-    this.showLoader = true;
+    if (!this.searchTerm) return;
+    this.isRequesting = true;
+    this.updateVisibility();
     this.entryDao.getEntriesFromYearAndMonth().then((entries: IEntry[]) => {
       this.entries = entries.filter((entry) => {
         let regex = new RegExp(this.searchTerm, "i");
@@ -107,6 +121,8 @@ export class SearchRoute {
         );
       });
       this.resliceEntries();
+      this.isRequesting = false;
+      this.updateVisibility();
     });
   }
   private resliceEntries() {
@@ -135,13 +151,17 @@ export class SearchRoute {
   private updateVisibility() {
     this.disableNext = this.currentPage === this.lastPageIndex;
     this.disablePrev = this.currentPage === 0;
-    this.showLoader = false;
+    this.showLoader = this.isRequesting;
     this.showResultsText = !!this.searchTerm;
-    this.resultsText = !!this.entries?.length
-      ? `Results ${this.firstEntryIndex + 1}-${this.lastEntryIndex} of ${
-          this.entries.length
-        }`
-      : "No results";
+    if (this.isRequesting) {
+      this.resultsText = "";
+    } else {
+      this.resultsText = !!this.entries?.length
+        ? `Results ${this.firstEntryIndex + 1}-${this.lastEntryIndex} of ${
+            this.entries.length
+          }`
+        : "No results";
+    }
   }
 
   private isNumeric(str) {
