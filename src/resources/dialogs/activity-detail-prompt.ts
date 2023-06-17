@@ -1,3 +1,4 @@
+import { Helpers } from "./../util/Helpers";
 import { bindable } from "aurelia-framework";
 import { EventAggregator } from "aurelia-event-aggregator";
 import { StatsService } from "resources/services/statsService";
@@ -116,14 +117,8 @@ export class ActivityDetailDialog {
   public add(value: number) {
     this.detail = Number(this.detail) + value;
   }
-  isNumeric(str) {
-    if (typeof str == "number") return true;
-    if (typeof str !== "string") return false; // we only process strings!
-    return (
-      !isNaN(str as any) && // use type coercion to parse the _entirety_ of the string (`parseFloat` alone does not do this)...
-      !isNaN(parseFloat(str))
-    ); // ...and ensure strings of whitespace fail
-  }
+
+  public isNumeric = Helpers.isNumeric;
   isEditing(index) {
     return this.currentEditDetail === index;
   }

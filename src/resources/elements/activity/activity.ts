@@ -3,6 +3,7 @@ import { IActivity } from "./activity.interface";
 import { EventAggregator } from "aurelia-event-aggregator";
 import { autoinject, bindable } from "aurelia-framework";
 import { ActivityService } from "resources/services/activityService";
+import { Helpers } from "resources/util/Helpers";
 @autoinject
 export class Activity {
   @bindable id;
@@ -38,7 +39,5 @@ export class Activity {
       this.isWide = true;
   }
 
-  isNumeric(str: any): boolean {
-    return typeof str === "number";
-  }
+  public isNumeric = Helpers.isNumeric;
 }

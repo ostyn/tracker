@@ -5,6 +5,7 @@ import { Router } from "aurelia-router";
 import { ActivityService } from "resources/services/activityService";
 import { EntryDao } from "resources/dao/EntryDao";
 import { activationStrategy } from "aurelia-router";
+import { Helpers } from "resources/util/Helpers";
 @autoinject
 export class SearchRoute {
   @bindable public searchBoxValue: string;
@@ -109,7 +110,7 @@ export class SearchRoute {
             .filter((activity) => Array.isArray(activity))
             .some((activityDetail) =>
               (activityDetail as string[]).some(
-                (detail) => !this.isNumeric(detail) && regex.test(detail)
+                (detail) => !Helpers.isNumeric(detail) && regex.test(detail)
               )
             ) ||
           entry.activitiesArray.some((activityId) =>
@@ -162,14 +163,5 @@ export class SearchRoute {
           }`
         : "No results";
     }
-  }
-
-  private isNumeric(str) {
-    if (typeof str == "number") return true;
-    if (typeof str !== "string") return false; // we only process strings!
-    return (
-      !isNaN(str as any) && // use type coercion to parse the _entirety_ of the string (`parseFloat` alone does not do this)...
-      !isNaN(parseFloat(str))
-    ); // ...and ensure strings of whitespace fail
   }
 }

@@ -11,6 +11,7 @@ import { MoodDialog } from "resources/dialogs/mood-prompt";
 import { IEntry } from "resources/elements/entry/entry.interface";
 import { TextDialog } from "resources/dialogs/text-prompt";
 import { ActivityDetailDialog } from "resources/dialogs/activity-detail-prompt";
+import { Helpers } from "resources/util/Helpers";
 
 @autoinject
 export class EntryEditor {
@@ -94,7 +95,7 @@ export class EntryEditor {
     }
   }
   editActivityDetail(id, detail: IActivityDetail = []) {
-    const editingNumber = this.isNumeric(detail);
+    const editingNumber = Helpers.isNumeric(detail);
     this.dialogService
       .open({
         viewModel: ActivityDetailDialog,
@@ -117,7 +118,7 @@ export class EntryEditor {
                 this.workingCopy.activities.delete(id);
               }
               this.markPendingChanges();
-            } else if (this.isNumeric(response.output.detail)) {
+            } else if (Helpers.isNumeric(response.output.detail)) {
               this.workingCopy.activities.set(id, response.output.detail);
               this.markPendingChanges();
             } else {
@@ -127,14 +128,6 @@ export class EntryEditor {
           }
         }).bind(this)
       );
-  }
-  isNumeric(str) {
-    if (typeof str == "number") return true;
-    if (typeof str !== "string") return false; // we only process strings!
-    return (
-      !isNaN(str as any) && // use type coercion to parse the _entirety_ of the string (`parseFloat` alone does not do this)...
-      !isNaN(parseFloat(str))
-    ); // ...and ensure strings of whitespace fail
   }
   addActivity(id) {
     const activityDetail: IActivityDetail = this.workingCopy.activities.get(id);
