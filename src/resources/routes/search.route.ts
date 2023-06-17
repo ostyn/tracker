@@ -1,11 +1,13 @@
 import { IEntry } from "resources/elements/entry/entry.interface";
 import { autoinject, bindable } from "aurelia-framework";
+import { Router } from "aurelia-router";
 import { ActivityService } from "resources/services/activityService";
 import { EntryDao } from "resources/dao/EntryDao";
-
+import { activationStrategy } from "aurelia-router";
 @autoinject
 export class SearchRoute {
-  @bindable public needle: string;
+  @bindable public searchBoxValue: string;
+  private searchTerm: string;
   public entryPage: IEntry[];
   public disableNext = true;
   public disablePrev = true;
@@ -13,17 +15,34 @@ export class SearchRoute {
   public showLoader = false;
   public showResultsText = false;
 
-  private entries: IEntry[];
+  private entries: IEntry[] = [];
   private currentPage = 0;
   private pageSize = 20;
   private lastPageIndex = 0;
   private firstEntryIndex = 0;
   private lastEntryIndex = 0;
-
+  determineActivationStrategy() {
+    return activationStrategy.invokeLifecycle;
+  }
   constructor(
     private entryDao: EntryDao,
-    private activityService: ActivityService
+    private activityService: ActivityService,
+    private router: Router
   ) {}
+  activate(params) {
+    if (!params.q) {
+      this.resetState();
+      return;
+    }
+    this.currentPage = Number.parseInt(params.p);
+    if (this.searchTerm !== params.q) {
+      this.searchBoxValue = params.q;
+      this.searchTerm = params.q;
+      this.search();
+    } else {
+      this.resliceEntries();
+    }
+  }
   private resetState() {
     this.entries = undefined;
     this.entryPage = undefined;
@@ -32,34 +51,41 @@ export class SearchRoute {
     this.lastPageIndex = 0;
     this.firstEntryIndex = 0;
     this.lastEntryIndex = 0;
+    this.searchTerm = undefined;
+    this.searchBoxValue = undefined;
     this.updateVisibility();
   }
-  public needleChanged() {
+  public searchBoxValueChanged() {
     this.currentPage = 0;
-    this.search();
+    this.router.navigateToRoute("search", {
+      p: this.currentPage,
+      q: this.searchBoxValue,
+    });
   }
   public nextPage() {
     if (this.currentPage < this.lastPageIndex) {
       this.currentPage++;
-      this.resliceEntries();
+      this.router.navigateToRoute("search", {
+        p: this.currentPage,
+        q: this.searchTerm,
+      });
     }
   }
   public prevPage() {
     if (this.currentPage > 0) {
       this.currentPage--;
-      this.resliceEntries();
+      this.router.navigateToRoute("search", {
+        p: this.currentPage,
+        q: this.searchTerm,
+      });
     }
   }
 
   public search(): void {
     this.showLoader = true;
     this.entryDao.getEntriesFromYearAndMonth().then((entries: IEntry[]) => {
-      if (!this.needle) {
-        this.resetState();
-        return;
-      }
       this.entries = entries.filter((entry) => {
-        let regex = new RegExp(this.needle, "i");
+        let regex = new RegExp(this.searchTerm, "i");
 
         return (
           regex.test(entry.note) ||
@@ -110,7 +136,7 @@ export class SearchRoute {
     this.disableNext = this.currentPage === this.lastPageIndex;
     this.disablePrev = this.currentPage === 0;
     this.showLoader = false;
-    this.showResultsText = !!this.needle;
+    this.showResultsText = !!this.searchTerm;
     this.resultsText = !!this.entries?.length
       ? `Results ${this.firstEntryIndex + 1}-${this.lastEntryIndex} of ${
           this.entries.length
