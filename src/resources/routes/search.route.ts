@@ -70,10 +70,15 @@ export class SearchRoute {
   }
   public searchBoxValueChanged() {
     this.currentPage = 0;
-    this.router.navigateToRoute("search", {
-      p: this.currentPage,
-      q: this.searchBoxValue,
-    });
+    this.router.navigateToRoute(
+      "search",
+      this.searchBoxValue
+        ? {
+            p: this.currentPage,
+            q: this.searchBoxValue,
+          }
+        : undefined
+    );
   }
   public nextPage() {
     if (this.currentPage < this.lastPageIndex) {
