@@ -6,6 +6,8 @@ import { ActivityService } from "resources/services/activityService";
 import { EntryDao } from "resources/dao/EntryDao";
 import { activationStrategy } from "aurelia-router";
 import { Helpers } from "resources/util/Helpers";
+import { DialogService } from "aurelia-dialog";
+import { ActivityPromptDialog } from "resources/dialogs/activity-prompt";
 @autoinject
 export class SearchRoute {
   @bindable public searchBoxValue: string;
@@ -25,6 +27,7 @@ export class SearchRoute {
   private firstEntryIndex = 0;
   private lastEntryIndex = 0;
   private subscribers: any[] = [];
+  public selectedActivity: string;
   determineActivationStrategy() {
     return activationStrategy.invokeLifecycle;
   }
@@ -32,7 +35,8 @@ export class SearchRoute {
     private entryDao: EntryDao,
     private activityService: ActivityService,
     private router: Router,
-    private ea: EventAggregator
+    private ea: EventAggregator,
+    private dialogService: DialogService
   ) {}
   attached() {
     this.subscribers.push(
@@ -43,14 +47,18 @@ export class SearchRoute {
     this.subscribers.forEach((sub: Subscription) => sub.dispose());
   }
   activate(params) {
-    if (!params.q) {
+    if (!params.q && !params.a) {
       this.resetState();
       return;
     }
-    this.currentPage = Number.parseInt(params.p);
-    if (this.searchTerm !== params.q) {
+    this.currentPage =
+      params.p === undefined
+        ? (this.currentPage = 0)
+        : Number.parseInt(params.p);
+    if (this.searchTerm !== params.q || this.selectedActivity !== params.a) {
       this.searchBoxValue = params.q;
       this.searchTerm = params.q;
+      this.selectedActivity = params.a;
       this.search();
     } else {
       this.resliceEntries();
@@ -65,6 +73,7 @@ export class SearchRoute {
     this.firstEntryIndex = 0;
     this.lastEntryIndex = 0;
     this.searchTerm = undefined;
+    this.selectedActivity = undefined;
     this.searchBoxValue = undefined;
     this.updateVisibility();
   }
@@ -72,10 +81,10 @@ export class SearchRoute {
     this.currentPage = 0;
     this.router.navigateToRoute(
       "search",
-      this.searchBoxValue
+      this.searchBoxValue || this.selectedActivity
         ? {
-            p: this.currentPage,
             q: this.searchBoxValue,
+            a: this.selectedActivity,
           }
         : undefined
     );
@@ -86,6 +95,7 @@ export class SearchRoute {
       this.router.navigateToRoute("search", {
         p: this.currentPage,
         q: this.searchTerm,
+        a: this.selectedActivity,
       });
     }
   }
@@ -95,19 +105,19 @@ export class SearchRoute {
       this.router.navigateToRoute("search", {
         p: this.currentPage,
         q: this.searchTerm,
+        a: this.selectedActivity,
       });
     }
   }
 
   public search(): void {
-    if (!this.searchTerm) return;
+    if (!this.searchTerm && !this.selectedActivity) return;
     this.isRequesting = true;
     this.updateVisibility();
     this.entryDao.getEntriesFromYearAndMonth().then((entries: IEntry[]) => {
       this.entries = entries.filter((entry) => {
         let regex = new RegExp(this.searchTerm, "i");
-
-        return (
+        const containsSearchQuery =
           regex.test(entry.note) ||
           regex.test(entry.createdBy) ||
           regex.test(entry.lastUpdatedBy) ||
@@ -123,8 +133,15 @@ export class SearchRoute {
               this.activityService.activitiesMap?.get(activityId)?.name
             )
           ) ||
-          regex.test(entry.date)
-        );
+          regex.test(entry.date);
+        if (this.selectedActivity) {
+          return (
+            entry.activitiesArray.includes(this.selectedActivity) &&
+            containsSearchQuery
+          );
+        } else {
+          return containsSearchQuery;
+        }
       });
       this.resliceEntries();
       this.isRequesting = false;
@@ -153,12 +170,36 @@ export class SearchRoute {
     }
     this.updateVisibility();
   }
+  public openActivityPrompt(): void {
+    const tempActivity = this.selectedActivity;
+    this.selectedActivity = undefined;
+    this.dialogService
+      .open({
+        viewModel: ActivityPromptDialog,
+        model: this.selectedActivity,
+      })
+      .whenClosed((response) => {
+        if (!response.wasCancelled) {
+          this.router.navigateToRoute("search", {
+            q: this.searchTerm,
+            a: response.output,
+          });
+        } else {
+          this.selectedActivity = tempActivity;
+        }
+      });
+  }
+  public clearActivity() {
+    this.router.navigateToRoute("search", {
+      q: this.searchTerm,
+    });
+  }
 
   private updateVisibility() {
     this.disableNext = this.currentPage === this.lastPageIndex;
     this.disablePrev = this.currentPage === 0;
     this.showLoader = this.isRequesting;
-    this.showResultsText = !!this.searchTerm;
+    this.showResultsText = !!this.searchTerm || !!this.selectedActivity;
     if (this.isRequesting) {
       this.resultsText = "";
     } else {

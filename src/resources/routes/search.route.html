@@ -1,6 +1,7 @@
 <template>
   <require from="./search.route.css"></require>
   <require from="resources/elements/entry/entry"></require>
+  <require from="resources/elements/activity/activity"></require>
   <require from="resources/elements/entry/entry-loading.html"></require>
   <section class="search-bar">
     <input
@@ -10,6 +11,22 @@
       value.bind="searchBoxValue & debounce"
       placeholder="search..."
     />
+    <span if.bind="selectedActivity">
+      <activity
+        click.trigger="openActivityPrompt()"
+        id.to-view="selectedActivity"
+      ></activity>
+      <feather-icon
+        click.trigger="clearActivity()"
+        name="x-circle"
+      ></feather-icon>
+    </span>
+    <feather-icon
+      else
+      click.trigger="openActivityPrompt()"
+      name="plus-circle"
+    ></feather-icon>
+
     <feather-icon
       if.bind="!disablePrev"
       role="link"
