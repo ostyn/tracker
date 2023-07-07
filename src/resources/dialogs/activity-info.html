@@ -3,8 +3,8 @@
   <require from="resources/elements/activity/activity"></require>
   <require from="resources/elements/activity/activity-detail.html"></require>
   <require from="resources/elements/calendar/calendar-wrapper"></require>
-  <dialog open>
-    <article>
+  <ux-dialog>
+    <div>
       <header class="activity-info-header">
         <activity id.bind="activityId"></activity
         ><span>
@@ -79,6 +79,6 @@
           Close
         </button>
       </footer>
-    </article>
-  </dialog>
+    </div>
+  </ux-dialog>
 </template>

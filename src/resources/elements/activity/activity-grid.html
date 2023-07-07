@@ -1,9 +1,4 @@
 <template>
-  <div
-    if.bind="activePopoverId"
-    class="overlay"
-    click.trigger="activePopoverId=undefined"
-  ></div>
   <require from="./activity-grid.css"></require>
   <require from="resources/elements/activity/activity"></require>
   <div class="grid-controls">
@@ -56,33 +51,8 @@
       long-click.trigger="activityLongClick($event, activity)"
       id.bind="activity.id"
       detail.bind="modCount?selectedActivityInfo.get(activity.id):undefined"
-      class.bind="`clickable ${activePopoverId === activity.id?'selectedActivity':''} ${activity.isArchived ? 'disabled':''} ${modCount&& selectedActivityInfo.has(activity.id)?'selected-item':''}`"
+      class.bind="`clickable ${activity.isArchived ? 'disabled':''} ${modCount&& selectedActivityInfo.has(activity.id)?'selected-item':''}`"
     >
-      <div class="popover" if.bind="activePopoverId === activity.id">
-        <span class="up-arrow"></span>
-        <h2>${activity.name}</h2>
-        <button
-          class="outline contrast"
-          click.trigger="addDetails($event, activity)"
-        >
-          add details
-        </button>
-        <span
-          if.bind="modCount?!isArray(selectedActivityInfo.get(activity.id)): undefined"
-        >
-          <button click.trigger="adjust(activity, 1)" class="inline">+1</button>
-          <button click.trigger="adjust(activity, -1)" class="inline">
-            -1
-          </button>
-          <button click.trigger="adjust(activity, 0.5)" class="inline">
-            +0.5
-          </button>
-          <button click.trigger="adjust(activity, 0.25)" class="inline">
-            +0.25
-          </button>
-        </span>
-        <button class="contrast" click.trigger="clear(activity)">clear</button>
-      </div>
     </activity>
     <span click.trigger="createNewActivity(header)">
       <feather-icon name="plus-circle"></feather-icon>

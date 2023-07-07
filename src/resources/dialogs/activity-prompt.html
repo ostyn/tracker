@@ -1,7 +1,7 @@
 <template>
   <require from="resources/elements/activity/activity-grid"></require>
-  <dialog open>
-    <article>
+  <ux-dialog>
+    <div>
       <activity-grid
         activities.bind="activities"
         on-activity-click.call="clickActivity(activity.id)"
@@ -11,6 +11,6 @@
           Close
         </button>
       </footer>
-    </article>
-  </dialog>
+    </div>
+  </ux-dialog>
 </template>

@@ -2,8 +2,8 @@
   <require from="./activity-detail-prompt.css"></require>
   <require from="resources/elements/activity/activity"></require>
   <require from="resources/elements/activity/activity-detail.html"></require>
-  <dialog open>
-    <article>
+  <ux-dialog>
+    <div>
       <div>
         <activity id.bind="activity.id"></activity>
       </div>
@@ -98,6 +98,6 @@
           cancel
         </button>
       </footer>
-    </article>
-  </dialog>
+    </div>
+  </ux-dialog>
 </template>

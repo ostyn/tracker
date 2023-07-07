@@ -1,7 +1,7 @@
 <template>
   <require from="./mood-prompt.css"></require>
-  <dialog open>
-    <article>
+  <ux-dialog>
+    <div class="mood-container">
       <label
         class.bind="m.id === currentMoodId ? 'selected-mood inline' : 'unselected-mood inline'"
         repeat.for="m of moods"
@@ -16,9 +16,6 @@
           change.trigger="controller.ok(currentMoodId)"
         />
       </label>
-      <footer>
-        <button class="inline" click.trigger="controller.cancel()">Close</button>
-      </footer>
-    </article>
-  </dialog>
+    </div>
+  </ux-dialog>
 </template>

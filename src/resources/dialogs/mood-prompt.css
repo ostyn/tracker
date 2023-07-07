@@ -9,3 +9,10 @@
   line-height: 2.5rem;
   cursor: pointer;
 }
+.mood-container {
+  display: flex;
+  place-content: center;
+  height: 100%;
+  align-items: center;
+  gap: 6px;
+}

@@ -11,7 +11,10 @@
   height: 0.25rem;
   border-radius: 9999px;
 }
-
+ux-dialog-overlay.active {
+  background-color: black;
+  opacity: 0.5 !important;
+}
 dialog {
   background-color: var(--background-color);
   color: var(--color);
@@ -43,6 +46,17 @@ section {
 article:not(dialog article, footer article) {
   padding: 1rem;
   margin: 0.5rem;
+}
+ux-dialog-container ux-dialog {
+  left: 0px;
+  right: 0px;
+  top: 33%;
+  width: 100%;
+  position: absolute;
+  padding: 8px;
+  background-color: var(--background-color);
+  border-radius: 0px;
+  min-height: 10rem;
 }
 footer article {
   margin-top: 0px;
