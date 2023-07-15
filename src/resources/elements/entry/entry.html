@@ -20,7 +20,7 @@
     <section class="entry-activities">
       <activity
         show-name.bind="false"
-        repeat.for="activity of entry.activitiesArray | map: activityService.activitiesMap | sort: 'name'"
+        repeat.for="activity of entry.activitiesArray | map: activityService.activitiesMap"
         id.bind="activity.id"
         class="entry-activity"
         detail.bind="entry.activities.get(activity.id)"

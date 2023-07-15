@@ -28,6 +28,27 @@ export class Entry {
   attached() {
     this.subscribers.push(this.ea.subscribe("moodsUpdated", this.getMoods));
     this.getMoods();
+    this.entry.activitiesArray.sort((a, b) => {
+      let aVal = this.entry.activities.get(a);
+      let bVal = this.entry.activities.get(b);
+      console.log(aVal, bVal);
+      if (Array.isArray(aVal) && Array.isArray(bVal)) {
+        let bCharLength = bVal
+          .map((val) => val.length)
+          .reduce((total, val) => total + val);
+        let aCharLength = aVal
+          .map((val) => val.length)
+          .reduce((total, val) => total + val);
+        return bCharLength - aCharLength;
+      } else if (Array.isArray(aVal)) {
+        return -1;
+      } else if (Array.isArray(bVal)) {
+        return 1;
+      } else {
+        return bVal - aVal;
+      }
+      //TODO add tiebreaker using names
+    });
     if (this.scrollToSelf)
       this.element.scrollIntoView({
         block: "center",
