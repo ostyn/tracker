@@ -1,25 +1,23 @@
 .activity {
   max-width: 100%;
   display: inline-flex;
-  padding: 0.25rem;
   text-align: center;
   align-items: flex-start;
   user-select: none;
   border: 1px solid transparent;
   align-self: start;
-  margin: 2px;
+  margin: 0.5rem;
 }
 .emoji {
   display: inline-block;
   position: relative;
-  margin: 0rem 0.5rem;
   font-size: 1.875rem;
   line-height: 2.25rem;
 }
 .activity-detail-number {
   display: inline-flex;
   position: absolute;
-  right: -0.375rem;
+  left: -0.1rem;
   bottom: -0.375rem;
   padding-top: 0;
   padding-bottom: 0;
