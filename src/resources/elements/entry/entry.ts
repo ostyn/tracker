@@ -31,7 +31,6 @@ export class Entry {
     this.entry.activitiesArray.sort((a, b) => {
       let aVal = this.entry.activities.get(a);
       let bVal = this.entry.activities.get(b);
-      console.log(aVal, bVal);
       if (Array.isArray(aVal) && Array.isArray(bVal)) {
         let bCharLength = bVal
           .map((val) => val.length)

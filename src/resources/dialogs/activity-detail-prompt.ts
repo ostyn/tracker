@@ -123,7 +123,6 @@ export class ActivityDetailDialog {
     return this.currentEditDetail === index;
   }
   editDetail(index) {
-    console.log(index);
     this.currentEditDetail = index;
   }
 }

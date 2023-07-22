@@ -19,7 +19,7 @@
   font-size: 0.875rem;
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: 8px;
   font-weight: 700;
   filter: grayscale(1);
 }
