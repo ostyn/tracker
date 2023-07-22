@@ -12,6 +12,10 @@ import { ActivityInfo } from "resources/dialogs/activity-info";
 export class Entry {
   @bindable entry: IEntry;
   @bindable scrollToSelf: boolean;
+  @bindable onDetailClick;
+  public detailClicked(detail) {
+    this.onDetailClick({ detail });
+  }
   subscribers = [];
   moods;
   currentMood;

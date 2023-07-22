@@ -17,7 +17,9 @@
     class="activity-detail-list ${(!isWide) ? 'activity-narrow' : ''}"
     if.bind="isArray(detail) && detail.length>0"
   >
-    <activity-detail repeat.for="textItem of detail"
+    <activity-detail
+      click.trigger="detailClicked($event, textItem)"
+      repeat.for="textItem of detail"
       >${textItem}</activity-detail
     >
   </span>

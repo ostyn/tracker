@@ -47,6 +47,7 @@
       class="search-entries"
       repeat.for="e of entryPage"
       entry.bind="e"
+      on-detail-click.call="detailClicked(detail)"
     ></entry>
     <entry-loading if.bind="showLoader"></entry-loading>
   </section>

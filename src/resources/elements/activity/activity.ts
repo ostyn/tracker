@@ -10,6 +10,7 @@ export class Activity {
   @bindable detail: IActivityDetail;
   @bindable showName = true;
   @bindable onDetailClick;
+  @bindable enableDetailClick;
   activity: IActivity;
   subscribers: any = [];
   isWide: boolean = false;
@@ -41,6 +42,11 @@ export class Activity {
     )
       this.isWide = true;
   }
-
+  detailClicked(event: Event, detail) {
+    if (this.enableDetailClick) {
+      event.stopPropagation();
+      this.onDetailClick({ detail });
+    }
+  }
   public isNumeric = Helpers.isNumeric;
 }

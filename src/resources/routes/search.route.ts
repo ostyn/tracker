@@ -210,4 +210,7 @@ export class SearchRoute {
         : "No results";
     }
   }
+  public detailClicked(detail) {
+    console.log(detail);
+  }
 }
