@@ -9,6 +9,7 @@ export class Activity {
   @bindable id;
   @bindable detail: IActivityDetail;
   @bindable showName = true;
+  @bindable onDetailClick;
   activity: IActivity;
   subscribers: any = [];
   isWide: boolean = false;
@@ -28,7 +29,9 @@ export class Activity {
   detached() {
     this.subscribers.forEach((sub) => this.subscribers.pop().dispose());
   }
-
+  idChanged() {
+    this.loadActivity();
+  }
   loadActivity() {
     this.activity = this.activityService.getActivity(this.id);
     if (
