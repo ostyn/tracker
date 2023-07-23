@@ -127,7 +127,7 @@ export class SearchRoute {
     this.updateVisibility();
     this.entryDao.getEntriesFromYearAndMonth().then((entries: IEntry[]) => {
       this.entries = entries.filter((entry) => {
-        let regex = new RegExp(escapeRegExp(this.searchTerm), "i");
+        let regex = new RegExp(escapeRegExp(this.searchTerm || ""), "i");
         let containsSearchQuery =
           regex.test(entry.note) ||
           regex.test(entry.createdBy) ||
