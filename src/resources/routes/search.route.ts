@@ -7,6 +7,7 @@ import { EntryDao } from "resources/dao/EntryDao";
 import { activationStrategy } from "aurelia-router";
 import { DialogService } from "aurelia-dialog";
 import { ActivityPromptDialog } from "resources/dialogs/activity-prompt";
+import escapeRegExp from "escape-string-regexp";
 @autoinject
 export class SearchRoute {
   @bindable public searchBoxValue: string;
@@ -126,7 +127,7 @@ export class SearchRoute {
     this.updateVisibility();
     this.entryDao.getEntriesFromYearAndMonth().then((entries: IEntry[]) => {
       this.entries = entries.filter((entry) => {
-        let regex = new RegExp(this.searchTerm, "i");
+        let regex = new RegExp(escapeRegExp(this.searchTerm), "i");
         let containsSearchQuery =
           regex.test(entry.note) ||
           regex.test(entry.createdBy) ||
