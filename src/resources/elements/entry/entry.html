@@ -24,9 +24,9 @@
         id.bind="activity.id"
         class="entry-activity"
         detail.bind="entry.activities.get(activity.id)"
-        click.trigger="showActivityInfo(activity.id)"
+        click.trigger="activityClicked(activity.id)"
         enable-detail-click.bind="onDetailClick"
-        on-detail-click.call="detailClicked(detail)"
+        on-detail-click.call="detailClicked(detail, id)"
       ></activity>
     </section>
     <section if.bind="entry.note != ''">

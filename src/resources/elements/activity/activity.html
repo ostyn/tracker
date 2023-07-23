@@ -18,7 +18,7 @@
     if.bind="isArray(detail) && detail.length>0"
   >
     <activity-detail
-      click.trigger="detailClicked($event, textItem)"
+      click.trigger="detailClicked($event, textItem, id)"
       repeat.for="textItem of detail"
       >${textItem}</activity-detail
     >

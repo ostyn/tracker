@@ -13,8 +13,8 @@ export class Entry {
   @bindable entry: IEntry;
   @bindable scrollToSelf: boolean;
   @bindable onDetailClick;
-  public detailClicked(detail) {
-    this.onDetailClick({ detail });
+  public detailClicked(detail, id) {
+    this.onDetailClick({ detail, id });
   }
   subscribers = [];
   moods;
@@ -79,7 +79,7 @@ export class Entry {
   editEntry() {
     this.router.navigateToRoute("entry", { id: this.entry.id });
   }
-  showActivityInfo(id) {
+  activityClicked(id) {
     this.dialogService.open({
       viewModel: ActivityInfo,
       model: {

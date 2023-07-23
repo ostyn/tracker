@@ -42,10 +42,10 @@ export class Activity {
     )
       this.isWide = true;
   }
-  detailClicked(event: Event, detail) {
+  detailClicked(event: Event, detail, id) {
     if (this.enableDetailClick) {
       event.stopPropagation();
-      this.onDetailClick({ detail });
+      this.onDetailClick({ detail, id });
     }
   }
   public isNumeric = Helpers.isNumeric;

@@ -210,7 +210,10 @@ export class SearchRoute {
         : "No results";
     }
   }
-  public detailClicked(detail) {
-    console.log(detail);
+  public detailClicked(detail, id) {
+    this.router.navigateToRoute("search", {
+      q: detail,
+      a: id,
+    });
   }
 }
