@@ -8,6 +8,7 @@ import { activationStrategy } from "aurelia-router";
 import { DialogService } from "aurelia-dialog";
 import { ActivityPromptDialog } from "resources/dialogs/activity-prompt";
 import escapeRegExp from "escape-string-regexp";
+import { ActivityDetailSelectDialog } from "resources/dialogs/activity-detail-select";
 @autoinject
 export class SearchRoute {
   @bindable public searchBoxValue: string;
@@ -189,6 +190,10 @@ export class SearchRoute {
     }
     this.updateVisibility();
   }
+  addFilter() {
+    if (!this.selectedActivity) this.openActivityPrompt();
+    else this.openDetailSelect();
+  }
   public openActivityPrompt(): void {
     const tempActivity = this.selectedActivity;
     this.dialogService
@@ -207,10 +212,19 @@ export class SearchRoute {
         }
       });
   }
-  public clearActivity() {
-    this.router.navigateToRoute("search", {
-      q: this.searchTerm,
-    });
+  public clearSelection() {
+    if (this.selectedDetail) {
+      this.router.navigateToRoute("search", {
+        q: this.searchTerm,
+        a: this.selectedActivity,
+      });
+    } else if (this.selectedActivity) {
+      this.router.navigateToRoute("search", {
+        q: this.searchTerm,
+      });
+    } else {
+      this.router.navigateToRoute("search");
+    }
   }
 
   private updateVisibility() {
@@ -234,5 +248,24 @@ export class SearchRoute {
       a: id,
       q: "",
     });
+  }
+  public openDetailSelect() {
+    const tempDetail = this.selectedDetail;
+    this.dialogService
+      .open({
+        viewModel: ActivityDetailSelectDialog,
+        model: { id: this.selectedActivity },
+      })
+      .whenClosed((response) => {
+        if (!response.wasCancelled) {
+          this.router.navigateToRoute("search", {
+            q: this.searchTerm,
+            a: this.selectedActivity,
+            detail: response.output,
+          });
+        } else {
+          this.selectedDetail = tempDetail;
+        }
+      });
   }
 }

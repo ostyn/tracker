@@ -16,18 +16,20 @@
         click.trigger="openActivityPrompt()"
         id.to-view="selectedActivity"
         detail.bind="(selectedDetail)?[selectedDetail]:undefined"
+        enable-detail-click="true"
+        on-detail-click.call="openDetailSelect()"
       ></activity>
-      <feather-icon
-        click.trigger="clearActivity()"
-        name="x-circle"
-      ></feather-icon>
     </span>
     <feather-icon
-      else
-      click.trigger="openActivityPrompt()"
+      if.bind="!selectedActivity || !selectedDetail"
+      click.trigger="addFilter()"
       name="plus-circle"
     ></feather-icon>
-
+    <feather-icon
+      if.bind="searchBoxValue || selectedActivity || selectedDetail"
+      click.trigger="clearSelection()"
+      name="x-circle"
+    ></feather-icon>
     <feather-icon
       if.bind="!disablePrev"
       role="link"
