@@ -3,10 +3,21 @@
   <require from="resources/elements/activity/activity"></require>
   <require from="resources/elements/activity/activity-detail.html"></require>
   <ux-dialog>
+    <header>
+      <activity id.bind="activity.id"></activity>
+      <button
+        class="inline"
+        disabled.bind="editingNumber && !isNumeric(detail)"
+        click.trigger="submitForm()"
+      >
+        done
+      </button>
+      <button class="inline contrast" click.trigger="clear()">clear</button>
+      <button class="inline secondary" click.trigger="controller.cancel()">
+        cancel
+      </button>
+    </header>
     <div>
-      <div>
-        <activity id.bind="activity.id"></activity>
-      </div>
       <div if.bind="editingNumber" class="activity-detail-prompt-input">
         <input
           class="inline"
@@ -17,11 +28,12 @@
           placeholder="enter number"
         />
         <section>
-          <button class="inline" click.trigger="add(100)">+100</button>
           <button class="inline" click.trigger="add(10)">+10</button>
           <button class="inline" click.trigger="add(1)">+1</button>
-          <button class="inline" click.trigger="add(0.5)">+0.5</button>
           <button class="inline" click.trigger="add(0.25)">+0.25</button>
+          <button class="inline" click.trigger="add(-0.25)">-0.25</button>
+          <button class="inline" click.trigger="add(-1)">-1</button>
+          <button class="inline" click.trigger="add(-10)">-10</button>
         </section>
       </div>
       <div else class="activity-details">
@@ -85,19 +97,6 @@
           </div>
         </div>
       </div>
-      <footer>
-        <button
-          class="inline"
-          disabled.bind="editingNumber && !isNumeric(detail)"
-          click.trigger="submitForm()"
-        >
-          done
-        </button>
-        <button class="inline contrast" click.trigger="clear()">clear</button>
-        <button class="inline secondary" click.trigger="controller.cancel()">
-          cancel
-        </button>
-      </footer>
     </div>
   </ux-dialog>
 </template>
