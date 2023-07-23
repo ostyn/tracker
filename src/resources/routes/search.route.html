@@ -15,7 +15,7 @@
       <activity
         click.trigger="openActivityPrompt()"
         id.to-view="selectedActivity"
-        detail.bind="[selectedDetail]"
+        detail.bind="(selectedDetail)?[selectedDetail]:undefined"
       ></activity>
       <feather-icon
         click.trigger="clearActivity()"

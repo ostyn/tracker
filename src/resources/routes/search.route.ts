@@ -190,7 +190,6 @@ export class SearchRoute {
   }
   public openActivityPrompt(): void {
     const tempActivity = this.selectedActivity;
-    this.selectedActivity = undefined;
     this.dialogService
       .open({
         viewModel: ActivityPromptDialog,
@@ -232,6 +231,7 @@ export class SearchRoute {
     this.router.navigateToRoute("search", {
       detail,
       a: id,
+      q: "",
     });
   }
 }
