@@ -8,6 +8,7 @@ export function configure(aurelia: Aurelia): void {
   PLATFORM.moduleName("./resources/dialogs/activity-info");
   PLATFORM.moduleName("./resources/dialogs/activity-detail-prompt");
   PLATFORM.moduleName("./resources/dialogs/new-activity-prompt");
+  PLATFORM.moduleName("./resources/dialogs/activity-detail-select");
   aurelia.use
     .standardConfiguration()
     .feature(PLATFORM.moduleName("resources/index"))
