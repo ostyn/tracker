@@ -5,7 +5,6 @@ import { Router } from "aurelia-router";
 import { ActivityService } from "resources/services/activityService";
 import { EntryDao } from "resources/dao/EntryDao";
 import { activationStrategy } from "aurelia-router";
-import { Helpers } from "resources/util/Helpers";
 import { DialogService } from "aurelia-dialog";
 import { ActivityPromptDialog } from "resources/dialogs/activity-prompt";
 @autoinject
@@ -28,6 +27,7 @@ export class SearchRoute {
   private lastEntryIndex = 0;
   private subscribers: any[] = [];
   public selectedActivity: string;
+  public selectedDetail: string;
   determineActivationStrategy() {
     return activationStrategy.invokeLifecycle;
   }
@@ -47,7 +47,7 @@ export class SearchRoute {
     this.subscribers.forEach((sub: Subscription) => sub.dispose());
   }
   activate(params) {
-    if (!params.q && !params.a) {
+    if (!params.q && !params.a && !params.detail) {
       this.resetState();
       return;
     }
@@ -55,10 +55,15 @@ export class SearchRoute {
       params.p === undefined
         ? (this.currentPage = 0)
         : Number.parseInt(params.p);
-    if (this.searchTerm !== params.q || this.selectedActivity !== params.a) {
+    if (
+      this.searchTerm !== params.q ||
+      this.selectedActivity !== params.a ||
+      this.selectedDetail !== params.detail
+    ) {
       this.searchBoxValue = params.q;
       this.searchTerm = params.q;
       this.selectedActivity = params.a;
+      this.selectedDetail = params.detail;
       this.search();
     } else {
       this.resliceEntries();
@@ -74,6 +79,7 @@ export class SearchRoute {
     this.lastEntryIndex = 0;
     this.searchTerm = undefined;
     this.selectedActivity = undefined;
+    this.selectedDetail = undefined;
     this.searchBoxValue = undefined;
     this.updateVisibility();
   }
@@ -81,10 +87,11 @@ export class SearchRoute {
     this.currentPage = 0;
     this.router.navigateToRoute(
       "search",
-      this.searchBoxValue || this.selectedActivity
+      this.searchBoxValue || this.selectedActivity || this.selectedDetail
         ? {
             q: this.searchBoxValue,
             a: this.selectedActivity,
+            detail: this.selectedDetail,
           }
         : undefined
     );
@@ -96,6 +103,7 @@ export class SearchRoute {
         p: this.currentPage,
         q: this.searchTerm,
         a: this.selectedActivity,
+        detail: this.selectedDetail,
       });
     }
   }
@@ -106,27 +114,27 @@ export class SearchRoute {
         p: this.currentPage,
         q: this.searchTerm,
         a: this.selectedActivity,
+        detail: this.selectedDetail,
       });
     }
   }
 
   public search(): void {
-    if (!this.searchTerm && !this.selectedActivity) return;
+    if (!this.searchTerm && !this.selectedActivity && !this.selectedDetail)
+      return;
     this.isRequesting = true;
     this.updateVisibility();
     this.entryDao.getEntriesFromYearAndMonth().then((entries: IEntry[]) => {
       this.entries = entries.filter((entry) => {
         let regex = new RegExp(this.searchTerm, "i");
-        const containsSearchQuery =
+        let containsSearchQuery =
           regex.test(entry.note) ||
           regex.test(entry.createdBy) ||
           regex.test(entry.lastUpdatedBy) ||
           Array.from(entry.activities.values())
             .filter((activity) => Array.isArray(activity))
             .some((activityDetail) =>
-              (activityDetail as string[]).some(
-                (detail) => !Helpers.isNumeric(detail) && regex.test(detail)
-              )
+              (activityDetail as string[]).some((detail) => regex.test(detail))
             ) ||
           entry.activitiesArray.some((activityId) =>
             regex.test(
@@ -135,13 +143,23 @@ export class SearchRoute {
           ) ||
           regex.test(entry.date);
         if (this.selectedActivity) {
-          return (
+          containsSearchQuery =
             entry.activitiesArray.includes(this.selectedActivity) &&
-            containsSearchQuery
-          );
-        } else {
-          return containsSearchQuery;
+            containsSearchQuery;
+          if (this.selectedDetail) {
+            containsSearchQuery =
+              Array.from(entry.activities.values())
+                .filter((activity) => Array.isArray(activity))
+                .some((activityDetail) =>
+                  (activityDetail as string[]).some(
+                    (detail) =>
+                      detail.toLocaleLowerCase() ===
+                      this.selectedDetail.toLocaleLowerCase()
+                  )
+                ) && containsSearchQuery;
+          }
         }
+        return containsSearchQuery;
       });
       this.resliceEntries();
       this.isRequesting = false;
@@ -212,7 +230,7 @@ export class SearchRoute {
   }
   public detailClicked(detail, id) {
     this.router.navigateToRoute("search", {
-      q: detail,
+      detail,
       a: id,
     });
   }
