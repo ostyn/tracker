@@ -20,29 +20,33 @@
         on-detail-click.call="openDetailSelect()"
       ></activity>
     </span>
-    <feather-icon
-      if.bind="!selectedActivity || !selectedDetail"
-      click.trigger="addFilter()"
-      name="plus-circle"
-    ></feather-icon>
-    <feather-icon
-      if.bind="searchBoxValue || selectedActivity || selectedDetail"
-      click.trigger="clearSelection()"
-      name="x-circle"
-    ></feather-icon>
-    <feather-icon
-      if.bind="!disablePrev"
-      role="link"
-      click.trigger="prevPage()"
-      name="chevron-left"
-    ></feather-icon>
-    <feather-icon
-      if.bind="!disableNext"
-      role="link"
-      click.trigger="nextPage()"
-      name="chevron-right"
-    ></feather-icon>
-    <span if.bind="showResultsText">${resultsText}</span>
+    <span>
+      <feather-icon
+        if.bind="!selectedActivity || !selectedDetail"
+        click.trigger="addFilter()"
+        name="plus-circle"
+      ></feather-icon>
+      <feather-icon
+        if.bind="searchBoxValue || selectedActivity || selectedDetail"
+        click.trigger="clearSelection()"
+        name="x-circle"
+      ></feather-icon>
+    </span>
+    <span>
+      <feather-icon
+        if.bind="!disablePrev"
+        role="link"
+        click.trigger="prevPage()"
+        name="chevron-left"
+      ></feather-icon>
+      <feather-icon
+        if.bind="!disableNext"
+        role="link"
+        click.trigger="nextPage()"
+        name="chevron-right"
+      ></feather-icon>
+    </span>
+    <div if.bind="showResultsText">${resultsText}</div>
   </section>
   <section>
     <entry

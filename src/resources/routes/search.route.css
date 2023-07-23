@@ -9,9 +9,10 @@
   display: flex;
   gap: 0.25rem;
   align-items: center;
+  flex-wrap: wrap;
 }
 .search-bar input {
-  width: 12rem;
+  width: 8rem;
 }
 .search-bar feather-icon {
   cursor: pointer;
