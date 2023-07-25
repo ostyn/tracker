@@ -1,100 +1,87 @@
 <template>
   <require from="./activity-detail-prompt.css"></require>
-  <require from="resources/elements/activity/activity"></require>
-  <require from="resources/elements/activity/activity-detail.html"></require>
   <ux-dialog>
     <header>
       <activity id.bind="activity.id"></activity>
-      <button
-        class="inline"
-        disabled.bind="editingNumber && !isNumeric(detail)"
-        click.trigger="submitForm()"
-      >
-        done
-      </button>
       <button class="inline contrast" click.trigger="clear()">clear</button>
-      <button class="inline secondary" click.trigger="controller.cancel()">
-        cancel
-      </button>
+      <close-button click.trigger="submitForm()"></close-button>
     </header>
-    <div>
-      <div if.bind="editingNumber" class="activity-detail-prompt-input">
+    <div if.bind="editingNumber" class="activity-detail-prompt-input">
+      <input
+        class="inline"
+        ref="inputBox"
+        focus="true"
+        type="text"
+        value.bind="detail"
+        placeholder="enter number"
+      />
+      <section>
+        <button class="inline" click.trigger="add(10)">+10</button>
+        <button class="inline" click.trigger="add(1)">+1</button>
+        <button class="inline" click.trigger="add(0.25)">+0.25</button>
+        <button class="inline" click.trigger="add(-0.25)">-0.25</button>
+        <button class="inline" click.trigger="add(-1)">-1</button>
+        <button class="inline" click.trigger="add(-10)">-10</button>
+      </section>
+    </div>
+    <div else class="activity-details">
+      <div repeat.for="item of detail">
+        <activity-detail
+          if.bind="$index !== currentEditDetail"
+          click.trigger="editDetail($index)"
+          >${item}</activity-detail
+        >
+        <span else
+          ><input
+            class="inline"
+            type="text"
+            blur.trigger="loadMru()"
+            value.bind="detail[$index]"
+          /><button class="inline" click.trigger="removeItem(detail, $index)">
+            ❌
+          </button></span
+        >
+      </div>
+    </div>
+    <hr />
+    <div if.bind="!editingNumber">
+      <form submit.trigger="addItemOrSubmit()">
         <input
-          class="inline"
+          class="width-64 inline"
           ref="inputBox"
           focus="true"
           type="text"
-          value.bind="detail"
-          placeholder="enter number"
+          value.bind="newItem"
+          placeholder="add item"
         />
-        <section>
-          <button class="inline" click.trigger="add(10)">+10</button>
-          <button class="inline" click.trigger="add(1)">+1</button>
-          <button class="inline" click.trigger="add(0.25)">+0.25</button>
-          <button class="inline" click.trigger="add(-0.25)">-0.25</button>
-          <button class="inline" click.trigger="add(-1)">-1</button>
-          <button class="inline" click.trigger="add(-10)">-10</button>
-        </section>
-      </div>
-      <div else class="activity-details">
-        <div repeat.for="item of detail">
-          <activity-detail
-            if.bind="$index !== currentEditDetail"
-            click.trigger="editDetail($index)"
-            >${item}</activity-detail
-          >
-          <span else
-            ><input
-              class="inline"
-              type="text"
-              blur.trigger="loadMru()"
-              value.bind="detail[$index]"
-            /><button class="inline" click.trigger="removeItem(detail, $index)">
-              ❌
-            </button></span
-          >
+        <button
+          class="inline"
+          if.bind="newItem"
+          click.trigger="addItemOrSubmit()"
+        >
+          ▶
+        </button>
+      </form>
+    </div>
+    <div class="stats-block">
+      <div class="stats-column">
+        <div
+          repeat.for="detail of mfuDetails"
+          click.trigger="addDetail(detail.text)"
+          class="stats-entry"
+        >
+          <span class="stats-entry-datapoint">${detail.count}</span
+          >${detail.text}
         </div>
       </div>
-      <hr />
-      <div if.bind="!editingNumber">
-        <form submit.trigger="addItemOrSubmit()">
-          <input
-            class="width-64 inline"
-            ref="inputBox"
-            focus="true"
-            type="text"
-            value.bind="newItem"
-            placeholder="add item"
-          />
-          <button
-            class="inline"
-            if.bind="newItem"
-            click.trigger="addItemOrSubmit()"
-          >
-            ▶
-          </button>
-        </form>
-      </div>
-      <div class="stats-block">
-        <div class="stats-column">
-          <div
-            repeat.for="detail of mfuDetails"
-            click.trigger="addDetail(detail.text)"
-            class="stats-entry"
-          >
-            <span class="stats-entry-datapoint">${detail.count}</span
-            >${detail.text}
-          </div>
-        </div>
-        <div class="stats-column">
-          <div
-            repeat.for="detail of mruDetails"
-            click.trigger="addDetail(detail.text)"
-            class="stats-entry"
-          >
-            <span class="stats-entry-datapoint">${detail.dates[0].date}</span
-            >${detail.text}
-          </div>
+      <div class="stats-column">
+        <div
+          repeat.for="detail of mruDetails"
+          click.trigger="addDetail(detail.text)"
+          class="stats-entry"
+        >
+          <span class="stats-entry-datapoint">${detail.dates[0].date}</span
+          >${detail.text}
         </div>
       </div>
     </div>

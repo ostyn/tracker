@@ -1,77 +1,73 @@
 <template>
   <require from="./activity-info.css"></require>
-  <require from="resources/elements/activity/activity"></require>
-  <require from="resources/elements/activity/activity-detail.html"></require>
-  <require from="resources/elements/calendar/calendar-wrapper"></require>
   <ux-dialog>
-    <div>
-      <section class="activity-info-header">
-        <activity id.bind="activityId"></activity
-        ><span>
-          <div>This month: ${daysWithActivity}</div>
-          <div>Percent of days: ${percentOfDays}%</div>
-          <div>Total Count: ${totalActivity}</div>
-          <div>
-            Average per day: ${(totalActivity/daysWithActivity).toFixed(2)}
-          </div>
-        </span>
-      </section>
-      <calendar-wrapper
-        if.bind="!loading"
-        class="inline"
-        dates.bind="relatedEntryMap"
-        year.bind="year"
-        month.bind="month"
-        day.bind="day"
-        activity-id.bind="activityId"
-        on-date-select.call="onDateSelect(date)"
-        on-month-change.call="onMonthChange(month, year)"
-      ></calendar-wrapper>
-      <ul>
-        <li
-          class="activity-info-recent"
-          click.trigger="onDateSelect(key)"
-          repeat.for="[key, value] of relatedEntryMap"
-        >
-          <span class="activity-info-recent-date">${key}</span>
-          <activity-detail
-            if.bind="isArray(value.activities.get(activityId))"
-            click.trigger="selectTextItem(textItem)"
-            repeat.for="textItem of value.activities.get(activityId)"
-            >${textItem}</activity-detail
-          >
-          <activity-detail else
-            >${value.activities.get(activityId)}</activity-detail
-          >
-        </li>
-      </ul>
-      <input
-        if.bind="showLists"
-        ref="inputBox"
-        type="search"
-        value.bind="filter"
-        placeholder="search..."
-      />
-      <div if.bind="showLists" class="stats-block">
-        <div class="stats-column">
-          <div
-            click.trigger="onDateSelect(detail.dates[0].date)"
-            repeat.for="detail of mfuDetails"
-            class="stats-entry"
-          >
-            <span class="stats-entry-datapoint">${detail.count}</span
-            ><activity-detail>${detail.text}</activity-detail>
-          </div>
+    <header class="activity-info-header">
+      <activity id.bind="activityId"></activity
+      ><span>
+        <div>This month: ${daysWithActivity}</div>
+        <div>Percent of days: ${percentOfDays}%</div>
+        <div>Total Count: ${totalActivity}</div>
+        <div>
+          Average per day: ${(totalActivity/daysWithActivity).toFixed(2)}
         </div>
-        <div if.bind="showLists" class="stats-column">
-          <div
-            click.trigger="onDateSelect(detail.dates[0].entry.date)"
-            repeat.for="detail of mruDetails"
-            class="stats-entry"
-          >
-            <span class="stats-entry-datapoint">${detail.dates[0].date}</span
-            ><activity-detail>${detail.text}</activity-detail>
-          </div>
+      </span>
+      <close-button click.trigger="controller.ok()"></close-button>
+    </header>
+    <calendar-wrapper
+      if.bind="!loading"
+      class="inline"
+      dates.bind="relatedEntryMap"
+      year.bind="year"
+      month.bind="month"
+      day.bind="day"
+      activity-id.bind="activityId"
+      on-date-select.call="onDateSelect(date)"
+      on-month-change.call="onMonthChange(month, year)"
+    ></calendar-wrapper>
+    <ul>
+      <li
+        class="activity-info-recent"
+        click.trigger="onDateSelect(key)"
+        repeat.for="[key, value] of relatedEntryMap"
+      >
+        <span class="activity-info-recent-date">${key}</span>
+        <activity-detail
+          if.bind="isArray(value.activities.get(activityId))"
+          click.trigger="selectTextItem(textItem)"
+          repeat.for="textItem of value.activities.get(activityId)"
+          >${textItem}</activity-detail
+        >
+        <activity-detail else
+          >${value.activities.get(activityId)}</activity-detail
+        >
+      </li>
+    </ul>
+    <input
+      if.bind="showLists"
+      ref="inputBox"
+      type="search"
+      value.bind="filter"
+      placeholder="search..."
+    />
+    <div if.bind="showLists" class="stats-block">
+      <div class="stats-column">
+        <div
+          click.trigger="onDateSelect(detail.dates[0].date)"
+          repeat.for="detail of mfuDetails"
+          class="stats-entry"
+        >
+          <span class="stats-entry-datapoint">${detail.count}</span
+          ><activity-detail>${detail.text}</activity-detail>
+        </div>
+      </div>
+      <div if.bind="showLists" class="stats-column">
+        <div
+          click.trigger="onDateSelect(detail.dates[0].entry.date)"
+          repeat.for="detail of mruDetails"
+          class="stats-entry"
+        >
+          <span class="stats-entry-datapoint">${detail.dates[0].date}</span
+          ><activity-detail>${detail.text}</activity-detail>
         </div>
       </div>
     </div>

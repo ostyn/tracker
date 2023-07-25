@@ -1,21 +1,14 @@
 <template>
-  <require from="resources/elements/activity/activity-grid"></require>
-  <require from="resources/elements/activity/activity-detail.html"></require>
-
   <ux-dialog>
-    <div>
-      <activity-detail
-        if.bind="details.length"
-        click.trigger="clickDetail(detail)"
-        repeat.for="detail of details"
-        >${detail}</activity-detail
-      >
-      <span else>No details</span>
-      <footer>
-        <button class="inline" click.trigger="controller.cancel()">
-          Close
-        </button>
-      </footer>
-    </div>
+    <header>
+      <close-button click.trigger="controller.cancel()"></close-button>
+    </header>
+    <activity-detail
+      if.bind="details.length"
+      click.trigger="clickDetail(detail)"
+      repeat.for="detail of details"
+      >${detail}</activity-detail
+    >
+    <span else>No details</span>
   </ux-dialog>
 </template>

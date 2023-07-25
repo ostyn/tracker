@@ -1,11 +1,5 @@
 <template>
   <require from="./entry-editor.css"></require>
-  <require from="resources/elements/activity/activity-grid"></require>
-  <require
-    from="resources/elements/activity/activity-grid-loading.html"
-  ></require>
-  <require from="resources/elements/activity/activity-loading.html"></require>
-  <require from="resources/elements/activity/activity"></require>
   <activity-grid-loading
     if.bind="!activityService.isLoaded"
   ></activity-grid-loading>
