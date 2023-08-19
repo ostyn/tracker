@@ -7,9 +7,6 @@ export class BaseGenericDao {
     this.name = name;
     this.db = firebase.firestore();
   }
-  getCollectionName() {
-    return this.name;
-  }
 
   public setupCacheAndUpdateListener(notify) {
     this.db
@@ -80,7 +77,7 @@ export class BaseGenericDao {
         });
     }
   }
-  getItem(id: string) {
+  public getItem(id: string) {
     return this.db
       .collection(this.name)
       .doc(id)
@@ -92,11 +89,11 @@ export class BaseGenericDao {
         console.log(err);
       });
   }
-  getItems() {
+  public getItems() {
     var ref = this.db.collection(this.name);
     return this.getItemsFromQuery(ref);
   }
-  getItemsFromQuery(query): Promise<any> {
+  public getItemsFromQuery(query): Promise<any> {
     let request;
     request = query
       .where("userId", "==", firebase.auth().currentUser?.uid || null)
@@ -122,7 +119,7 @@ export class BaseGenericDao {
     if (item.updated) item.updated = item.updated.toDate();
     return this.afterLoadFixup(item);
   }
-  saveItem(passedEntry): Promise<any> {
+  public saveItem(passedEntry): Promise<any> {
     let id = passedEntry.id;
     passedEntry = this.beforeSaveFixup(passedEntry);
     delete passedEntry.id;
@@ -154,7 +151,7 @@ export class BaseGenericDao {
           console.log(err);
         });
   }
-  deleteItem(id) {
+  public deleteItem(id) {
     var ref = this.db.collection(this.name);
     ref.doc(id).set({
       updated: firebase.firestore.FieldValue.serverTimestamp(),
@@ -168,27 +165,13 @@ export class BaseGenericDao {
         return true;
       });
   }
-  beforeSaveFixup(item) {
+  public beforeSaveFixup(item) {
     return item;
   }
-  afterLoadFixup(item) {
+  public afterLoadFixup(item) {
     return item;
   }
-  sortItems(items) {
+  public sortItems(items) {
     return items;
-  }
-  strMapToObj(strMap) {
-    let obj = Object.create(null);
-    strMap.forEach((v, k) => {
-      obj[k] = v;
-    });
-    return obj;
-  }
-  ObjToStrMap(obj) {
-    let map = new Map();
-    for (let k in obj) {
-      map.set(k, obj[k]);
-    }
-    return map;
   }
 }

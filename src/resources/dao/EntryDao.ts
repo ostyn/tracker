@@ -2,6 +2,7 @@ import { FirestoreCounter } from "./FirestoreCounter";
 import firebase from "firebase";
 import { IEntry } from "./../elements/entry/entry.interface";
 import { BaseGenericDao } from "./BaseGenericDao";
+import { Helpers } from "resources/util/Helpers";
 export class EntryDao extends BaseGenericDao {
   path;
   constructor() {
@@ -78,12 +79,12 @@ export class EntryDao extends BaseGenericDao {
 
   beforeSaveFixup(item: IEntry) {
     var clone = Object.assign({}, item);
-    clone.activities = this.strMapToObj(item.activities);
+    clone.activities = Helpers.strMapToObj(item.activities);
     clone.activitiesArray = Array.from(item.activities.keys());
     return clone;
   }
   afterLoadFixup(item) {
-    item.activities = this.ObjToStrMap(item.activities);
+    item.activities = Helpers.ObjToStrMap(item.activities);
     return item;
   }
 }
