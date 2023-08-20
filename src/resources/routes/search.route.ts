@@ -28,7 +28,7 @@ export class SearchRoute {
   private firstEntryIndex = 0;
   private lastEntryIndex = 0;
   private subscribers: any[] = [];
-  public selectedActivity: string;
+  public selectedActivity: number;
   public selectedDetail: string;
   determineActivationStrategy() {
     return activationStrategy.invokeLifecycle;
@@ -64,7 +64,7 @@ export class SearchRoute {
     ) {
       this.searchBoxValue = params.q;
       this.searchTerm = params.q;
-      this.selectedActivity = params.a;
+      this.selectedActivity = parseInt(params.a);
       this.selectedDetail = params.detail;
       this.search();
     } else {
@@ -121,12 +121,12 @@ export class SearchRoute {
     }
   }
 
-  public search(): void {
+  public async search() {
     if (!this.searchTerm && !this.selectedActivity && !this.selectedDetail)
       return;
     this.isRequesting = true;
     this.updateVisibility();
-    this.entryDao.getEntriesFromYearAndMonth().then((entries: IEntry[]) => {
+    this.entryDao.getAll().then((entries: IEntry[]) => {
       this.entries = entries.filter((entry) => {
         let regex = new RegExp(escapeRegExp(this.searchTerm || ""), "i");
         let containsSearchQuery =

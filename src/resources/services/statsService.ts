@@ -9,7 +9,6 @@ import {
 import { IStatsActivityEntry } from "./activity-stats.interface";
 import { ActivityService } from "./activityService";
 import { MoodService } from "./moodService";
-import { IActivity } from "resources/elements/activity/activity.interface";
 
 @autoinject
 export class StatsService {
@@ -21,7 +20,7 @@ export class StatsService {
     withinCurrentStreak: boolean;
   };
   pending: boolean = false;
-  activityStats: Map<string, IStatsActivityEntry>;
+  activityStats: Map<number, IStatsActivityEntry>;
   public init() {
     this.ea.subscribe("entriesUpdated", this.updateCacheThenNotify.bind(this));
     return this.updateCacheThenNotify();
@@ -48,51 +47,47 @@ export class StatsService {
 
   private processStats() {
     let start = new Date().getTime();
-    return this.entryDao
-      .getEntriesFromYearAndMonth()
-      .then((entries: IEntry[]) => {
-        this.activityStats = new Map<string, IStatsActivityEntry>();
-        const startProcessing = new Date().getTime();
-        console.log("Collection: ", startProcessing - start);
-
-        let dates: { date: string; entry: IEntry }[] = [];
-        entries.forEach((entry: IEntry) => {
-          dates.push({ date: entry.date, entry });
-          for (let [activityId, detail] of entry.activities.entries()) {
-            if (!this.activityStats.has(activityId)) {
-              this.activityStats.set(activityId, { count: 0, dates: [] });
-            }
-            let activity = this.activityStats.get(activityId);
-            activity.count++;
-            activity.dates.push({ date: entry.date, entry });
-            if (Array.isArray(detail)) {
-              if (!activity.detailsUsed) {
-                activity.detailsUsed = new Map();
-              }
-              let currentActivityDetails = activity.detailsUsed;
-              detail.forEach((detailItem) => {
-                if (!currentActivityDetails.has(detailItem))
-                  currentActivityDetails.set(detailItem, {
-                    count: 0,
-                    text: detailItem,
-                    dates: [],
-                  });
-                let currentDetailItem = currentActivityDetails.get(detailItem);
-                currentDetailItem.count++;
-                currentDetailItem.dates.push({ date: entry.date, entry });
-              });
-            }
+    return this.entryDao.getAll().then((entries: IEntry[]) => {
+      this.activityStats = new Map<number, IStatsActivityEntry>();
+      const startProcessing = new Date().getTime();
+      console.log("Collection: ", startProcessing - start);
+      let dates: { date: string; entry: IEntry }[] = [];
+      entries.forEach((entry: IEntry) => {
+        dates.push({ date: entry.date, entry });
+        for (let [activityId, detail] of entry.activities.entries()) {
+          if (!this.activityStats.has(activityId)) {
+            this.activityStats.set(activityId, { count: 0, dates: [] });
           }
-        });
-
-        this.streakSummary = summary({ dates: dates.map((date) => date.date) });
-        this.pending = false;
-        console.log("Processing: ", new Date().getTime() - startProcessing);
-        this.notifyListeners();
+          let activity = this.activityStats.get(activityId);
+          activity.count++;
+          activity.dates.push({ date: entry.date, entry });
+          if (Array.isArray(detail)) {
+            if (!activity.detailsUsed) {
+              activity.detailsUsed = new Map();
+            }
+            let currentActivityDetails = activity.detailsUsed;
+            detail.forEach((detailItem) => {
+              if (!currentActivityDetails.has(detailItem))
+                currentActivityDetails.set(detailItem, {
+                  count: 0,
+                  text: detailItem,
+                  dates: [],
+                });
+              let currentDetailItem = currentActivityDetails.get(detailItem);
+              currentDetailItem.count++;
+              currentDetailItem.dates.push({ date: entry.date, entry });
+            });
+          }
+        }
       });
+      this.streakSummary = summary({ dates: dates.map((date) => date.date) });
+      this.pending = false;
+      console.log("Processing: ", new Date().getTime() - startProcessing);
+      this.notifyListeners();
+    });
   }
   exportBackup() {
-    this.entryDao.getEntriesFromYearAndMonth().then((entries: IEntry[]) => {
+    this.entryDao.getAll().then((entries: IEntry[]) => {
       let transformedEntries = entries.map((entry) => this.processEntry(entry));
       let backup = JSON.stringify(transformedEntries, undefined, 2);
       this.download(`Backup ${new Date().toUTCString()}.json`, backup);
@@ -124,7 +119,7 @@ export class StatsService {
     delete entry.activitiesArray;
     return entry;
   }
-  activityMapToObj(activityMap: Map<string, IActivityDetail>) {
+  activityMapToObj(activityMap: Map<number, IActivityDetail>) {
     let obj = Object.create(null);
     activityMap.forEach((v, k) => {
       let x = this.activityService.getActivity(k)?.name || "MIA";

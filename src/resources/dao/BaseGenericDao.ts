@@ -1,6 +1,7 @@
 import { FirestoreCounter } from "./FirestoreCounter";
 import firebase from "firebase";
-export class BaseGenericDao {
+import { TrackerDao } from "./TrackerDao";
+export class BaseGenericDao implements TrackerDao {
   name: any;
   db: firebase.firestore.Firestore;
   constructor(name) {
@@ -8,7 +9,7 @@ export class BaseGenericDao {
     this.db = firebase.firestore();
   }
 
-  public setupCacheAndUpdateListener(notify) {
+  public setupCacheAndUpdateListener(notify): void {
     this.db
       .collection(this.name)
       .orderBy("updated", "desc")
@@ -77,7 +78,7 @@ export class BaseGenericDao {
         });
     }
   }
-  public getItem(id: string) {
+  public getItem(id: string): Promise<any> {
     return this.db
       .collection(this.name)
       .doc(id)
@@ -89,7 +90,7 @@ export class BaseGenericDao {
         console.log(err);
       });
   }
-  public getItems() {
+  public getItems(): Promise<any> {
     var ref = this.db.collection(this.name);
     return this.getItemsFromQuery(ref);
   }
@@ -110,7 +111,7 @@ export class BaseGenericDao {
         console.log(err);
       });
   }
-  public processFirestoreData(doc: any) {
+  private processFirestoreData(doc: any): any {
     const item = {
       ...doc.data(),
       id: doc.id,
@@ -151,7 +152,7 @@ export class BaseGenericDao {
           console.log(err);
         });
   }
-  public deleteItem(id) {
+  public deleteItem(id): Promise<boolean> {
     var ref = this.db.collection(this.name);
     ref.doc(id).set({
       updated: firebase.firestore.FieldValue.serverTimestamp(),
@@ -165,13 +166,13 @@ export class BaseGenericDao {
         return true;
       });
   }
-  public beforeSaveFixup(item) {
+  public beforeSaveFixup(item): any {
     return item;
   }
-  public afterLoadFixup(item) {
+  public afterLoadFixup(item): any {
     return item;
   }
-  public sortItems(items) {
+  public sortItems(items): any[] {
     return items;
   }
 }

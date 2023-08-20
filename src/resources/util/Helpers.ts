@@ -7,18 +7,4 @@ export class Helpers {
       !isNaN(parseFloat(str))
     ); // ...and ensure strings of whitespace fail
   }
-  public static strMapToObj(strMap) {
-    let obj = Object.create(null);
-    strMap.forEach((v, k) => {
-      obj[k] = v;
-    });
-    return obj;
-  }
-  public static ObjToStrMap(obj) {
-    let map = new Map();
-    for (let k in obj) {
-      map.set(k, obj[k]);
-    }
-    return map;
-  }
 }

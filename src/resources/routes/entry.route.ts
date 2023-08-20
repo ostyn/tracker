@@ -8,7 +8,7 @@ export class EntryRoute {
   activate(params) {
     localStorage.removeItem("pendingChanges");
     if (params.id) {
-      this.entryService.getEntry(params.id).then((entry) => {
+      this.entryService.getEntry(parseInt(params.id)).then((entry) => {
         this.entry = entry;
         this.isLoading = false;
       });

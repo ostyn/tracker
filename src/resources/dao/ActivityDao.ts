@@ -1,8 +1,11 @@
+import { autoinject } from "aurelia-framework";
 import { IActivity } from "resources/elements/activity/activity.interface";
-import { BaseGenericDao } from "./BaseGenericDao";
-export class ActivityDao extends BaseGenericDao {
-  constructor() {
-    super("activities");
+import { DexieDao } from "./DexieDao";
+import { DexieDatabase } from "./DexieDatabase";
+@autoinject
+export class ActivityDao extends DexieDao {
+  constructor(dexie: DexieDatabase) {
+    super("activities", dexie);
   }
   sortItems(items: IActivity[]) {
     return items.sort((a, b) => {
