@@ -129,7 +129,6 @@ export class StatsService {
     delete entry.day;
     delete entry.month;
     delete entry.year;
-    delete entry.id;
     delete entry.userId;
     delete entry.activitiesArray;
     return entry;
