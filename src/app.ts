@@ -93,13 +93,13 @@ export class App {
         auth: true,
       },
       {
-        route: ["settings/import"],
-        moduleId: PLATFORM.moduleName("./resources/routes/import.route"),
+        route: ["settings/import-daylio"],
+        moduleId: PLATFORM.moduleName("./resources/routes/import-daylio.route"),
         nav: false,
         settings: { iconName: "settings" },
 
-        title: "import",
-        name: "import",
+        title: "import daylio",
+        name: "import-daylio",
       },
       {
         route: ["entries/search"],

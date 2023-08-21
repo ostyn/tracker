@@ -1,6 +1,6 @@
 import { IEntry } from "resources/elements/entry/entry.interface";
 import { DialogService } from "aurelia-dialog";
-import { MoodService } from "./../services/moodService";
+import { MoodService } from "../services/moodService";
 import { autoinject } from "aurelia-framework";
 import { ImportDaylio } from "resources/util/ImportDaylio";
 import { ActivityService } from "resources/services/activityService";
@@ -11,7 +11,7 @@ import { IMood } from "resources/elements/mood/mood.interface";
 import { IActivity } from "resources/elements/activity/activity.interface";
 
 @autoinject
-export class ImportRoute {
+export class ImportDaylioRoute {
   public csv = "";
   public moodsToMap: string[] = [];
   public activitiesToMap: string[] = [];
