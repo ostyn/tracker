@@ -34,6 +34,7 @@ export class App {
     this.moodService.init();
     this.entryService.init();
     this.statsService.init();
+    navigator?.storage?.persist();
   }
   configureRouter(config, router: Router) {
     config.title = "tracker";
