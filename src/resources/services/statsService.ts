@@ -102,7 +102,7 @@ export class StatsService {
         {
           entries: transformedEntries,
           activities: this.activityService.getActivities(),
-          moods: this.moodService.getAllMoods(),
+          moods: this.moodService.getAllUserCreatedMoods(),
         },
         undefined,
         2
