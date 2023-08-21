@@ -1,8 +1,6 @@
 <template>
   <require from="./entry-editor.css"></require>
-  <activity-grid-loading
-    if.bind="!activityService.isLoaded"
-  ></activity-grid-loading>
+  <activity-grid-loading></activity-grid-loading>
   <section
     class="entry-editor-buttons"
     if.bind="activityService.isLoaded && !isLoadingEntry"
@@ -25,7 +23,6 @@
     </div>
   </section>
   <activity-grid
-    if.bind="activityService.isLoaded"
     activities.bind="activities"
     on-activity-click.call="addActivity(activity.id)"
     on-activity-long-click.call="longPress(activity.id)"

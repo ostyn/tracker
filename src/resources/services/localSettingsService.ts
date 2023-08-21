@@ -1,9 +1,8 @@
-import { UserService } from "./../services/userService";
 import { autoinject } from "aurelia-framework";
 @autoinject
 export class LocalSettingsService {
   public isDark: boolean = true;
-  constructor(public userService: UserService) {}
+  constructor() {}
   public init() {
     this.setTheme(localStorage.getItem("isDark") == "true");
   }

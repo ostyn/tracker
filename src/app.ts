@@ -11,7 +11,6 @@ import {
   Next,
   Redirect,
 } from "aurelia-router";
-import firebase from "firebase";
 import { StatsService } from "resources/services/statsService";
 
 import "@picocss/pico/pico.min.css";
@@ -20,7 +19,6 @@ import { LocalSettingsService } from "resources/services/localSettingsService";
 
 @autoinject
 export class App {
-  loadedAndNotLoggedIn = false;
   constructor(
     private dialogService: DialogService,
     private activityService: ActivityService,
@@ -32,16 +30,10 @@ export class App {
   router: Router;
   created() {
     this.localSettingsService.init();
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        this.activityService.init();
-        this.moodService.init();
-        this.entryService.init();
-        this.statsService.init();
-      } else {
-        this.loadedAndNotLoggedIn = true;
-      }
-    });
+    this.activityService.init();
+    this.moodService.init();
+    this.entryService.init();
+    this.statsService.init();
   }
   configureRouter(config, router: Router) {
     config.title = "tracker";

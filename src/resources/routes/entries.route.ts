@@ -5,7 +5,6 @@ import { activationStrategy, Router } from "aurelia-router";
 import { autoinject, bindable, computedFrom } from "aurelia-framework";
 import { EntryService } from "resources/services/entryService";
 import { EventAggregator } from "aurelia-event-aggregator";
-import firebase from "firebase";
 
 @autoinject
 export class EntriesRoute {
@@ -61,11 +60,7 @@ export class EntriesRoute {
       this.currentMonth = date.getMonth() + 1;
       this.currentYear = date.getFullYear();
     }
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        this.getEntries();
-      }
-    });
+    this.getEntries();
   }
   attached() {
     this.subscribers.push(this.ea.subscribe("entriesUpdated", this.getEntries));

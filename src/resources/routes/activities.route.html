@@ -1,9 +1,6 @@
 <template>
   <require from="./activities.route.css"></require>
-  <activity-grid-loading
-    if.bind="!activityService.isLoaded"
-  ></activity-grid-loading>
-  <div else class="activity-edit-footer">
+  <div class="activity-edit-footer">
     <activity-edit activity.two-way="activity"></activity-edit>
   </div>
   <activity-grid
