@@ -11,7 +11,7 @@ import "./calendar-wrapper.css";
 @autoinject
 export class CalendarWrapper {
   @bindable public dates: Map<string, IEntry> = new Map();
-  @bindable public activityId: number;
+  @bindable public activityId: string;
   @bindable public inline: boolean | string = true;
   @bindable public year: number;
   @bindable public month: number;

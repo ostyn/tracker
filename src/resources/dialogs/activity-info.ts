@@ -11,7 +11,7 @@ import { StatsService } from "resources/services/statsService";
 @autoinject
 export class ActivityInfo {
   relatedEntryMap: Map<string, IEntry> = new Map();
-  activityId: number;
+  activityId: string;
   daysElapsed: number;
   daysWithActivity: number;
   totalActivity = 0;

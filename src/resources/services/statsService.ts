@@ -20,7 +20,7 @@ export class StatsService {
     withinCurrentStreak: boolean;
   };
   pending: boolean = false;
-  activityStats: Map<number, IStatsActivityEntry>;
+  activityStats: Map<string, IStatsActivityEntry>;
   public init() {
     this.ea.subscribe("entriesUpdated", this.updateCacheThenNotify.bind(this));
     return this.updateCacheThenNotify();
@@ -48,7 +48,7 @@ export class StatsService {
   private processStats() {
     let start = new Date().getTime();
     return this.entryDao.getAll().then((entries: IEntry[]) => {
-      this.activityStats = new Map<number, IStatsActivityEntry>();
+      this.activityStats = new Map<string, IStatsActivityEntry>();
       const startProcessing = new Date().getTime();
       console.log("Collection: ", startProcessing - start);
       let dates: { date: string; entry: IEntry }[] = [];
@@ -97,7 +97,7 @@ export class StatsService {
         {
           entries: transformedEntries,
           activities: this.activityService.getActivities(),
-          moods: this.moodService.getAllMoods(),
+          moods: this.moodService.getAllUserCreatedMoods(),
         },
         undefined,
         2
@@ -128,7 +128,7 @@ export class StatsService {
     delete entry.activitiesArray;
     return entry;
   }
-  activityMapToObj(activityMap: Map<number, IActivityDetail>) {
+  activityMapToObj(activityMap: Map<string, IActivityDetail>) {
     let obj = Object.create(null);
     activityMap.forEach((v, k) => {
       obj[k] = v;

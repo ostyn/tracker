@@ -24,6 +24,7 @@ router-view {
   display: block;
   max-width: 36rem;
   margin: auto;
+  min-height: 100vh;
 }
 
 :root {
@@ -102,9 +103,10 @@ a:active {
 }
 
 .sticky-buttons {
-  position: sticky;
+  right: 24px;
+  bottom: 96px;
+  position: fixed;
   bottom: 4.2rem;
-  left: 100vw;
   display: inline-flex;
   gap: 8px;
   margin-right: 8px;

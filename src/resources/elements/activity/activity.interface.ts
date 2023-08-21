@@ -4,5 +4,5 @@ export interface IActivity {
   emoji: any;
   created: number;
   isArchived: boolean;
-  id: number;
+  id: string;
 }

@@ -1,6 +1,6 @@
 export interface IEntry {
   userId?: any;
-  activitiesArray?: number[];
+  activitiesArray?: string[];
   day?: number;
   month?: number;
   year?: number;
@@ -10,7 +10,7 @@ export interface IEntry {
   id?: string;
   date: string;
   mood: string;
-  activities: Map<number, IActivityDetail>;
+  activities: Map<string, IActivityDetail>;
   note: string;
   createdBy: EditTools;
 }

@@ -32,8 +32,8 @@ export class DexieDao implements TrackerDao {
     return Promise.resolve(this.sortItems(items));
   }
   saveItem(passedEntry: any): Promise<any> {
-    if (passedEntry.id === undefined) {
-      delete passedEntry.id;
+    if (passedEntry.id === undefined || !passedEntry.id) {
+      passedEntry.id = crypto.randomUUID();
     }
     passedEntry.updated = new Date();
     if (!passedEntry.created) {

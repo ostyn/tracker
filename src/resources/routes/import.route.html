@@ -1,0 +1,9 @@
+<template>
+  <require from="./import.route.css"></require>
+  Import
+  <input onchange.call="importFile($event)" type="file" />
+  <div if.bind="moods.length">Moods: ${moods.length}</div>
+  <div if.bind="activities.length">Activities: ${activities.length}</div>
+  <div if.bind="entries.length">Entries: ${entries.length}</div>
+  <button click.trigger="import()">import</button>
+</template>

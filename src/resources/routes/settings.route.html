@@ -11,11 +11,14 @@
       />
       ${isDark?'Dark': 'Light'} Mode
     </label>
-    <button click.trigger="router.navigateToRoute('import-daylio')">
-      <feather-icon name="inbox"></feather-icon>import daylio
+    <button click.trigger="router.navigateToRoute('import')">
+      <feather-icon name="inbox"></feather-icon>import
     </button>
     <button click.trigger="export()">
       <feather-icon name="archive"></feather-icon>export
+    </button>
+    <button click.trigger="router.navigateToRoute('import-daylio')">
+      <feather-icon name="inbox"></feather-icon>import daylio
     </button>
   </article>
 </template>

@@ -14,7 +14,7 @@ export class ActivityService {
     );
   }
   activitiesCache: IActivity[] = [];
-  public activitiesMap: Map<number, IActivity> = new Map();
+  public activitiesMap: Map<string, IActivity> = new Map();
   categories: Set<string>;
   constructor(private activityDao: ActivityDao, private ea: EventAggregator) {
     if (localStorage.getItem("showArchivedActivities") !== null)

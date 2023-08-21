@@ -12,7 +12,7 @@ export class ActivityGrid {
   @bindable onActivityClick;
   @bindable onActivityLongClick;
   @bindable filterArchived: boolean | string = true;
-  @bindable selectedActivityInfo: Map<number, IActivity>;
+  @bindable selectedActivityInfo: Map<string, IActivity>;
   @bindable showFilterUnused = false;
   public modCount = 0;
 

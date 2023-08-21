@@ -28,7 +28,7 @@ export class SearchRoute {
   private firstEntryIndex = 0;
   private lastEntryIndex = 0;
   private subscribers: any[] = [];
-  public selectedActivity: number;
+  public selectedActivity: string;
   public selectedDetail: string;
   determineActivationStrategy() {
     return activationStrategy.invokeLifecycle;
@@ -64,7 +64,7 @@ export class SearchRoute {
     ) {
       this.searchBoxValue = params.q;
       this.searchTerm = params.q;
-      this.selectedActivity = parseInt(params.a);
+      this.selectedActivity = params.a;
       this.selectedDetail = params.detail;
       this.search();
     } else {

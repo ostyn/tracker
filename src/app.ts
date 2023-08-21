@@ -102,6 +102,15 @@ export class App {
         name: "import-daylio",
       },
       {
+        route: ["settings/import"],
+        moduleId: PLATFORM.moduleName("./resources/routes/import.route"),
+        nav: false,
+        settings: { iconName: "settings" },
+
+        title: "import",
+        name: "import",
+      },
+      {
         route: ["entries/search"],
         moduleId: PLATFORM.moduleName("./resources/routes/search.route"),
         nav: false,

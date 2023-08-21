@@ -7,9 +7,9 @@ export class DexieDatabase {
   constructor() {
     this.db = new Dexie("tracker");
     this.db.version(1).stores({
-      moods: "++id",
-      activities: "++id",
-      entries: "++id, year, [month+year]",
+      moods: "id",
+      activities: "id",
+      entries: "id, year, [month+year]",
     });
   }
 }
