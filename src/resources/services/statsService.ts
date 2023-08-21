@@ -91,12 +91,23 @@ export class StatsService {
         this.notifyListeners();
       });
   }
-  exportBackup() {
-    this.entryDao.getEntriesFromYearAndMonth().then((entries: IEntry[]) => {
-      let transformedEntries = entries.map((entry) => this.processEntry(entry));
-      let backup = JSON.stringify(transformedEntries, undefined, 2);
-      this.download(`Backup ${new Date().toUTCString()}.json`, backup);
-    });
+  async exportBackup() {
+    let transformedEntries = (
+      await this.entryDao.getEntriesFromYearAndMonth()
+    ).map((entry) => this.processEntry(entry));
+
+    this.download(
+      `Backup ${new Date().toUTCString()}.json`,
+      JSON.stringify(
+        {
+          entries: transformedEntries,
+          activities: this.activityService.getActivities(),
+          moods: this.moodService.getAllMoods(),
+        },
+        undefined,
+        2
+      )
+    );
   }
   download(filename, text) {
     var element = document.createElement("a");
@@ -115,7 +126,6 @@ export class StatsService {
   }
   processEntry(entry: IEntry): any {
     entry.activities = this.activityMapToObj(entry.activities);
-    entry.mood = this.moodService.getMood(entry.mood).name;
     delete entry.day;
     delete entry.month;
     delete entry.year;
@@ -127,8 +137,7 @@ export class StatsService {
   activityMapToObj(activityMap: Map<string, IActivityDetail>) {
     let obj = Object.create(null);
     activityMap.forEach((v, k) => {
-      let x = this.activityService.getActivity(k)?.name || "MIA";
-      obj[x] = v;
+      obj[k] = v;
     });
     return obj;
   }
