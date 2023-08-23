@@ -1,6 +1,6 @@
 import { EventAggregator, Subscription } from "aurelia-event-aggregator";
 import { IEntry } from "resources/elements/entry/entry.interface";
-import { autoinject, bindable } from "aurelia-framework";
+import { autoinject, bindable, computedFrom } from "aurelia-framework";
 import { Router } from "aurelia-router";
 import { ActivityService } from "resources/services/activityService";
 import { EntryDao } from "resources/dao/EntryDao";
@@ -9,6 +9,7 @@ import { DialogService } from "aurelia-dialog";
 import { ActivityPromptDialog } from "resources/dialogs/activity-prompt";
 import escapeRegExp from "escape-string-regexp";
 import { ActivityDetailSelectDialog } from "resources/dialogs/activity-detail-select";
+import { MoodService } from "resources/services/moodService";
 @autoinject
 export class SearchRoute {
   @bindable public searchBoxValue: string;
@@ -18,7 +19,6 @@ export class SearchRoute {
   public disablePrev = true;
   public resultsText = "";
   public showLoader = false;
-  public isRequesting = false;
   public showResultsText = false;
 
   private entries: IEntry[] = [];
@@ -30,19 +30,35 @@ export class SearchRoute {
   private subscribers: any[] = [];
   public selectedActivity: string;
   public selectedDetail: string;
+
+  @computedFrom(
+    "activityService.isLoaded",
+    "moodService.isLoaded",
+    "entries.length"
+  )
+  public get isLoaded() {
+    return (
+      this.activityService.isLoaded &&
+      this.moodService.isLoaded &&
+      this.entries?.length
+    );
+  }
   determineActivationStrategy() {
     return activationStrategy.invokeLifecycle;
   }
   constructor(
     private entryDao: EntryDao,
     private activityService: ActivityService,
+    private moodService: MoodService,
     private router: Router,
     private ea: EventAggregator,
     private dialogService: DialogService
   ) {}
   attached() {
     this.subscribers.push(
-      this.ea.subscribe("entriesUpdated", this.search.bind(this))
+      this.ea.subscribe("entriesUpdated", this.search.bind(this)),
+      this.ea.subscribe("activitiesUpdated", this.search.bind(this)),
+      this.ea.subscribe("moodsUpdated", this.search.bind(this))
     );
   }
   detached() {
@@ -124,7 +140,6 @@ export class SearchRoute {
   public async search() {
     if (!this.searchTerm && !this.selectedActivity && !this.selectedDetail)
       return;
-    this.isRequesting = true;
     this.updateVisibility();
     this.entryDao.getAll().then((entries: IEntry[]) => {
       this.entries = entries.filter((entry) => {
@@ -164,7 +179,6 @@ export class SearchRoute {
         return containsSearchQuery;
       });
       this.resliceEntries();
-      this.isRequesting = false;
       this.updateVisibility();
     });
   }
@@ -230,17 +244,13 @@ export class SearchRoute {
   private updateVisibility() {
     this.disableNext = this.currentPage === this.lastPageIndex;
     this.disablePrev = this.currentPage === 0;
-    this.showLoader = this.isRequesting;
     this.showResultsText = !!this.searchTerm || !!this.selectedActivity;
-    if (this.isRequesting) {
-      this.resultsText = "";
-    } else {
-      this.resultsText = !!this.entries?.length
-        ? `Results ${this.firstEntryIndex + 1}-${this.lastEntryIndex} of ${
-            this.entries.length
-          }`
-        : "No results";
-    }
+
+    this.resultsText = !!this.entries?.length
+      ? `Results ${this.firstEntryIndex + 1}-${this.lastEntryIndex} of ${
+          this.entries.length
+        }`
+      : "No results";
   }
   public detailClicked(detail, id) {
     this.router.navigateToRoute("search", {

@@ -24,14 +24,13 @@ export class Activity {
     this.subscribers.push(
       this.ea.subscribe("activitiesUpdated", this.loadActivity.bind(this))
     );
-    if (this.activityService.isLoaded) this.loadActivity();
   }
 
   detached() {
     this.subscribers.forEach((sub) => this.subscribers.pop().dispose());
   }
   idChanged() {
-    if (this.activityService.isLoaded) this.loadActivity();
+    this.loadActivity();
   }
   loadActivity() {
     this.activity = this.activityService.getActivity(this.id);
