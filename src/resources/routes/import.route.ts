@@ -54,10 +54,8 @@ export class ImportRoute {
         model: mood,
       })
       .whenClosed((response) => {
-        if (!response.wasCancelled) {
-          this.moodMappings[original] = response.output;
-          this.parse();
-        }
+        this.moodMappings[original] = response.output;
+        this.parse();
       });
   }
   public openActivityPrompt(activity, original): void {
@@ -67,10 +65,8 @@ export class ImportRoute {
         model: activity,
       })
       .whenClosed((response) => {
-        if (!response.wasCancelled) {
-          this.activityMappings[original] = response.output;
-          this.parse();
-        }
+        this.activityMappings[original] = response.output;
+        this.parse();
       });
   }
 }

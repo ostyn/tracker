@@ -202,14 +202,10 @@ export class SearchRoute {
         model: this.selectedActivity,
       })
       .whenClosed((response) => {
-        if (!response.wasCancelled) {
-          this.router.navigateToRoute("search", {
-            q: this.searchTerm,
-            a: response.output,
-          });
-        } else {
-          this.selectedActivity = tempActivity;
-        }
+        this.router.navigateToRoute("search", {
+          q: this.searchTerm,
+          a: response.output,
+        });
       });
   }
   public clearSelection() {
@@ -257,15 +253,11 @@ export class SearchRoute {
         model: { id: this.selectedActivity },
       })
       .whenClosed((response) => {
-        if (!response.wasCancelled) {
-          this.router.navigateToRoute("search", {
-            q: this.searchTerm,
-            a: this.selectedActivity,
-            detail: response.output,
-          });
-        } else {
-          this.selectedDetail = tempDetail;
-        }
+        this.router.navigateToRoute("search", {
+          q: this.searchTerm,
+          a: this.selectedActivity,
+          detail: response.output,
+        });
       });
   }
 }

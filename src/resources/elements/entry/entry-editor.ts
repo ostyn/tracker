@@ -63,10 +63,8 @@ export class EntryEditor {
         model: this.workingCopy.mood,
       })
       .whenClosed((response) => {
-        if (!response.wasCancelled) {
-          this.workingCopy.mood = response.output;
-          this.markPendingChanges();
-        }
+        this.workingCopy.mood = response.output;
+        this.markPendingChanges();
       });
   }
   openTextPrompt() {
@@ -76,10 +74,8 @@ export class EntryEditor {
         model: this.workingCopy.note,
       })
       .whenClosed((response) => {
-        if (!response.wasCancelled) {
-          this.workingCopy.note = response.output;
-          this.markPendingChanges();
-        }
+        this.workingCopy.note = response.output;
+        this.markPendingChanges();
       });
   }
   longPress(id) {
@@ -106,25 +102,20 @@ export class EntryEditor {
         },
       })
       .whenClosed(
-        ((response: {
-          output: { detail: IActivityDetail };
-          wasCancelled: boolean;
-        }) => {
-          if (!response.wasCancelled) {
-            if (Array.isArray(response.output.detail)) {
-              if (response.output.detail.length > 0) {
-                this.workingCopy.activities.set(id, response.output.detail);
-              } else if (response.output.detail.length === 0) {
-                this.workingCopy.activities.delete(id);
-              }
-              this.markPendingChanges();
-            } else if (Helpers.isNumeric(response.output.detail)) {
+        ((response: { output: { detail: IActivityDetail } }) => {
+          if (Array.isArray(response.output.detail)) {
+            if (response.output.detail.length > 0) {
               this.workingCopy.activities.set(id, response.output.detail);
-              this.markPendingChanges();
-            } else {
+            } else if (response.output.detail.length === 0) {
               this.workingCopy.activities.delete(id);
-              this.markPendingChanges();
             }
+            this.markPendingChanges();
+          } else if (Helpers.isNumeric(response.output.detail)) {
+            this.workingCopy.activities.set(id, response.output.detail);
+            this.markPendingChanges();
+          } else {
+            this.workingCopy.activities.delete(id);
+            this.markPendingChanges();
           }
         }).bind(this)
       );
