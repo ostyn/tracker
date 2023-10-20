@@ -2,7 +2,7 @@ import { IActivityDetail } from "./../elements/entry/entry.interface";
 import { EventAggregator } from "aurelia-event-aggregator";
 import { Router } from "aurelia-router";
 import { autoinject, bindable } from "aurelia-framework";
-import { DialogController } from "aurelia-dialog";
+import { DialogCloseResult, DialogController } from "aurelia-dialog";
 import { IEntry } from "resources/elements/entry/entry.interface";
 import { format, getDaysInMonth } from "date-fns";
 import { IStatsDetailEntry } from "resources/services/activity-stats.interface";
@@ -47,6 +47,13 @@ export class ActivityInfo {
     this.onMonthChange(month, year);
     this.ea.subscribe("statsUpdated", this.loadMru.bind(this));
     this.loadMru();
+  }
+  canDeactivate(result: DialogCloseResult) {
+    if (result.wasCancelled) {
+      this.controller.ok();
+      return false;
+    }
+    return true;
   }
   loadMru() {
     if (!this.statsService.activityStats.get(this.activityId).detailsUsed) {

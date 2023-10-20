@@ -5,7 +5,7 @@ import { StatsService } from "resources/services/statsService";
 import { IActivity } from "./../elements/activity/activity.interface";
 import { ActivityService } from "./../services/activityService";
 import { autoinject } from "aurelia-framework";
-import { DialogController } from "aurelia-dialog";
+import { DialogCloseResult, DialogController } from "aurelia-dialog";
 import { IStatsDetailEntry } from "resources/services/activity-stats.interface";
 
 @autoinject
@@ -34,6 +34,13 @@ export class ActivityDetailDialog {
     this.editingNumber = editingNumber;
     this.ea.subscribe("statsUpdated", this.loadMru.bind(this));
     this.loadMru();
+  }
+  canDeactivate(result: DialogCloseResult) {
+    if (result.wasCancelled) {
+      this.submitForm();
+      return false;
+    }
+    return true;
   }
 
   loadMru() {
