@@ -69,7 +69,7 @@ export class App {
         route: ["", "entries"],
         moduleId: PLATFORM.moduleName("./resources/routes/entries.route"),
         nav: true,
-        settings: { iconName: "edit-3" },
+        settings: { iconName: "book-open" },
         title: "entries",
         name: "entries",
         auth: true,
